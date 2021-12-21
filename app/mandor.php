@@ -6,5 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class mandor extends Model
 {
-    //
+           /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'mandor';
+
+    /**
+     * The primary key for the model.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'id';
+
+    /**
+     * @var array
+     */
+    protected $fillable = ['id', 'user_id', 'adding_id','wash_id', 'gradding_id','kode_partai','kode_transaksi', 'tanggal_proses', 'tanggal_selesai', 'jumlah_sbw', 'nama-pekerja',  'progress_pekerja',  'status', 'created_at', 'updated_at'];
 }
