@@ -22,6 +22,7 @@ class CreateDryingKeduaTable extends Migration
             $table->integer('wash_id');
             $table->integer('mandor_id');
             $table->integer('molding_id');
+            $table->string('kode_transaksi');
             $table->string('kode_partai');
             $table->string('tanggal_proses');
             $table->string('jumlah_sbw');

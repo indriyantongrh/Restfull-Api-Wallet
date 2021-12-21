@@ -21,6 +21,7 @@ class CreateMoldingTable extends Migration
             $table->integer('drying_pertama_id');
             $table->integer('wash_id');
             $table->integer('mandor_id');
+            $table->string('kode_transaksi');
             $table->string('kode_partai');
             $table->string('tanggal_proses');
             $table->string('jumlah_sbw');

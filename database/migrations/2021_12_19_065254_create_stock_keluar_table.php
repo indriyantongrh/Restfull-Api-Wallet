@@ -18,6 +18,7 @@ class CreateStockKeluarTable extends Migration
             $table->integer('user_id');
             $table->integer('drying_kedua_id');
             $table->string('kode_partai');
+            $table->string('kode_transaksi');
             $table->string('tanggal_proses');
             $table->string('jumlah_sbw');
             $table->string('status');

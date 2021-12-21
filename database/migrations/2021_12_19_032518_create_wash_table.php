@@ -18,6 +18,7 @@ class CreateWashTable extends Migration
             $table->integer('user_id');
             $table->integer('gradding_id');
             $table->integer('adding_id');
+            $table->string('kode_transaksi');
             $table->string('kode_partai');
             $table->string('tanggal_proses');
             $table->string('jumlah_sbw');
