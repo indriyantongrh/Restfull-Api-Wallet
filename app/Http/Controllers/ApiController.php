@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use JWTAuth;
 use App\User;
+use App\adding;
+use App\gradding;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
@@ -44,6 +46,47 @@ class ApiController extends Controller
             'data' => $user
         ], Response::HTTP_OK);
     }
+
+    public function login(Request $request) {
+         $credentials = [
+            'email' => $request->email,
+            'password' => $request->password,
+         ];
+
+         if(auth()->attempt($credentials)){
+             $token = JWTAuth::attempt($credentials);
+             $user = User::where('email', $request->email)->first();
+
+             if($user){
+                return response()->json(
+                    [
+                        'code' => 1,
+                        'success' => true,
+                        'message' => 'yeay ! you are logged in '.$user->name,
+                        'user_id' => $user->id,
+                        'name' => $user->name,
+                        'email' => $user->email,
+                        'roleId' => $user->role_id,
+                        'roleName' => $user->role_name,
+                        'token' => $token,
+                    ], 200);
+             }else{
+                return response()->json(
+                    [
+                        'code' => -2,
+                        'success' => false,
+                        'message' => 'User is not found'
+                    ], 404);
+             }
+         }else{
+             return response()->json(
+                [
+                    'code' => -2,
+                    'success' => false,
+                    'message' => 'User is not found'
+                ], 401);
+         }
+    }
  
     public function authenticate(Request $request)
     {
@@ -57,11 +100,13 @@ class ApiController extends Controller
 
         //Send failed response if request is not valid
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages()], 200);
+            return response()->json([
+          
+                'error' => $validator->messages()], 200);
         }
 
         //Request is validated
-        //Crean token
+        //Creat token
         try {
             if (! $token = JWTAuth::attempt($credentials)) {
                 return response()->json([
@@ -81,6 +126,7 @@ class ApiController extends Controller
         return response()->json([
             'success' => true,
             'token' => $token,
+            'user' => "admin"
         ]);
     }
  
@@ -110,6 +156,36 @@ class ApiController extends Controller
                 'message' => 'Sorry, user cannot be logged out'
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+      public function searchpartai(Request $request)
+    {
+        //$adding = $this->adding()->get();
+        $data = $request->get('data');
+        $kodepartai = adding::where('kode_partai', 'like', "{$data}")
+                    ->get();
+
+
+            return response()->json([   
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $kodepartai
+            ], Response::HTTP_OK);
+    }
+
+    public function searchtransaksi(Request $request)
+    {
+        //$adding = $this->adding()->get();
+        $data = $request->get('data');
+        $kodetransaksi = gradding::where('kode_transaksi', 'like', "{$data}")
+                    ->get();
+
+
+            return response()->json([   
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $kodetransaksi
+            ], Response::HTTP_OK);
     }
  
     public function get_user()

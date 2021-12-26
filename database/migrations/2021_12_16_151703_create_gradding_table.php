@@ -18,8 +18,11 @@ class CreateGraddingTable extends Migration
             $table->integer('user_id');
             $table->integer('adding_id');
             $table->string('kode_partai');
+             $table->string('no_register');
             $table->string('tanggal_proses');
             $table->string('jumlah_sbw');
+            $table->string('jumlah_keping');
+            $table->string('jumlah_box');
             $table->string('jenis_grade');
             $table->string('kode_transaksi');
             $table->string('status');

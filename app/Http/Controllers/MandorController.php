@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\adding;
+use App\mandor;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
 
-class AddingController extends Controller
+class MandorController extends Controller
 {
-     protected $user;
+    protected $user;
  
     public function __construct()
     {
@@ -25,17 +25,9 @@ class AddingController extends Controller
      */
     public function index()
     {
-        // return $this->user
-        //     ->adding()
-        //     ->get();
-
-        $adding= $this->user->adding()->get();
-         return response()->json([
-          
-            'success' => true,
-            'message' => 'Load data',
-            'data' => $adding
-        ], Response::HTTP_OK);
+        return $this->user
+            ->mandor()
+            ->get();
     }
 
     /**
@@ -57,12 +49,24 @@ class AddingController extends Controller
     public function store(Request $request)
     {
 
-        
         //Validate data
-        $data = $request->only('user_id', 'no_register', 'kode_partai','legal_source' ,'jenis_sbw_kotor', 'tanggal_panen', 'tanggal_penerima', 'alamat', 'no_kendaraan', 'jumlah_sbw_kotor', 'jumlah_pcs', 'warna', 'kondisi', 'status' );
+        $data = $request->
+                    only('id', 
+                    'user_id', 
+                    'adding_id', 
+                    '\gradding_id',
+                    'kode_partai', 
+                    'no_register',
+                    'kode_transaksi', 
+                    'tanggal_proses', 
+                    'tanggal_selesai', 
+                    'jumlah_sbw', 
+                    'nama-pekerja', 
+                    'progress_pekerja', 
+                    'status',  );
         $validator = Validator::make($data, [
-            'no_register' => 'required',
-            'kode_partai' => 'required'
+            // 'no_register' => 'required',
+            // 'kode_partai' => 'required'
         ]);
 
         //Send failed response if request is not valid
@@ -71,30 +75,26 @@ class AddingController extends Controller
         }
 
         //Request is valid, create new product
-        $adding= $this->user->adding()->create([
+        $mandor= $this->user->mandor()->create([
             'user_id' => $request->user_id,
-            'no_register' => $request->no_register,
+            'adding_id' => $request->adding_id,
             'kode_partai' => $request->kode_partai,
-            'legal_source' => $request->legal_source,
-            'jenis_sbw_kotor' => $request->jenis_sbw_kotor,
-            'tanggal_panen' => $request->tanggal_panen,
-            'tanggal_penerima' => $request->tanggal_penerima,
-            'alamat' => $request->alamat,
-            'no_kendaraan' => $request->no_kendaraan,
-            'jumlah_sbw_kotor' => $request->jumlah_sbw_kotor,
-            'jumlah_pcs' => $request->jumlah_pcs,
-            'warna' => $request->warna,
-            'kondisi' => $request->kondisi,
-            'status' => $request->status,
+            'no_register' => $request->no_register,
+            'tanggal_proses' => $request->tanggal_proses,
+            'jumlah_sbw' => $request->jumlah_sbw,
+            'jumlah_keping' => $request->jumlah_keping,
+            'jumlah_box' => $request->jumlah_box,
+            'jenis_grade' => $request->jenis_grade,
+            'kode_transaksi' => $request->kode_transaksi,
+            'status' => $request->status
             
         ]);
 
         //Product created, return success response
         return response()->json([
-            'code' => 1,
             'success' => true,
             'message' => 'Data berhasil ditambah!',
-            'data' => $adding
+            'data' => $mandor
         ], Response::HTTP_OK);
     }
 
@@ -106,25 +106,25 @@ class AddingController extends Controller
      */
     public function show($id)
     {
-        $adding = $this->user->adding()->find($id);
+        $gradding = $this->user->gradding()->find($id);
     
-        if (!$adding) {
+        if (!$gradding) {
             return response()->json([
                 'success' => false,
-                'message' => 'Sorry, product not found.'
+                'message' => 'Sorry, data not found.'
             ], 400);
         }
     
-        return $adding;
+        return $gradding;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\adding  $adding
+     * @param  \App\gradding  $gradding
      * @return \Illuminate\Http\Response
      */
-    public function edit(adding $adding)
+    public function edit(gradding $gradding)
     {
         //
     }
@@ -133,15 +133,16 @@ class AddingController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\adding  $adding
+     * @param  \App\gradding  $gradding
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, adding $adding)
+    public function update(Request $request, gradding $gradding)
     {
         //Validate data
-        $data = $request->only('user_id', 'no_register', 'kode_partai','legal_source', 'jenis_sbw_kotor', 'tanggal_panen', 'tanggal_penerima', 'alamat', 'no_kendaraan', 'jumlah_sbw_kotor', 'jumlah_pcs', 'warna', 'kondisi', 'status');
+        $data = $request->only('user_id', 'adding_id', 'kode_partai', 'no_register','tanggal_proses' ,'jumlah_sbw', 'jumlah_keping', 'jumlah_box', 'jenis_grade', 'kode_transaksi', 'status' );
+
+       // $data = $request->only('user_id', 'adding_id', 'kode_partai','tanggal_proses' ,'jumlah-sbw', 'jenis_grade', 'kode_transaksi', 'status');
         $validator = Validator::make($data, [
-            
         ]);
 
         //Send failed response if request is not valid
@@ -150,46 +151,41 @@ class AddingController extends Controller
         }
 
         //Request is valid, update product
-        $adding = $adding->update([
-            'user_id' => $request->user_id,
-            'no_register' => $request->no_register,
+        $gradding = $gradding->update([
+           'user_id' => $request->user_id,
+            'adding_id' => $request->adding_id,
             'kode_partai' => $request->kode_partai,
-            'legal_source' => $request->legal_source,
-            'jenis_sbw_kotor' => $request->jenis_sbw_kotor,
-            'tanggal_panen' => $request->tanggal_panen,
-            'tanggal_penerima' => $request->tanggal_penerima,
-            'alamat' => $request->alamat,
-            'no_kendaraan' => $request->no_kendaraan,
-            'jumlah_sbw_kotor' => $request->jumlah_sbw_kotor,
-            'jumlah_pcs' => $request->jumlah_pcs,
-            'warna' => $request->warna,
-            'kondisi' => $request->kondisi,
-            'status' => $request->status,
+            'no_register' => $request->no_register,
+            'tanggal_proses' => $request->tanggal_proses,
+            'jumlah_sbw' => $request->jumlah_sbw,
+            'jumlah_keping' => $request->jumlah_keping,
+            'jumlah_box' => $request->jumlah_box,
+            'jenis_grade' => $request->jenis_grade,
+            'kode_transaksi' => $request->kode_transaksi,
+            'status' => $request->status
         ]);
 
         //Product updated, return success response
         return response()->json([
             'success' => true,
             'message' => 'data adding updated successfully',
-            'data' => $adding
+            'data' => $gradding
         ], Response::HTTP_OK);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\adding  $adding
+     * @param  \App\gradding  $gradding
      * @return \Illuminate\Http\Response
      */
-    public function destroy(adding $adding)
+    public function destroy(gradding $gradding)
     {
-        $adding->delete();
+        $gradding->delete();
         
         return response()->json([
             'success' => true,
             'message' => 'data  deleted successfully'
         ], Response::HTTP_OK);
     }
-
-  
 }

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class GraddingController extends Controller
 {
-      protected $user;
+     protected $user;
  
     public function __construct()
     {
@@ -50,7 +50,7 @@ class GraddingController extends Controller
     {
 
         //Validate data
-        $data = $request->only('user_id', 'adding_id', 'kode_partai','tanggal_proses' ,'jumlah-sbw', 'jenis_grade', 'kode_transaksi', 'status' );
+        $data = $request->only('user_id', 'adding_id', 'kode_partai', 'no_register','tanggal_proses' ,'jumlah_sbw', 'jumlah_keping', 'jumlah_box', 'jenis_grade', 'kode_transaksi', 'status' );
         $validator = Validator::make($data, [
             // 'no_register' => 'required',
             // 'kode_partai' => 'required'
@@ -66,8 +66,11 @@ class GraddingController extends Controller
             'user_id' => $request->user_id,
             'adding_id' => $request->adding_id,
             'kode_partai' => $request->kode_partai,
+            'no_register' => $request->no_register,
             'tanggal_proses' => $request->tanggal_proses,
             'jumlah_sbw' => $request->jumlah_sbw,
+            'jumlah_keping' => $request->jumlah_keping,
+            'jumlah_box' => $request->jumlah_box,
             'jenis_grade' => $request->jenis_grade,
             'kode_transaksi' => $request->kode_transaksi,
             'status' => $request->status
@@ -123,7 +126,9 @@ class GraddingController extends Controller
     public function update(Request $request, gradding $gradding)
     {
         //Validate data
-        $data = $request->only('user_id', 'adding_id', 'kode_partai','tanggal_proses' ,'jumlah-sbw', 'jenis_grade', 'kode_transaksi', 'status');
+        $data = $request->only('user_id', 'adding_id', 'kode_partai', 'no_register','tanggal_proses' ,'jumlah_sbw', 'jumlah_keping', 'jumlah_box', 'jenis_grade', 'kode_transaksi', 'status' );
+
+       // $data = $request->only('user_id', 'adding_id', 'kode_partai','tanggal_proses' ,'jumlah-sbw', 'jenis_grade', 'kode_transaksi', 'status');
         $validator = Validator::make($data, [
         ]);
 
@@ -134,11 +139,14 @@ class GraddingController extends Controller
 
         //Request is valid, update product
         $gradding = $gradding->update([
-            'user_id' => $request->user_id,
+           'user_id' => $request->user_id,
             'adding_id' => $request->adding_id,
             'kode_partai' => $request->kode_partai,
+            'no_register' => $request->no_register,
             'tanggal_proses' => $request->tanggal_proses,
             'jumlah_sbw' => $request->jumlah_sbw,
+            'jumlah_keping' => $request->jumlah_keping,
+            'jumlah_box' => $request->jumlah_box,
             'jenis_grade' => $request->jenis_grade,
             'kode_transaksi' => $request->kode_transaksi,
             'status' => $request->status

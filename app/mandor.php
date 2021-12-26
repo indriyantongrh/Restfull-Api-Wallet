@@ -23,5 +23,5 @@ class mandor extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id', 'user_id', 'adding_id','wash_id', 'gradding_id','kode_partai','kode_transaksi', 'tanggal_proses', 'tanggal_selesai', 'jumlah_sbw', 'nama-pekerja',  'progress_pekerja',  'status', 'created_at', 'updated_at'];
+    protected $fillable = ['id', 'user_id', 'adding_id', 'gradding_id','kode_partai', 'no_register','kode_transaksi', 'tanggal_proses', 'tanggal_selesai', 'jumlah_sbw', 'nama-pekerja',  'progress_pekerja',  'status', 'created_at', 'updated_at'];
 }
