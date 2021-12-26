@@ -18,7 +18,7 @@ class CreateGraddingTable extends Migration
             $table->integer('user_id');
             $table->integer('adding_id');
             $table->string('kode_partai');
-             $table->string('no_register');
+            $table->string('no_register');
             $table->string('tanggal_proses');
             $table->string('jumlah_sbw');
             $table->string('jumlah_keping');
