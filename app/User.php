@@ -56,4 +56,14 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(gradding::class);
     }
+
+    public function mandor()
+    {
+        return $this->hasMany(mandor::class);
+    }
+
+    public function datapekerja()
+    {
+        return $this->hasMany(datapekerja::class);
+    }
 }

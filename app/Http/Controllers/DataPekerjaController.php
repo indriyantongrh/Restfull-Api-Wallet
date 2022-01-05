@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\mandor;
+use App\datapekerja;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
 
-class MandorController extends Controller
+class DataPekerjaController extends Controller
 {
-    protected $user;
+     protected $user;
  
     public function __construct()
     {
@@ -26,7 +26,7 @@ class MandorController extends Controller
     public function index()
     {
         return $this->user
-            ->mandor()
+            ->datapekerja()
             ->get();
     }
 
@@ -50,7 +50,7 @@ class MandorController extends Controller
     {
 
         //Validate data
-        $data = $request->only('user_id', 'adding_id', 'gradding_id','kode_partai', 'no_register','kode_transaksi', 'tanggal_proses', 'jumlah_sbw', 'nama_pekerja',  'progres_pekerja',  'status'  );
+        $data = $request->only('user_id','nama_pekerja', 'status' , );
         $validator = Validator::make($data, [
             // 'no_register' => 'required',
             // 'kode_partai' => 'required'
@@ -62,25 +62,17 @@ class MandorController extends Controller
         }
 
         //Request is valid, create new product
-        $mandor= $this->user->mandor()->create([
-            'user_id' => $request->user_id,
-            'adding_id' => $request->adding_id,
-            'gradding_id' => $request->gradding_id,
-            'kode_partai' => $request->kode_partai,
-            'kode_transaksi' => $request->kode_transaksi,
-            'no_register' => $request->no_register,
-            'tanggal_proses' => $request->tanggal_proses,
-            'jumlah_sbw' => $request->jumlah_sbw,
+        $datapekerja = $this->user->datapekerja()->create([
             'nama_pekerja' => $request->nama_pekerja,
-            'progres_pekerja' => $request->progres_pekerja,
             'status' => $request->status
+            
         ]);
 
         //Product created, return success response
         return response()->json([
             'success' => true,
             'message' => 'Data berhasil ditambah!',
-            'data' => $mandor
+            'data' => $datapekerja
         ], Response::HTTP_OK);
     }
 
@@ -92,16 +84,16 @@ class MandorController extends Controller
      */
     public function show($id)
     {
-        $mandor = $this->user->mandor()->find($id);
+        $datapekerja = $this->user->datapekerja()->find($id);
     
-        if (!$mandor) {
+        if (!$datapekerja) {
             return response()->json([
                 'success' => false,
                 'message' => 'Sorry, data not found.'
             ], 400);
         }
     
-        return $mandor;
+        return $datapekerja;
     }
 
     /**
@@ -110,7 +102,7 @@ class MandorController extends Controller
      * @param  \App\gradding  $gradding
      * @return \Illuminate\Http\Response
      */
-    public function edit(mandor $mandor)
+    public function edit(datapekerja $datapekerja)
     {
         //
     }
@@ -119,13 +111,13 @@ class MandorController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\gradding  $gradding
+     * @param  \App\datapekerja  $datapekerja
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, mandor $mandor)
+    public function update(Request $request, datapekerja $datapekerja)
     {
         //Validate data
-        $data = $request->only('user_id', 'adding_id', 'gradding_id','kode_partai', 'no_register','kode_transaksi', 'jumlah_sbw_selesai','tanggal_proses', 'tanggal_selesai', 'jumlah_sbw_sebelum','jumlah_sbw_sesudah', 'nama_pekerja',  'progress_pekerja',  'status'  );
+        $data = $request->only('nama_pekerja', 'status' );
         $validator = Validator::make($data, [
         ]);
 
@@ -135,27 +127,17 @@ class MandorController extends Controller
         }
 
         //Request is valid, update product
-        $mandor = $mandor->update([
-           'user_id' => $request->user_id,
-            'adding_id' => $request->adding_id,
-            'gradding_id' => $request->gradding_id,
-            'kode_partai' => $request->kode_partai,
-            'kode_transaksi' => $request->kode_transaksi,
-            'no_register' => $request->no_register,
-            'tanggal_proses' => $request->tanggal_proses,
-            'tanggal_selesai' => $request->tanggal_selesai,
-            'jumlah_sbw' => $request->jumlah_sbw,
-            'jumlah_sbw_selesai' => $request->jumlah_sbw_selesai,
-            'nama_pekerja' => $request->nama_pekerja,
-            'progres_pekerja' => $request->progres_pekerja,
+        $datapekerja = $datapekerja->update([
+        
+           'nama_pekerja' => $request->nama_pekerja,
             'status' => $request->status
         ]);
 
         //Product updated, return success response
         return response()->json([
             'success' => true,
-            'message' => 'data adding updated successfully',
-            'data' => $mandor
+            'message' => 'data Mandor updated successfully',
+            'data' => $datapekerja
         ], Response::HTTP_OK);
     }
 
@@ -165,9 +147,9 @@ class MandorController extends Controller
      * @param  \App\gradding  $gradding
      * @return \Illuminate\Http\Response
      */
-    public function destroy(mandor $mandor)
+    public function destroy(datapekerja $datapekerja)
     {
-        $mandor->delete();
+        $datapekerja->delete();
         
         return response()->json([
             'success' => true,

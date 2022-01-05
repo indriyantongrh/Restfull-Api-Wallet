@@ -7,6 +7,7 @@ use JWTAuth;
 use App\User;
 use App\adding;
 use App\gradding;
+use App\datapekerja;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
@@ -198,5 +199,18 @@ class ApiController extends Controller
  
         // return response()->json(['user' => $user]);
          return response()->json(['user' => auth()->user()], 200);
+    }
+
+     public function listNama(Request $request)
+    {
+        $listnama = datapekerja::all();
+               
+
+
+            return response()->json([   
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $listnama
+            ], Response::HTTP_OK);
     }
 }
