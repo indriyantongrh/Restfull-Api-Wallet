@@ -7,6 +7,7 @@ use App\Http\Controllers\AddingController;
 use App\Http\Controllers\GraddingController;
 use App\Http\Controllers\MandorController;
 use App\Http\Controllers\DataPekerjaController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,14 @@ Route::post('register', [ApiController::class, 'register']);
 Route::post('cari',  [ApiController::class, 'searchpartai']);
 Route::post('cari-transaksi',  [ApiController::class, 'searchtransaksi']);
 Route::post('listNama',  [ApiController::class, 'listNama']);
+ // service data Users start
+Route::get('loadUsers', [ApiController::class, 'index']);
+Route::post('viewusers/{id}', [ApiController::class, 'show']);
+Route::post('updateusers/{users}',  [ApiController::class, 'update']);
+Route::post('updatepassword/{users}',  [ApiController::class, 'updatepassword']);
+Route::post('deleteusers/{users}',  [ApiController::class, 'destroy']);
+Route::post('loadrole',  [ApiController::class, 'indexrole']);
+// end
 
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
@@ -62,4 +71,6 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('updatepekerja/{datapekerja}',  [DataPekerjaController::class, 'update']);
     Route::post('deletepekerja/{datapekerja}',  [DataPekerjaController::class, 'destroy']);
     // end
+
+    
 });

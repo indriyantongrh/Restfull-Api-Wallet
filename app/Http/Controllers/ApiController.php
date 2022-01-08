@@ -8,12 +8,14 @@ use App\User;
 use App\adding;
 use App\gradding;
 use App\datapekerja;
+use App\roles;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
 
 class ApiController extends Controller
 {
+    // function add user atau register
     public function register(Request $request)
     {
     	//Validate data
@@ -47,6 +49,101 @@ class ApiController extends Controller
             'data' => $user
         ], Response::HTTP_OK);
     }
+
+    // function show user by id
+    public function show($id)
+    {
+        $users = User::find($id);
+    
+        if (!$users) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sorry, data not found.'
+            ], 400);
+        }
+    
+        return $users;
+    }
+    
+    // function get all role
+    public function indexrole()
+        {
+            return roles::all();
+        }
+
+    //  function get all user
+    public function index()
+        {
+            return User::all();
+        }
+
+    //  function update user
+        public function update(Request $request,  $user)
+            {
+                //Validate data
+                $data = $request->only('name', 'email','role_id', 'role_name'  );
+                $validator = Validator::make($data, [
+                ]);
+
+                //Send failed response if request is not valid
+                if ($validator->fails()) {
+                    return response()->json(['error' => $validator->messages()], 200);
+                }
+
+                //Request is valid, update product
+                $users = User::where('id', $user)->update([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'role_id' => $request->role_id,
+                    'role_name' => $request->role_name,
+            ]);
+                //Product updated, return success response
+                return response()->json([
+                    'success' => true,
+                    'message' => 'data berhasil diupdata!',
+                    'data' => $users
+                ], Response::HTTP_OK);
+            }
+
+            // update password
+             public function updatepassword(Request $request,  $user)
+            {
+                //Validate data
+                $data = $request->only('password'  );
+                $validator = Validator::make($data, [
+                ]);
+
+                //Send failed response if request is not valid
+                if ($validator->fails()) {
+                    return response()->json(['error' => $validator->messages()], 200);
+                }
+
+                //Request is valid, update product
+                $users = User::where('id', $user)->update([
+                    'password' => bcrypt($request->password),
+               
+            ]);
+                //Product updated, return success response
+                return response()->json([
+                    'success' => true,
+                    'message' => 'password berhasil diperbaharui!',
+                    'data' => $users
+                ], Response::HTTP_OK);
+            }
+
+
+        //  function delete user
+    public function destroy($id)
+    {
+        User::where('id', $id)->delete();
+        return response()->json([
+            'success' => true,
+            'message' => 'data  deleted successfully'
+        ], Response::HTTP_OK);
+    }
+
+
+    // Fungsi login 
 
     public function login(Request $request) {
          $credentials = [
@@ -88,6 +185,7 @@ class ApiController extends Controller
                 ], 401);
          }
     }
+
  
     public function authenticate(Request $request)
     {
