@@ -8,6 +8,9 @@ use App\Http\Controllers\GraddingController;
 use App\Http\Controllers\MandorController;
 use App\Http\Controllers\DataPekerjaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\KoreksiController;
+use App\Http\Controllers\PengeringPertamaController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +27,11 @@ Route::post('login', [ApiController::class, 'authenticate']);
 Route::post('register', [ApiController::class, 'register']);
 Route::post('cari',  [ApiController::class, 'searchpartai']);
 Route::post('cari-transaksi',  [ApiController::class, 'searchtransaksi']);
+Route::post('cari-transaksi-proses',  [ApiController::class, 'searchtransaksiproses']);
+Route::post('cari-transaksi-koreksi',  [ApiController::class, 'searchtransaksikoreksi']);
+Route::post('cari-transaksi-mandor',  [ApiController::class, 'searchmandorselesai']);
+
+
 Route::post('listNama',  [ApiController::class, 'listNama']);
  // service data Users start
 Route::get('loadUsers', [ApiController::class, 'index']);
@@ -42,6 +50,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('logout', [ApiController::class, 'logout']);
     Route::get('get_user', [ApiController::class, 'get_user']);
+
     // service adding start
     Route::get('loaddata', [AddingController::class, 'index']);
     Route::post('viewadding/{id}', [AddingController::class, 'show']);
@@ -49,6 +58,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('update/{adding}',  [AddingController::class, 'update']);
     Route::post('delete/{adding}',  [AddingController::class, 'destroy']);
     // end
+
     // service gradding start
     Route::get('loadgradding', [GraddingController::class, 'index']);
     Route::post('viewgradding/{id}', [GraddingController::class, 'show']);
@@ -56,7 +66,8 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('updategradding/{gradding}',  [GraddingController::class, 'update']);
     Route::post('deletegradding/{gradding}',  [GraddingController::class, 'destroy']);
     // end
-   // service mandor start
+
+    // service mandor start
     Route::get('loadmandor', [MandorController::class, 'index']);
     Route::post('viewgmandor/{id}', [MandorController::class, 'show']);
     Route::post('createmandor', [MandorController::class, 'store']);
@@ -72,5 +83,19 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('deletepekerja/{datapekerja}',  [DataPekerjaController::class, 'destroy']);
     // end
 
-    
+    // service koreksi start
+    Route::get('loadkoreksi', [KoreksiController::class, 'index']);
+    Route::post('viewkoreksi/{id}', [KoreksiController::class, 'show']);
+    Route::post('createkoreksi', [KoreksiController::class, 'store']);
+    Route::post('updatekoreksi/{koreksi}',  [KoreksiController::class, 'update']);
+    Route::post('deletekoreksi/{koreksi}',  [KoreksiController::class, 'destroy']);
+    // end
+
+    // service koreksi start
+    Route::get('loaddry-1', [PengeringPertamaController::class, 'index']);
+    Route::post('viewdry-1/{id}', [PengeringPertamaController::class, 'show']);
+    Route::post('createdry-1', [PengeringPertamaController::class, 'store']);
+    Route::post('updatedry-1/{dry-1}',  [PengeringPertamaController::class, 'update']);
+    Route::post('deletedry-1/{dry-1}',  [PengeringPertamaController::class, 'destroy']);
+    // end
 });
