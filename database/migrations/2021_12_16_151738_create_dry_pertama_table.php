@@ -18,12 +18,14 @@ class CreateDryPertamaTable extends Migration
             $table->integer('user_id');
             $table->integer('adding_id');
             $table->integer('gradding_id');
-            $table->integer('wash_id');
+            $table->integer('koreksi_id');
             $table->integer('mandor_id');
             $table->string('kode_transaksi');
             $table->integer('kode_partai');
             $table->integer('tanggal_proses');
             $table->integer('jumlah_sbw');
+            $table->integer('jumlah_box');
+            $table->integer('jumlah_keping');
             $table->integer('status');
             $table->timestamps();
         });

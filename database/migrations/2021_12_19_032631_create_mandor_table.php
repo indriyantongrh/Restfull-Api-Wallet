@@ -24,6 +24,11 @@ class CreateMandorTable extends Migration
             $table->string('tanggal_proses');
             $table->string('tanggal_selesai');
             $table->string('jumlah_sbw');
+            $table->string('jumlah_box');
+            $table->string('jumlah_keping');
+            $table->string('jumlah_sbw_selesai');
+            $table->string('jumlah_box_selesai');
+            $table->string('jumlah_keping_selesai');
             $table->string('nama_pekerja');
             $table->string('progres_pekerja');
             $table->string('status');

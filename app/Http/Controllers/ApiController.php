@@ -9,6 +9,8 @@ use App\adding;
 use App\gradding;
 use App\datapekerja;
 use App\roles;
+use App\mandor;
+use App\koreksi;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
@@ -257,35 +259,144 @@ class ApiController extends Controller
         }
     }
 
-      public function searchpartai(Request $request)
-    {
-        //$adding = $this->adding()->get();
-        $data = $request->get('data');
-        $kodepartai = adding::where('kode_partai', 'like', "{$data}")
-                    ->get();
+    public function searchpartai(Request $request)
+        {
+            //$adding = $this->adding()->get();
+            $data = $request->get('data');
+            $kodepartai = adding::where('kode_partai', 'like', "{$data}")
+                        ->get();
 
 
-            return response()->json([   
-                'success' => true,
-                'message' => 'Data ditemukan',
-                'data' => $kodepartai
-            ], Response::HTTP_OK);
-    }
+                return response()->json([   
+                    'success' => true,
+                    'message' => 'Data ditemukan',
+                    'data' => $kodepartai
+                ], Response::HTTP_OK);
+        }
+
+    public function searchmandorselesai(Request $request)
+        {
+            //$adding = $this->adding()->get();
+            $data = $request->get('data');
+            
+            $kodetransaksi = mandor::where('kode_transaksi', 'like', "{$data}")
+                        ->first();
+
+            if($kodetransaksi){
+                 $gradding = gradding::where('id', $kodetransaksi->gradding_id)->first();
+
+                 return response()->json([   
+                    'success' => true,
+                    'message' => 'Data ditemukan',
+                    'data' =>
+                    [
+                        'id' => $kodetransaksi->id,
+                        'user_id' => $kodetransaksi->user_id,
+                        'gradding_id' => $kodetransaksi->gradding_id,
+                        'adding_id' => $kodetransaksi->adding_id,
+                        'kode_transaksi' => $kodetransaksi->kode_transaksi,
+                        'kode_partai' => $kodetransaksi->kode_partai,
+                        'no_register' => $kodetransaksi->no_register,
+                        'jenis_grade' => $gradding->jenis_grade,
+
+                    ]
+                ], 200);
+
+            }else{
+                 return response()->json([   
+                    'success' => false,
+                    'message' => 'Data tidak ditemukan',
+                ], 404);
+            }
+              
+        }
 
     public function searchtransaksi(Request $request)
-    {
-        //$adding = $this->adding()->get();
-        $data = $request->get('data');
-        $kodetransaksi = gradding::where('kode_transaksi', 'like', "{$data}")
-                    ->get();
+        {
+            //$adding = $this->adding()->get();
+            $data = $request->get('data');
+            $kodetransaksi = gradding::where('kode_transaksi', 'like', "{$data}")
+                        ->get();
 
 
-            return response()->json([   
-                'success' => true,
-                'message' => 'Data ditemukan',
-                'data' => $kodetransaksi
-            ], Response::HTTP_OK);
-    }
+                return response()->json([   
+                    'success' => true,
+                    'message' => 'Data ditemukan',
+                    'data' => $kodetransaksi
+                ], Response::HTTP_OK);
+        }
+
+        public function searchtransaksiproses(Request $request)
+        {
+            //$adding = $this->adding()->get();
+            $data = $request->get('data');
+            $kodetransaksi = mandor::where('kode_transaksi', 'like', "{$data}")
+                        ->first();
+
+            if($kodetransaksi){
+                $gradding = gradding::where('id', $kodetransaksi->gradding_id)->first();
+
+                 return response()->json([   
+                    'success' => true,
+                    'message' => 'Data ditemukan',
+                    'data' =>
+                    [
+                        'id' => $kodetransaksi->id,
+                        'user_id' => $kodetransaksi->user_id,
+                        'gradding_id' => $kodetransaksi->gradding_id,
+                        'adding_id' => $kodetransaksi->adding_id,
+                        'kode_transaksi' => $kodetransaksi->kode_transaksi,
+                        'kode_partai' => $kodetransaksi->kode_partai,
+                        'no_register' => $kodetransaksi->no_register,
+                        'jenis_grade' => $gradding->jenis_grade,
+
+                    ]
+                ], 200);
+
+            }else{
+                 return response()->json([   
+                    'success' => false,
+                    'message' => 'Data tidak ditemukan',
+                ], 200);
+            }
+        }
+
+         public function searchtransaksikoreksi(Request $request)
+        {
+            //$adding = $this->adding()->get();
+            $data = $request->get('data');
+            $kodetransaksi = koreksi::where('kode_transaksi', 'like', "{$data}")
+                        ->first();
+
+
+            if($kodetransaksi){
+                $gradding = gradding::where('id', $kodetransaksi->gradding_id)->first();
+
+                 return response()->json([   
+                    'success' => true,
+                    'message' => 'Data ditemukan',
+                    'data' =>
+                    [
+                        'id' => $kodetransaksi->id,
+                        'user_id' => $kodetransaksi->user_id,
+                        'gradding_id' => $kodetransaksi->gradding_id,
+                        'adding_id' => $kodetransaksi->adding_id,
+                        'mandor_id' => $kodetransaksi->mandor_id,
+                        'kode_transaksi' => $kodetransaksi->kode_transaksi,
+                        'kode_partai' => $kodetransaksi->kode_partai,
+                        'no_register' => $kodetransaksi->no_register,
+                        'jenis_grade' => $gradding->jenis_grade,
+
+                    ]
+                ], 200);
+
+            }else{
+                 return response()->json([   
+                    'success' => false,
+                    'message' => 'Data tidak ditemukan',
+                ], 200);
+            }
+        }
  
     public function get_user()
     {
