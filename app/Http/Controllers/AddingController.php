@@ -59,7 +59,7 @@ class AddingController extends Controller
 
         
         //Validate data
-        $data = $request->only('user_id', 'no_register', 'kode_partai','legal_source' ,'jenis_sbw_kotor', 'tanggal_panen', 'tanggal_penerima', 'alamat', 'no_kendaraan', 'jumlah_sbw_kotor', 'jumlah_pcs', 'warna', 'kondisi', 'status' );
+        $data = $request->only('user_id', 'no_register', 'kode_partai','legal_source' ,'jenis_sbw_kotor', 'tanggal_panen', 'tanggal_penerima', 'alamat', 'no_kendaraan', 'jumlah_sbw_kotor', 'jumlah_pcs', 'warna', 'kondisi', 'status' , 'harga_kulak' );
         $validator = Validator::make($data, [
             'no_register' => 'required',
             'kode_partai' => 'required'
@@ -86,7 +86,7 @@ class AddingController extends Controller
             'warna' => $request->warna,
             'kondisi' => $request->kondisi,
             'status' => $request->status,
-            
+            'harga_kulak' => $request->harga_kulak
         ]);
 
         //Product created, return success response
@@ -139,7 +139,7 @@ class AddingController extends Controller
     public function update(Request $request, adding $adding)
     {
         //Validate data
-        $data = $request->only('user_id', 'no_register', 'kode_partai','legal_source', 'jenis_sbw_kotor', 'tanggal_panen', 'tanggal_penerima', 'alamat', 'no_kendaraan', 'jumlah_sbw_kotor', 'jumlah_pcs', 'warna', 'kondisi', 'status');
+        $data = $request->only('user_id', 'no_register', 'kode_partai','legal_source', 'jenis_sbw_kotor', 'tanggal_panen', 'tanggal_penerima', 'alamat', 'no_kendaraan', 'jumlah_sbw_kotor', 'jumlah_pcs', 'warna', 'kondisi', 'status', 'harga_kulak');
         $validator = Validator::make($data, [
             
         ]);
@@ -165,6 +165,7 @@ class AddingController extends Controller
             'warna' => $request->warna,
             'kondisi' => $request->kondisi,
             'status' => $request->status,
+            'harga_kulak' => $request->harga_kulak,
         ]);
 
         //Product updated, return success response

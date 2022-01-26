@@ -243,7 +243,7 @@ class ApiController extends Controller
             return response()->json(['error' => $validator->messages()], 200);
         }
 
-		//Request is validated, do logout        
+		//Request is validated, do logout
         try {
             JWTAuth::invalidate($request->token);
  
@@ -267,7 +267,7 @@ class ApiController extends Controller
                         ->get();
 
 
-                return response()->json([   
+                return response()->json([
                     'success' => true,
                     'message' => 'Data ditemukan',
                     'data' => $kodepartai
@@ -278,14 +278,13 @@ class ApiController extends Controller
         {
             //$adding = $this->adding()->get();
             $data = $request->get('data');
-            
             $kodetransaksi = mandor::where('kode_transaksi', 'like', "{$data}")
                         ->first();
 
             if($kodetransaksi){
                  $gradding = gradding::where('id', $kodetransaksi->gradding_id)->first();
 
-                 return response()->json([   
+                 return response()->json([
                     'success' => true,
                     'message' => 'Data ditemukan',
                     'data' =>
@@ -303,23 +302,22 @@ class ApiController extends Controller
                 ], 200);
 
             }else{
-                 return response()->json([   
+                 return response()->json([
                     'success' => false,
                     'message' => 'Data tidak ditemukan',
                 ], 404);
             }
-              
+
         }
 
-    public function searchtransaksi(Request $request)
+        public function searchtransaksi(Request $request)
         {
             //$adding = $this->adding()->get();
             $data = $request->get('data');
             $kodetransaksi = gradding::where('kode_transaksi', 'like', "{$data}")
                         ->get();
 
-
-                return response()->json([   
+                return response()->json([
                     'success' => true,
                     'message' => 'Data ditemukan',
                     'data' => $kodetransaksi
@@ -336,7 +334,7 @@ class ApiController extends Controller
             if($kodetransaksi){
                 $gradding = gradding::where('id', $kodetransaksi->gradding_id)->first();
 
-                 return response()->json([   
+                 return response()->json([
                     'success' => true,
                     'message' => 'Data ditemukan',
                     'data' =>
@@ -354,14 +352,14 @@ class ApiController extends Controller
                 ], 200);
 
             }else{
-                 return response()->json([   
+                 return response()->json([
                     'success' => false,
                     'message' => 'Data tidak ditemukan',
                 ], 200);
             }
         }
 
-         public function searchtransaksikoreksi(Request $request)
+        public function searchtransaksikoreksi(Request $request)
         {
             //$adding = $this->adding()->get();
             $data = $request->get('data');
@@ -372,7 +370,7 @@ class ApiController extends Controller
             if($kodetransaksi){
                 $gradding = gradding::where('id', $kodetransaksi->gradding_id)->first();
 
-                 return response()->json([   
+                 return response()->json([
                     'success' => true,
                     'message' => 'Data ditemukan',
                     'data' =>
@@ -391,35 +389,156 @@ class ApiController extends Controller
                 ], 200);
 
             }else{
-                 return response()->json([   
+                 return response()->json([
                     'success' => false,
                     'message' => 'Data tidak ditemukan',
                 ], 200);
             }
         }
- 
+
     public function get_user()
     {
         // $this->validate($request, [
         //     'token' => 'required'
         // ]);
- 
+
         // $user = JWTAuth::authenticate($request->token);
- 
+
         // return response()->json(['user' => $user]);
          return response()->json(['user' => auth()->user()], 200);
     }
 
-     public function listNama(Request $request)
-    {
+    public function listNama(Request $request)
+        {
         $listnama = datapekerja::all();
-               
-
-
-            return response()->json([   
+            return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
                 'data' => $listnama
             ], Response::HTTP_OK);
+    }
+
+     public function allAdding(Request $request)
+        {
+        $data = adding::all();
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $data
+            ], Response::HTTP_OK);
+    }
+
+    public function allGradding(Request $request)
+        {
+        $data = gradding::all();
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $data
+            ], Response::HTTP_OK);
+    }
+
+    public function allMandor(Request $request)
+        {
+        $data = mandor::all();
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $data
+            ], Response::HTTP_OK);
+    }
+
+    public function filterbyDateAdding(Request $request){
+        $from = $request->from;
+        $to = $request->to;
+        $filterDate = adding::whereBetween('tanggal_penerima', [$from , $to])->get();
+        if ($filterDate){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $filterDate
+            ],  200);
+            
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
+         
+    }
+
+    public function filterbyDateGradding(Request $request){
+        $from = $request->from;
+        $to = $request->to;
+        $filterDate = gradding::whereBetween('tanggal_proses', [$from , $to])->get();
+          if ($filterDate){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $filterDate
+            ],  200);
+            
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
+    }
+
+    public function filterbyDateMandor(Request $request){
+        $from = $request->from;
+        $to = $request->to;
+        $filterDate = mandor::whereBetween('tanggal_proses', [$from , $to])->get();
+          if ($filterDate){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $filterDate
+            ],  200);
+            
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
+    }
+
+    public function showadding($id)
+    {
+        $adding = adding::whereId($id)->first();
+        if (!$adding) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sorry, data tidak ditemukan.'
+            ], 400);
+        }
+        return $adding;
+    }
+
+    public function showgradding($id)
+    {
+        $gradding = gradding::whereId($id)->first();
+        if (!$gradding) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sorry, data tidak ditemukan.'
+            ], 400);
+        }
+        return $gradding;
+    }
+
+    public function showmandor($id)
+    {
+        $mandor = mandor::whereId($id)->first();
+        if (!$mandor) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sorry, data tidak ditemukan.'
+            ], 400);
+        }
+        return $mandor;
     }
 }

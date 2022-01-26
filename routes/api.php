@@ -30,6 +30,17 @@ Route::post('cari-transaksi',  [ApiController::class, 'searchtransaksi']);
 Route::post('cari-transaksi-proses',  [ApiController::class, 'searchtransaksiproses']);
 Route::post('cari-transaksi-koreksi',  [ApiController::class, 'searchtransaksikoreksi']);
 Route::post('cari-transaksi-mandor',  [ApiController::class, 'searchmandorselesai']);
+Route::get('get-all-adding',  [ApiController::class, 'allAdding']);
+Route::get('get-all-gradding',  [ApiController::class, 'allGradding']);
+Route::get('get-all-mandor',  [ApiController::class, 'allMandor']);
+Route::get('filter-date-adding',  [ApiController::class, 'filterbyDateAdding']);
+Route::get('filter-date-gradding',  [ApiController::class, 'filterbyDateGradding']);
+Route::get('filter-date-mandor',  [ApiController::class, 'filterbyDateMandor']);
+Route::post('view-adding/{id}',  [ApiController::class, 'showadding']);
+Route::post('view-gradding/{id}',  [ApiController::class, 'showgradding']);
+Route::post('view-mandor/{id}',  [ApiController::class, 'showmandor']);
+
+
 
 
 Route::post('listNama',  [ApiController::class, 'listNama']);
