@@ -11,6 +11,7 @@ use App\datapekerja;
 use App\roles;
 use App\mandor;
 use App\koreksi;
+use App\rumahwalet;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
@@ -441,6 +442,16 @@ class ApiController extends Controller
     public function allMandor(Request $request)
         {
         $data = mandor::all();
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $data
+            ], Response::HTTP_OK);
+    }
+
+     public function allRumahWalet(Request $request)
+        {
+        $data = rumahwalet::all();
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',

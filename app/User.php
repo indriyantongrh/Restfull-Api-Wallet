@@ -81,4 +81,9 @@ class User extends Authenticatable implements JWTSubject
         {
             return $this->hasMany(drypertama::class);
         }
+
+         public function rumahwalet()
+        {
+            return $this->hasMany(rumahwalet::class);
+        }
 }

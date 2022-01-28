@@ -10,6 +10,7 @@ use App\Http\Controllers\DataPekerjaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\KoreksiController;
 use App\Http\Controllers\PengeringPertamaController;
+use App\Http\Controllers\MasterRumahWaletController;
 
 
 /*
@@ -33,6 +34,7 @@ Route::post('cari-transaksi-mandor',  [ApiController::class, 'searchmandorselesa
 Route::get('get-all-adding',  [ApiController::class, 'allAdding']);
 Route::get('get-all-gradding',  [ApiController::class, 'allGradding']);
 Route::get('get-all-mandor',  [ApiController::class, 'allMandor']);
+Route::get('get-all-rumahwalet',  [ApiController::class, 'allRumahWalet']);
 Route::get('filter-date-adding',  [ApiController::class, 'filterbyDateAdding']);
 Route::get('filter-date-gradding',  [ApiController::class, 'filterbyDateGradding']);
 Route::get('filter-date-mandor',  [ApiController::class, 'filterbyDateMandor']);
@@ -108,5 +110,14 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('createdry-1', [PengeringPertamaController::class, 'store']);
     Route::post('updatedry-1/{dry-1}',  [PengeringPertamaController::class, 'update']);
     Route::post('deletedry-1/{dry-1}',  [PengeringPertamaController::class, 'destroy']);
+    // end
+
+    // service master rumah walet start
+    Route::get('loadrumahwalet', [MasterRumahWaletController::class, 'index']);
+    Route::post('viewrumahwalet/{id}', [MasterRumahWaletController::class, 'show']);
+    Route::post('createrumahwalet', [MasterRumahWaletController::class, 'store']);
+    Route::post('updaterumahwalet/{rumahwalet}',  [MasterRumahWaletController::class, 'update']);
+    Route::post('deleteperumahwalet/{rumahwalet}',  [MasterRumahWaletController::class, 'destroy']);
+    
     // end
 });
