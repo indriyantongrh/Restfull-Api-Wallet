@@ -13,21 +13,22 @@ class CreateDryingKeduaTable extends Migration
      */
     public function up()
     {
-        Schema::create('drying_kedua', function (Blueprint $table) {
+        Schema::create('dry_kedua', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
             $table->integer('gradding_id');
             $table->integer('adding_id');
-            $table->integer('drying_pertama_id');
+            $table->integer('dry_pertama_id');
             $table->integer('koreksi_id');
             $table->integer('mandor_id');
             $table->integer('molding_id');
             $table->string('kode_transaksi');
-            $table->integer('kode_partai');
-            $table->integer('tanggal_proses');
-            $table->integer('jumlah_sbw');
-            $table->integer('jumlah_box');
-            $table->integer('jumlah_keping');
+            $table->string('kode_partai');
+            $table->string('no_register');
+            $table->string('tanggal_proses');
+            $table->string('jumlah_sbw');
+            $table->string('jumlah_box');
+            $table->string('jumlah_keping');
             $table->string('status');
             $table->timestamps();
         });

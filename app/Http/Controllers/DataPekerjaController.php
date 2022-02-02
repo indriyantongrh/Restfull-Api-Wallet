@@ -50,7 +50,7 @@ class DataPekerjaController extends Controller
     {
 
         //Validate data
-        $data = $request->only('user_id','nama_pekerja', 'status' , );
+        $data = $request->only('user_id', 'nama_pekerja', 'nik', 'bagian', 'tanggal_masuk', 'tempat_lahir', 'tanggal_lahir', 'alamat', 'status','no_telp','status_karyawan');
         $validator = Validator::make($data, [
             // 'no_register' => 'required',
             // 'kode_partai' => 'required'
@@ -64,8 +64,15 @@ class DataPekerjaController extends Controller
         //Request is valid, create new product
         $datapekerja = $this->user->datapekerja()->create([
             'nama_pekerja' => $request->nama_pekerja,
-            'status' => $request->status
-            
+            'nik' => $request->nik,
+            'bagian' => $request->bagian,
+            'tanggal_masuk' => $request->tanggal_masuk,
+            'tempat_lahir' => $request->tempat_lahir,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'alamat' => $request->alamat,
+            'no_telp' => $request->no_telp,
+            'status' => $request->status,
+            'status_karyawan' => $request->status_karyawan
         ]);
 
         //Product created, return success response
@@ -117,7 +124,7 @@ class DataPekerjaController extends Controller
     public function update(Request $request, datapekerja $datapekerja)
     {
         //Validate data
-        $data = $request->only('nama_pekerja', 'status' );
+        $data = $request->only( 'nama_pekerja', 'nik', 'bagian', 'tanggal_masuk', 'tempat_lahir', 'tanggal_lahir', 'alamat', 'status','no_telp','status_karyawan');
         $validator = Validator::make($data, [
         ]);
 
@@ -128,9 +135,16 @@ class DataPekerjaController extends Controller
 
         //Request is valid, update product
         $datapekerja = $datapekerja->update([
-        
-           'nama_pekerja' => $request->nama_pekerja,
-            'status' => $request->status
+         'nama_pekerja' => $request->nama_pekerja,
+            'nik' => $request->nik,
+            'bagian' => $request->bagian,
+            'tanggal_masuk' => $request->tanggal_masuk,
+            'tempat_lahir' => $request->tempat_lahir,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'alamat' => $request->alamat,
+            'no_telp' => $request->no_telp,
+            'status' => $request->status,
+            'status_karyawan' => $request->status_karyawan
         ]);
 
         //Product updated, return success response

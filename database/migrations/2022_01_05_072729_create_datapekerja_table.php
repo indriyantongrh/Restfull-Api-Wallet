@@ -17,7 +17,16 @@ class CreateDatapekerjaTable extends Migration
             $table->id();
             $table->string('user_id');
             $table->string('nama_pekerja');
+            $table->string('nik');
+            $table->string('bagian');
+            $table->string('tanggal_masuk');
+            $table->string('tempat_lahir');
+            $table->string('tanggal_lahir');
+            $table->string('alamat');
             $table->string('status');
+            $table->string('no_telp');
+            $table->string('status_karyawan');
+        
             $table->timestamps();
         });
     }

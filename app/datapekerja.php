@@ -23,5 +23,6 @@ class datapekerja extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id','user_id', 'nama_pekerja', 'status' ,'created_at', 'updated_at'];
+    protected $fillable = ['id','user_id', 'nama_pekerja', 'nik', 'bagian', 'tanggal_masuk', 'tempat_lahir', 'tanggal_lahir', 'alamat', 'status','no_telp','status_karyawan','created_at','updated_at'];
+
 }

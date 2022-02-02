@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\drypertama;
 use App\mandor;
+use App\gradding;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,8 +52,8 @@ class PengeringPertamaController extends Controller
     {
 
         //Validate data
-        $data = $request->only('user_id', 'adding_id','mandor_id', 'gradding_id','koreksi_id','kode_partai', 'tanggal_proses', 'jumlah_sbw','jumlah_keping', 'jumlah_box', 'kode_transaksi', 'status');
-        $kode_transaksiExist = koreksi::where('kode_transaksi', '=', $request->input('kode_transaksi'))->first();
+        $data = $request->only('user_id', 'adding_id','mandor_id', 'gradding_id','koreksi_id','kode_partai','no_register', 'tanggal_proses', 'jumlah_sbw','jumlah_keping', 'jumlah_box', 'kode_transaksi', 'status');
+        $kode_transaksiExist = drypertama::where('kode_transaksi', '=', $request->input('kode_transaksi'))->first();
         $validator = Validator::make($data, [
             // 'no_register' => 'required',
             // 'kode_partai' => 'required'
@@ -65,7 +66,7 @@ class PengeringPertamaController extends Controller
 
         if($kode_transaksiExist === null){
             //Request is valid, create new product
-            $drypertama= $this->user->koreksi()->create([
+            $drypertama= $this->user->drypertama()->create([
                 'user_id' => $request->user_id,
                 'adding_id' => $request->adding_id,
                 'gradding_id' => $request->gradding_id,
@@ -105,16 +106,37 @@ class PengeringPertamaController extends Controller
      */
     public function show($id)
     {
-        $drypertama = $this->user->koreksi()->find($id);
+        $drypertama = $this->user->drypertama()->find($id);
     
         if (!$drypertama) {
             return response()->json([
                 'success' => false,
                 'message' => 'Sorry, data not found.'
             ], 400);
+        }else{
+            $gradding = gradding::where('id', $drypertama->gradding_id)->first();
+
+            return response()->json([
+                'id' => $drypertama->id,
+                'adding_id' => $drypertama->adding_id,
+                'gradding_id' => $drypertama->gradding_id,
+                'mandor_id' => $drypertama->mandor_id,
+                'koreksi_id' => $drypertama->koreksi_id,
+                'kode_transaksi' => $drypertama->kode_transaksi,
+                'kode_partai' => $drypertama->kode_partai,
+                'no_register' => $drypertama->no_register,
+                'tanggal_proses' => $drypertama->tanggal_proses,
+                'jumlah_box' => $drypertama->jumlah_box,
+                'jumlah_sbw' => $drypertama->jumlah_sbw,
+                'jumlah_keping' => $drypertama->jumlah_keping,
+                'user_id' => $drypertama->user_id,
+                'status' => $drypertama->status,
+                'jenis_grade' => $gradding->jenis_grade
+
+            ], 200);
         }
     
-        return $drypertama;
+        // return $drypertama;
     }
 
     /**
@@ -138,7 +160,7 @@ class PengeringPertamaController extends Controller
     public function update(Request $request, drypertama $drypertama)
     {
         //Validate data
-        $data = $request->only('user_id', 'adding_id','mandor_id', 'gradding_id','koreksi_id','kode_partai', 'tanggal_proses', 'jumlah_sbw','jumlah_box', 'jumlah_keping','kode_transaksi', 'status');
+        $data = $request->only('user_id', 'adding_id','mandor_id', 'gradding_id','koreksi_id','kode_partai','no_register', 'tanggal_proses', 'jumlah_sbw','jumlah_box', 'jumlah_keping','kode_transaksi', 'status');
 
         $validator = Validator::make($data, [
         ]);
@@ -151,7 +173,7 @@ class PengeringPertamaController extends Controller
         }
 
         //Request is valid, update product
-        $drypertama = $koreksi->update([
+        $drypertama = $drypertama->update([
            'user_id' => $request->user_id,
                 'adding_id' => $request->adding_id,
                 'gradding_id' => $request->gradding_id,

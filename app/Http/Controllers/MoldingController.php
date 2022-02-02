@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\koreksi;
-use App\mandor;
 use App\gradding;
+use App\molding;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
 
-class KoreksiController extends Controller
+class MoldingController extends Controller
 {
     protected $user;
  
@@ -28,7 +27,7 @@ class KoreksiController extends Controller
     public function index()
     {
         return $this->user
-            ->koreksi()
+            ->molding()
             ->get();
     }
 
@@ -52,8 +51,8 @@ class KoreksiController extends Controller
     {
 
         //Validate data
-        $data = $request->only('user_id', 'adding_id', 'gradding_id','mandor_id', 'kode_transaksi', 'kode_partai', 'no_register', 'tanggal_proses', 'jumlah_sbw', 'jumlah_box', 'jumlah_keping', 'progres_koreksi', 'jumlah_pending','status');
-        $kode_transaksiExist = koreksi::where('kode_transaksi', '=', $request->input('kode_transaksi'))->first();
+        $data = $request->only('user_id', 'adding_id','mandor_id', 'gradding_id','koreksi_id', 'dry_pertama_id','kode_partai','no_register', 'tanggal_proses', 'jumlah_sbw','jumlah_keping', 'jumlah_box', 'kode_transaksi', 'status');
+        $kode_transaksiExist = molding::where('kode_transaksi', '=', $request->input('kode_transaksi'))->first();
         $validator = Validator::make($data, [
             // 'no_register' => 'required',
             // 'kode_partai' => 'required'
@@ -66,11 +65,13 @@ class KoreksiController extends Controller
 
         if($kode_transaksiExist === null){
             //Request is valid, create new product
-            $koreksi= $this->user->koreksi()->create([
+            $molding= $this->user->molding()->create([
                 'user_id' => $request->user_id,
                 'adding_id' => $request->adding_id,
                 'gradding_id' => $request->gradding_id,
                 'mandor_id' => $request->mandor_id,
+                'koreksi_id' => $request->koreksi_id,
+                'dry_pertama_id' => $request->dry_pertama_id,
                 'kode_partai' => $request->kode_partai,
                 'kode_transaksi' => $request->kode_transaksi,
                 'no_register' => $request->no_register,
@@ -78,8 +79,6 @@ class KoreksiController extends Controller
                 'jumlah_sbw' => $request->jumlah_sbw,
                 'jumlah_box' => $request->jumlah_box,
                 'jumlah_keping' => $request->jumlah_keping,
-                'progres_koreksi' => $request->progres_koreksi,
-                'jumlah_pending' => $request->jumlah_pending,
                 'status' => $request->status
             ]);
 
@@ -87,7 +86,7 @@ class KoreksiController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Data berhasil ditambah!',
-                'data' => $koreksi
+                'data' => $molding
             ], Response::HTTP_OK);
         }else{
             return response()->json([
@@ -107,36 +106,38 @@ class KoreksiController extends Controller
      */
     public function show($id)
     {
-        $koreksi = $this->user->koreksi()->find($id);
+        $molding = $this->user->molding()->find($id);
     
-        if (!$koreksi) {
+        if (!$molding) {
             return response()->json([
                 'success' => false,
                 'message' => 'Sorry, data not found.'
             ], 400);
         }else{
-            $gradding = gradding::where('id', $koreksi->gradding_id)->first();
+            $gradding = gradding::where('id', $molding->gradding_id)->first();
 
             return response()->json([
-                'user_id' => $koreksi->user_id,
-                'adding_id' => $koreksi->adding_id,
-                'gradding_id' => $koreksi->gradding_id,
-                'mandor_id' => $koreksi->mandor_id,
-                'kode_transaksi' => $koreksi->kode_transaksi,
-                'kode_partai' => $koreksi->kode_partai,
-                'no_register' => $koreksi->no_register,
-                'jumlah_box' => $koreksi->jumlah_box,
-                'jumlah_sbw' => $koreksi->jumlah_sbw,
-                'jumlah_keping' => $koreksi->jumlah_keping,
-                'jumlah_pending' => $koreksi->jumlah_pending,
-                'progres_koreksi' => $koreksi->progres_koreksi,
-                'tanggal_proses' => $koreksi->tanggal_proses,
-                'status' => $koreksi->status,
-                'jenis_grade' => $gradding->jenis_grade,
+                'id' => $molding->id,
+                'adding_id' => $molding->adding_id,
+                'gradding_id' => $molding->gradding_id,
+                'mandor_id' => $molding->mandor_id,
+                'koreksi_id' => $molding->koreksi_id,
+                'dry_pertama_id' => $molding->dry_pertama_id,
+                'kode_transaksi' => $molding->kode_transaksi,
+                'kode_partai' => $molding->kode_partai,
+                'no_register' => $molding->no_register,
+                'tanggal_proses' => $molding->tanggal_proses,
+                'jumlah_box' => $molding->jumlah_box,
+                'jumlah_sbw' => $molding->jumlah_sbw,
+                'jumlah_keping' => $molding->jumlah_keping,
+                'user_id' => $molding->user_id,
+                'status' => $molding->status,
+                'jenis_grade' => $gradding->jenis_grade
+
             ], 200);
         }
     
-        // return $koreksi;
+        // return $drypertama;
     }
 
     /**
@@ -145,7 +146,7 @@ class KoreksiController extends Controller
      * @param  \App\gradding  $gradding
      * @return \Illuminate\Http\Response
      */
-    public function edit(koreksi $koreksi)
+    public function edit(molding $molding)
     {
         //
     }
@@ -157,10 +158,11 @@ class KoreksiController extends Controller
      * @param  \App\gradding  $gradding
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, koreksi $koreksi)
+    public function update(Request $request, molding $molding)
     {
         //Validate data
-        $data = $request->only('user_id', 'adding_id', 'gradding_id','mandor_id', 'kode_transaksi', 'kode_partai', 'no_register', 'tanggal_proses', 'jumlah_sbw', 'jumlah_box', 'jumlah_keping', 'progres_koreksi', 'jumlah_pending','status');
+        $data = $request->only('user_id', 'adding_id','mandor_id', 'gradding_id','koreksi_id', 'dry_pertama_id','kode_partai','no_register', 'tanggal_proses', 'jumlah_sbw','jumlah_keping', 'jumlah_box', 'kode_transaksi', 'status');
+
         $validator = Validator::make($data, [
         ]);
 
@@ -172,28 +174,28 @@ class KoreksiController extends Controller
         }
 
         //Request is valid, update product
-        $koreksi = $koreksi->update([
-          'user_id' => $request->user_id,
-            'adding_id' => $request->adding_id,
-            'gradding_id' => $request->gradding_id,
-            'mandor_id' => $request->mandor_id,
-            'kode_partai' => $request->kode_partai,
-            'kode_transaksi' => $request->kode_transaksi,
-            'no_register' => $request->no_register,
-            'tanggal_proses' => $request->tanggal_proses,
-            'jumlah_sbw' => $request->jumlah_sbw,
-            'jumlah_box' => $request->jumlah_box,
-            'jumlah_keping' => $request->jumlah_keping,
-            'progres_koreksi' => $request->progres_koreksi,
-            'jumlah_pending' => $request->jumlah_pending,
-            'status' => $request->status
+        $molding = $molding->update([
+           'user_id' => $request->user_id,
+                'adding_id' => $request->adding_id,
+                'gradding_id' => $request->gradding_id,
+                'mandor_id' => $request->mandor_id,
+                'koreksi_id' => $request->koreksi_id,
+                'dry_pertama_id' => $request->dry_pertama_id,
+                'kode_partai' => $request->kode_partai,
+                'kode_transaksi' => $request->kode_transaksi,
+                'no_register' => $request->no_register,
+                'tanggal_proses' => $request->tanggal_proses,
+                'jumlah_sbw' => $request->jumlah_sbw,
+                'jumlah_box' => $request->jumlah_box,
+                'jumlah_keping' => $request->jumlah_keping,
+                'status' => $request->status
         ]);
 
         //Product updated, return success response
         return response()->json([
             'success' => true,
             'message' => 'data berhasil diupdate',
-            'data' => $koreksi
+            'data' => $molding
         ], Response::HTTP_OK);
     }
 
@@ -203,9 +205,9 @@ class KoreksiController extends Controller
      * @param  \App\gradding  $gradding
      * @return \Illuminate\Http\Response
      */
-    public function destroy(koreksi $koreksi)
+    public function destroy(molding $molding)
     {
-        $koreksi->delete();
+        $molding->delete();
         
         return response()->json([
             'success' => true,
