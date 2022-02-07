@@ -28,7 +28,7 @@ class ApiController extends Controller
         $data = $request->only('name', 'email', 'password', 'role_id', 'role_name');
         $validator = Validator::make($data, [
             'name' => 'required|string',
-            'email' => 'required|email|unique:users',
+            'email' => 'required',
             'password' => 'required|string|min:6|max:50',
             'role_id' => 'required',
             'role_name' => 'required'
