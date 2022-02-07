@@ -13,6 +13,7 @@ use App\mandor;
 use App\koreksi;
 use App\rumahwalet;
 use App\drypertama;
+use App\drykedua;
 use App\molding;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
@@ -459,6 +460,44 @@ class ApiController extends Controller
                         'mandor_id' => $kodetransaksi->mandor_id,
                         'koreksi_id' => $kodetransaksi->koreksi_id,
                         'dry_pertama_id' => $kodetransaksi->dry_pertama_id,
+                        'kode_transaksi' => $kodetransaksi->kode_transaksi,
+                        'kode_partai' => $kodetransaksi->kode_partai,
+                        'no_register' => $kodetransaksi->no_register,
+                        'jenis_grade' => $gradding->jenis_grade,
+
+                    ]
+                ], 200);
+
+            }else{
+                 return response()->json([
+                    'success' => false,
+                    'message' => 'Data tidak ditemukan',
+                ], 200);
+            }
+        }
+
+          public function searchtransaksidrykedua(Request $request)
+        {
+            //$adding = $this->adding()->get();
+            $data = $request->get('data');
+            $kodetransaksi = drykedua::where('kode_transaksi', 'like', "{$data}")
+                        ->first();
+            if($kodetransaksi){
+                $gradding = gradding::where('id', $kodetransaksi->gradding_id)->first();
+
+                 return response()->json([
+                    'success' => true,
+                    'message' => 'Data ditemukan',
+                    'data' =>
+                    [
+                        'id' => $kodetransaksi->id,
+                        'user_id' => $kodetransaksi->user_id,
+                        'gradding_id' => $kodetransaksi->gradding_id,
+                        'adding_id' => $kodetransaksi->adding_id,
+                        'mandor_id' => $kodetransaksi->mandor_id,
+                        'koreksi_id' => $kodetransaksi->koreksi_id,
+                        'dry_pertama_id' => $kodetransaksi->dry_pertama_id,
+                        'molding_id' => $kodetransaksi->molding_id,
                         'kode_transaksi' => $kodetransaksi->kode_transaksi,
                         'kode_partai' => $kodetransaksi->kode_partai,
                         'no_register' => $kodetransaksi->no_register,

@@ -96,4 +96,8 @@ class User extends Authenticatable implements JWTSubject
         {
             return $this->hasMany(drykedua::class);
         }
+        public function pemanas()
+        {
+            return $this->hasMany(pemanas::class);
+        }
 }

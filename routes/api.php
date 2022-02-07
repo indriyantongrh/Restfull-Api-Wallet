@@ -13,6 +13,8 @@ use App\Http\Controllers\PengeringPertamaController;
 use App\Http\Controllers\MasterRumahWaletController;
 use App\Http\Controllers\MoldingController;
 use App\Http\Controllers\PengeringKeduaController;
+use App\Http\Controllers\pemanasController;
+use App\Http\Controllers\LookupController;
 
 
 /*
@@ -35,6 +37,8 @@ Route::post('cari-transaksi-koreksi',  [ApiController::class, 'searchtransaksiko
 Route::post('cari-transaksi-mandor',  [ApiController::class, 'searchmandorselesai']);
 Route::post('cari-transaksi-dry-pertama',  [ApiController::class, 'searchtransaksidrypertama']);
 Route::post('cari-transaksi-molding',  [ApiController::class, 'searchtransaksimolding']);
+Route::post('cari-transaksi-dry-kedua',  [ApiController::class, 'searchtransaksidrykedua']);
+Route::get('cari-type',  [LookupController::class, 'searchlookup']);
 
 Route::get('get-all-adding',  [ApiController::class, 'allAdding']);
 Route::get('get-all-gradding',  [ApiController::class, 'allGradding']);
@@ -46,6 +50,7 @@ Route::get('filter-date-mandor',  [ApiController::class, 'filterbyDateMandor']);
 Route::post('view-adding/{id}',  [ApiController::class, 'showadding']);
 Route::post('view-gradding/{id}',  [ApiController::class, 'showgradding']);
 Route::post('view-mandor/{id}',  [ApiController::class, 'showmandor']);
+Route::post('lookup',  [LookupController::class, 'store']);
 
 
 
@@ -139,5 +144,21 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('create-dry-2', [PengeringKeduaController::class, 'store']);
     Route::post('update-dry-2/{drykedua}',  [PengeringKeduaController::class, 'update']);
     Route::post('delete-dry-2/{drykedua}',  [PengeringKeduaController::class, 'destroy']);
+    // end
+
+     // service Pemanas start
+    Route::get('load-pemanas', [pemanasController::class, 'index']);
+    Route::post('view-pemanas/{id}', [pemanasController::class, 'show']);
+    Route::post('create-pemanas', [pemanasController::class, 'store']);
+    Route::post('update-pemanas/{pemanas}',  [pemanasController::class, 'update']);
+    Route::post('delete-pemanas/{pemanas}',  [pemanasController::class, 'destroy']);
+    // end
+
+        // service datapekerja start
+    Route::get('load-lookup', [LookupController::class, 'index']);
+    Route::post('view-lookup/{id}', [LookupController::class, 'show']);
+    Route::post('create-lookup', [LookupController::class, 'store']);
+    Route::post('update-lookup/{id}',  [LookupController::class, 'update']);
+    Route::post('delete-lookup/{id}',  [LookupController::class, 'destroy']);
     // end
 });
