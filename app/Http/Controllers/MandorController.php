@@ -24,13 +24,11 @@ class MandorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // $data = 'Proses Pencabutan';
-        // $getMandor = mandor::where('progres_pekerja', 'like', "{$data}")
-        //     ->get();
-        // return $getMandor;
-        return $this->user->mandor()->get();
+        $data =  $request->get('data');
+          return $this->user->mandor()->where('progres_pekerja', 'like', "{$data}")->get();
+        //  return $this->user->mandor()->get();
     }
 
     /**
@@ -53,7 +51,7 @@ class MandorController extends Controller
     {
 
         //Validate data
-        $data = $request->only('user_id', 'adding_id', 'gradding_id','kode_partai', 'no_register','kode_transaksi', 'tanggal_proses', 'jumlah_sbw','jumlah_box','jumlah_keping', 'nama_pekerja',  'progres_pekerja',  'status'  );
+        $data = $request->only('user_id', 'adding_id', 'gradding_id','kode_partai', 'no_register','kode_transaksi', 'tanggal_proses', 'jumlah_sbw','jumlah_box','jumlah_keping', 'nama_pekerja',  'progres_pekerja',  'status','kode_mandor'  );
         $validator = Validator::make($data, [
             // 'no_register' => 'required',
             // 'kode_partai' => 'required'
@@ -63,7 +61,7 @@ class MandorController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => $validator->messages()], 200);
         }
-
+        
         //Request is valid, create new product
         $mandor= $this->user->mandor()->create([
             'user_id' => $request->user_id,
@@ -78,13 +76,20 @@ class MandorController extends Controller
             'jumlah_keping' => $request->jumlah_keping,
             'nama_pekerja' => $request->nama_pekerja,
             'progres_pekerja' => $request->progres_pekerja,
+            'kode_mandor' => $request->kode_mandor,
             'status' => $request->status
         ]);
 
+        $gradding = gradding::find($request->gradding_id);
+        $gradding->jmlh_sbw_saldo = ($gradding->jmlh_sbw_saldo - $request->jumlah_sbw);
+        $gradding->jmlh_keping_saldo = ($gradding->jmlh_keping_saldo - $request->jumlah_keping);
+        $gradding->update();
+       
         //Product created, return success response
         return response()->json([
             'success' => true,
             'message' => 'Data berhasil ditambah!',
+            'berhasil' => $gradding,
             'data' => $mandor
         ], Response::HTTP_OK);
     }
@@ -98,6 +103,7 @@ class MandorController extends Controller
     public function show($id)
     {
         $mandor = $this->user->mandor()->find($id);
+        
     
         if (!$mandor) {
             return response()->json([
@@ -110,10 +116,11 @@ class MandorController extends Controller
             return response()->json([
                 'id' => $mandor->id,
                 'adding_id' => $mandor->adding_id,
-                'gradding_id' => $mandor->igradding_idd,
+                'gradding_id' => $mandor->gradding_id,
                 'user_id' => $mandor->user_id,
                 'kode_partai' => $mandor->kode_partai,
                 'kode_transaksi' => $mandor->kode_transaksi,
+                'kode_mandor' => $mandor->kode_mandor,
                 'no_register' => $mandor->no_register,
                 'jenis_grade' => $gradding->jenis_grade,
                 'nama_pekerja' => $mandor->nama_pekerja,
@@ -129,11 +136,9 @@ class MandorController extends Controller
                 'status' => $mandor->status,
                 'created_at' => $mandor->created_at,
                 'updated_at' => $mandor->updated_at,
-                
             ], 200);
         }
-    
-        
+
     }
 
     /**
@@ -201,13 +206,94 @@ class MandorController extends Controller
      * @param  \App\gradding  $gradding
      * @return \Illuminate\Http\Response
      */
-    public function destroy(mandor $mandor)
+    public function destroy(mandor $mandor,  Request $request)
     {
-        $mandor->delete();
-        
+            $mandorGet = $this->user->mandor()->find($mandor)->first();
+            $jumlahsaldo = $mandorGet->jumlah_sbw;
+            $kepingsaldo = $mandorGet->jumlah_keping;
+            $idgrading = $mandorGet->gradding_id;
+
+            $gradding = gradding::find($idgrading);
+            $gradding->jmlh_sbw_saldo = ($gradding->jmlh_sbw_saldo + $jumlahsaldo);
+            $gradding->jmlh_keping_saldo = ($gradding->jmlh_keping_saldo + $kepingsaldo);
+            $gradding->update();
+
+            $mandor->delete();
+
         return response()->json([
             'success' => true,
-            'message' => 'data  deleted successfully'
+            'message' => 'data  deleted successfully',
+            'datass' => $jumlahsaldo,
+            'data' => $idgrading
         ], Response::HTTP_OK);
+
+        // $data = $request->get('data');
+        // $id = $request->get('id');
+        // $getDatas =  mandor::where('kode_mandor', 'like', "{$data}")
+        //                 ->first();
+        // if ($getDatas == null ){
+        //     // $data = $request->only('user_id', 'adding_id', 'gradding_id','kode_partai', 'no_register','kode_transaksi', 'tanggal_proses', 'jumlah_sbw','jumlah_box','jumlah_keping', 'nama_pekerja',  'progres_pekerja',  'status'   );
+        //     $mandorGet = $this->user->mandor()->find($id)->first();
+        //     $jumlahsaldo = $mandorGet->jumlah_sbw;
+        //     $kepingsaldo = $mandorGet->jumlah_keping;
+        //     $idgrading = $mandorGet->gradding_id;
+
+        //     $gradding = gradding::find($idgrading);
+        //     $gradding->jmlh_sbw_saldo = ($gradding->jmlh_sbw_saldo + $jumlahsaldo);
+        //     $gradding->jmlh_keping_saldo = ($gradding->jmlh_keping_saldo + $kepingsaldo);
+        //     $gradding->update();
+
+        //     $mandor->delete();
+        //     return response()->json([
+        //                 'success' => true,
+        //                 'pesancari' => 'data tidak ditemukan',
+        //                 'message' => 'data berhasil di hapus'
+        //             ], Response::HTTP_OK);
+        // }else{
+        //     return response()->json([
+        //                 'success' => false,
+        //                 'pesancari' => 'data  ditemukan',
+        //                 'message' => 'data tidak dapat dihapus karena sudha di proses'
+
+        //             ], Response::HTTP_OK);
+
+        // }
+    }
+
+       public function destroyend(mandor $mandor,  Request $request)
+    {
+        
+
+        $data = $request->get('data');
+        $id = $request->get('id');
+        $getDatas =  mandor::where('kode_transaksi', 'like', "{$data}")
+                        ->first();
+        if ($getDatas == null ){
+            // $data = $request->only('user_id', 'adding_id', 'gradding_id','kode_partai', 'no_register','kode_transaksi', 'tanggal_proses', 'jumlah_sbw','jumlah_box','jumlah_keping', 'nama_pekerja',  'progres_pekerja',  'status'   );
+            $mandorGet = $this->user->mandor()->find($id)->first();
+            $jumlahsaldo = $mandorGet->jumlah_sbw;
+            $kepingsaldo = $mandorGet->jumlah_keping;
+            $idgrading = $mandorGet->gradding_id;
+
+            $gradding = gradding::find($idgrading);
+            $gradding->jmlh_sbw_saldo = ($gradding->jmlh_sbw_saldo + $jumlahsaldo);
+            $gradding->jmlh_keping_saldo = ($gradding->jmlh_keping_saldo + $kepingsaldo);
+            $gradding->update();
+
+            $mandor->delete();
+            return response()->json([
+                        'success' => true,
+                        'pesancari' => 'data tidak ditemukan',
+                        'message' => 'data berhasil di hapus'
+                    ], Response::HTTP_OK);
+        }else{
+            return response()->json([
+                        'success' => false,
+                        'pesancari' => 'data  ditemukan',
+                        'message' => 'data tidak dapat dihapus karena sudha di proses'
+
+                    ], Response::HTTP_OK);
+
+        }
     }
 }

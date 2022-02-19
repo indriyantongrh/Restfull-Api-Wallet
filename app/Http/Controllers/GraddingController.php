@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\gradding;
+use App\mandor;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,7 +51,7 @@ class GraddingController extends Controller
     {
 
         //Validate data
-        $data = $request->only('user_id', 'adding_id', 'kode_partai', 'no_register','tanggal_proses' ,'jumlah_sbw', 'jumlah_keping', 'jumlah_box', 'jenis_grade', 'kode_transaksi', 'status' );
+        $data = $request->only('user_id', 'adding_id', 'kode_partai', 'no_register','tanggal_proses' ,'jumlah_sbw', 'jmlh_sbw_saldo','jumlah_keping','jmlh_keping_saldo', 'jumlah_box',  'jenis_grade', 'kode_transaksi', 'status' );
         $validator = Validator::make($data, [
             // 'no_register' => 'required',
             // 'kode_partai' => 'required'
@@ -69,6 +70,8 @@ class GraddingController extends Controller
             'no_register' => $request->no_register,
             'tanggal_proses' => $request->tanggal_proses,
             'jumlah_sbw' => $request->jumlah_sbw,
+            'jmlh_sbw_saldo' => $request->jmlh_sbw_saldo,
+            'jmlh_keping_saldo' => $request->jmlh_keping_saldo,
             'jumlah_keping' => $request->jumlah_keping,
             'jumlah_box' => $request->jumlah_box,
             'jenis_grade' => $request->jenis_grade,
@@ -126,7 +129,7 @@ class GraddingController extends Controller
     public function update(Request $request, gradding $gradding)
     {
         //Validate data
-        $data = $request->only('user_id', 'adding_id', 'kode_partai', 'no_register','tanggal_proses' ,'jumlah_sbw', 'jumlah_keping', 'jumlah_box', 'jenis_grade', 'kode_transaksi', 'status' );
+        $data = $request->only('user_id', 'adding_id', 'kode_partai', 'no_register','tanggal_proses' ,'jumlah_sbw', 'jmlh_sbw_saldo','jumlah_keping','jmlh_keping_saldo', 'jumlah_box', 'jenis_grade', 'kode_transaksi', 'status' );
 
        // $data = $request->only('user_id', 'adding_id', 'kode_partai','tanggal_proses' ,'jumlah-sbw', 'jenis_grade', 'kode_transaksi', 'status');
         $validator = Validator::make($data, [
@@ -146,6 +149,8 @@ class GraddingController extends Controller
             'tanggal_proses' => $request->tanggal_proses,
             'jumlah_sbw' => $request->jumlah_sbw,
             'jumlah_keping' => $request->jumlah_keping,
+             'jmlh_sbw_saldo' => $request->jmlh_sbw_saldo,
+            'jmlh_keping_saldo' => $request->jmlh_keping_saldo,
             'jumlah_box' => $request->jumlah_box,
             'jenis_grade' => $request->jenis_grade,
             'kode_transaksi' => $request->kode_transaksi,
@@ -166,13 +171,27 @@ class GraddingController extends Controller
      * @param  \App\gradding  $gradding
      * @return \Illuminate\Http\Response
      */
-    public function destroy(gradding $gradding)
+    public function destroy(gradding $gradding, Request $request)
     {
-        $gradding->delete();
-        
-        return response()->json([
-            'success' => true,
-            'message' => 'data  deleted successfully'
-        ], Response::HTTP_OK);
+        $data = $request->get('data');
+        $id = $request->get('id');
+        $getDatas =  mandor::where('kode_transaksi', 'like', "{$data}")
+                        ->first();
+        if ($getDatas == null ){
+            gradding::where('id', 'like', "{$id}")->delete();
+            return response()->json([
+                        'success' => true,
+                        'pesancari' => 'data tidak ditemukan',
+                        'message' => 'data berhasil di hapus'
+                    ], Response::HTTP_OK);
+        }else{
+            return response()->json([
+                        'success' => false,
+                        'pesancari' => 'data  ditemukan',
+                        'message' => 'data tidak dapat dihapus karena sudha di proses'
+
+                    ], Response::HTTP_OK);
+
+        }
     }
 }

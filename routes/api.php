@@ -39,6 +39,8 @@ Route::post('cari-transaksi-dry-pertama',  [ApiController::class, 'searchtransak
 Route::post('cari-transaksi-molding',  [ApiController::class, 'searchtransaksimolding']);
 Route::post('cari-transaksi-dry-kedua',  [ApiController::class, 'searchtransaksidrykedua']);
 Route::get('cari-type',  [LookupController::class, 'searchlookup']);
+Route::post('cari-kode-mandor',  [ApiController::class, 'searchkodemandor']);
+
 
 Route::get('get-all-adding',  [ApiController::class, 'allAdding']);
 Route::get('get-all-gradding',  [ApiController::class, 'allGradding']);
@@ -79,7 +81,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('viewadding/{id}', [AddingController::class, 'show']);
     Route::post('createadding', [AddingController::class, 'store']);
     Route::post('update/{adding}',  [AddingController::class, 'update']);
-    Route::post('delete/{adding}',  [AddingController::class, 'destroy']);
+    Route::post('delete',  [AddingController::class, 'destroy']);
     // end
 
     // service gradding start
@@ -87,15 +89,16 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('viewgradding/{id}', [GraddingController::class, 'show']);
     Route::post('creategradding', [GraddingController::class, 'store']);
     Route::post('updategradding/{gradding}',  [GraddingController::class, 'update']);
-    Route::post('deletegradding/{gradding}',  [GraddingController::class, 'destroy']);
+    Route::post('deletegradding',  [GraddingController::class, 'destroy']);
     // end
 
     // service mandor start
-    Route::get('loadmandor', [MandorController::class, 'index']);
+    Route::post('loadmandor', [MandorController::class, 'index']);
     Route::post('viewgmandor/{id}', [MandorController::class, 'show']);
     Route::post('createmandor', [MandorController::class, 'store']);
     Route::post('updatemandor/{mandor}',  [MandorController::class, 'update']);
     Route::post('deletemandor/{mandor}',  [MandorController::class, 'destroy']);
+    Route::post('deletemandorend',  [MandorController::class, 'destroyend']);
     // end
 
     // service datapekerja start
@@ -107,7 +110,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     // end
 
     // service koreksi start
-    Route::get('loadkoreksi', [KoreksiController::class, 'index']);
+    Route::post('loadkoreksi', [KoreksiController::class, 'index']);
     Route::post('viewkoreksi/{id}', [KoreksiController::class, 'show']);
     Route::post('createkoreksi', [KoreksiController::class, 'store']);
     Route::post('updatekoreksi/{koreksi}',  [KoreksiController::class, 'update']);

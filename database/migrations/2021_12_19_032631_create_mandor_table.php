@@ -20,6 +20,7 @@ class CreateMandorTable extends Migration
             $table->integer('adding_id');
             $table->string('kode_transaksi');
             $table->string('kode_partai');
+            $table->string('kode_mandor');
             $table->string('no_register');
             $table->string('tanggal_proses');
             $table->string('tanggal_selesai');

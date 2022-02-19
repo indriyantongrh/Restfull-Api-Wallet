@@ -363,6 +363,48 @@ class ApiController extends Controller
             }
         }
 
+         public function searchkodemandor(Request $request)
+        {
+            //$adding = $this->adding()->get();
+            $data = $request->get('data');
+            $kodemandor = mandor::where('kode_mandor', 'like', "{$data}")
+                        ->first();
+
+            if($kodemandor){
+                $gradding = gradding::where('id', $kodemandor->gradding_id)->first();
+
+                 return response()->json([
+                    'success' => true,
+                    'message' => 'Data ditemukan',
+                    'data' =>
+                    [
+                        'id' => $kodemandor->id,
+                        'user_id' => $kodemandor->user_id,
+                        'gradding_id' => $kodemandor->gradding_id,
+                        'adding_id' => $kodemandor->adding_id,
+                        'kode_transaksi' => $kodemandor->kode_transaksi,
+                        'kode_partai' => $kodemandor->kode_partai,
+                        'no_register' => $kodemandor->no_register,
+                        'tanggal_proses' => $kodemandor->tanggal_proses,
+                        'jumlah_sbw' => $kodemandor->jumlah_sbw,
+                        'jumlah_box' => $kodemandor->jumlah_box,
+                        'jumlah_keping' => $kodemandor->jumlah_keping,
+                        'nama_pekerja' => $kodemandor->nama_pekerja,
+                        'progres_pekerja' => $kodemandor->progres_pekerja,
+                        'kode_mandor' => $kodemandor->kode_mandor,
+                        'jenis_grade' => $gradding->jenis_grade,
+
+                    ]
+                ], 200);
+
+            }else{
+                 return response()->json([
+                    'success' => false,
+                    'message' => 'Data tidak ditemukan',
+                ], 200);
+            }
+        }
+
         public function searchtransaksikoreksi(Request $request)
         {
             //$adding = $this->adding()->get();
@@ -387,6 +429,12 @@ class ApiController extends Controller
                         'kode_transaksi' => $kodetransaksi->kode_transaksi,
                         'kode_partai' => $kodetransaksi->kode_partai,
                         'no_register' => $kodetransaksi->no_register,
+                        'tanggal_proses' => $kodetransaksi->tanggal_proses,
+                        'jumlah_sbw' => $kodetransaksi->jumlah_sbw,
+                        'jumlah_box' => $kodetransaksi->jumlah_box,
+                        'jumlah_keping' => $kodetransaksi->jumlah_keping,
+                        'progres_koreksi' => $kodetransaksi->progres_koreksi,
+                        'jumlah_pending' => $kodetransaksi->jumlah_pending,
                         'jenis_grade' => $gradding->jenis_grade,
 
                     ]
@@ -399,6 +447,7 @@ class ApiController extends Controller
                 ], 200);
             }
         }
+
 
         public function searchtransaksidrypertama(Request $request)
         {

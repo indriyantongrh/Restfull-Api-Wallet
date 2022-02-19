@@ -25,11 +25,13 @@ class KoreksiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->user
-            ->koreksi()
-            ->get();
+        // return $this->user
+        //     ->koreksi()
+        //     ->get();
+        $data =  $request->get('data');
+        return $this->user->koreksi()->where('progres_koreksi', 'like', "{$data}")->get();
     }
 
     /**
@@ -119,6 +121,7 @@ class KoreksiController extends Controller
 
             return response()->json([
                 'user_id' => $koreksi->user_id,
+                'id' => $koreksi->id,
                 'adding_id' => $koreksi->adding_id,
                 'gradding_id' => $koreksi->gradding_id,
                 'mandor_id' => $koreksi->mandor_id,
@@ -163,8 +166,6 @@ class KoreksiController extends Controller
         $data = $request->only('user_id', 'adding_id', 'gradding_id','mandor_id', 'kode_transaksi', 'kode_partai', 'no_register', 'tanggal_proses', 'jumlah_sbw', 'jumlah_box', 'jumlah_keping', 'progres_koreksi', 'jumlah_pending','status');
         $validator = Validator::make($data, [
         ]);
-
-        
 
         //Send failed response if request is not valid
         if ($validator->fails()) {

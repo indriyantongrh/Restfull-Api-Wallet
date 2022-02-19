@@ -29,6 +29,8 @@ class CreateAddingTable extends Migration
             $table->string('warna');
             $table->string('kondisi');
             $table->string('harga_kulak');
+            $table->string('jumlah_box');
+            $table->string('kadar_air');
             $table->string('status');
             $table->timestamps();
         });

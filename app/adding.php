@@ -23,6 +23,6 @@ class adding extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id', 'user_id', 'no_register','legal_source', 'kode_partai', 'jenis_sbw_kotor', 'tanggal_panen', 'tanggal_penerima', 'alamat', 'no_kendaraan', 'jumlah_sbw_kotor', 'jumlah_pcs', 'warna', 'kondisi', 'grade', 'keputusan', 'status','harga_kulak', 'status_approval' ,'created_at', 'updated_at'];
+    protected $fillable = ['id', 'user_id', 'no_register','legal_source', 'kode_partai', 'jenis_sbw_kotor', 'tanggal_panen', 'tanggal_penerima', 'alamat', 'no_kendaraan', 'jumlah_sbw_kotor','jumlah_box', 'kadar_air','jumlah_pcs', 'warna', 'kondisi', 'grade', 'keputusan', 'status','harga_kulak', 'status_approval' ,'created_at', 'updated_at'];
 
 }

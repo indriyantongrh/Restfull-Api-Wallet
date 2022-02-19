@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\adding;
+use App\gradding;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,7 +60,7 @@ class AddingController extends Controller
 
         
         //Validate data
-        $data = $request->only('user_id', 'no_register', 'kode_partai','legal_source' ,'jenis_sbw_kotor', 'tanggal_panen', 'tanggal_penerima', 'alamat', 'no_kendaraan', 'jumlah_sbw_kotor', 'jumlah_pcs', 'warna', 'kondisi', 'status' , 'harga_kulak' );
+        $data = $request->only('user_id', 'no_register', 'kode_partai','legal_source' ,'jenis_sbw_kotor', 'tanggal_panen', 'tanggal_penerima', 'alamat', 'no_kendaraan','jumlah_box', 'kadar_air', 'jumlah_sbw_kotor', 'jumlah_pcs', 'warna', 'kondisi', 'status' , 'harga_kulak' );
         $validator = Validator::make($data, [
             'no_register' => 'required',
             'kode_partai' => 'required'
@@ -77,6 +78,8 @@ class AddingController extends Controller
             'kode_partai' => $request->kode_partai,
             'legal_source' => $request->legal_source,
             'jenis_sbw_kotor' => $request->jenis_sbw_kotor,
+            'jumlah_box' => $request->jumlah_box,
+            'kadar_air' => $request->kadar_air,
             'tanggal_panen' => $request->tanggal_panen,
             'tanggal_penerima' => $request->tanggal_penerima,
             'alamat' => $request->alamat,
@@ -139,7 +142,7 @@ class AddingController extends Controller
     public function update(Request $request, adding $adding)
     {
         //Validate data
-        $data = $request->only('user_id', 'no_register', 'kode_partai','legal_source', 'jenis_sbw_kotor', 'tanggal_panen', 'tanggal_penerima', 'alamat', 'no_kendaraan', 'jumlah_sbw_kotor', 'jumlah_pcs', 'warna', 'kondisi', 'status', 'harga_kulak');
+        $data = $request->only('user_id', 'no_register', 'kode_partai','legal_source', 'jenis_sbw_kotor', 'tanggal_panen', 'jumlah_box', 'kadar_air',  'tanggal_penerima', 'alamat', 'no_kendaraan', 'jumlah_sbw_kotor', 'jumlah_pcs', 'warna', 'kondisi', 'status', 'harga_kulak');
         $validator = Validator::make($data, [
             
         ]);
@@ -156,6 +159,8 @@ class AddingController extends Controller
             'kode_partai' => $request->kode_partai,
             'legal_source' => $request->legal_source,
             'jenis_sbw_kotor' => $request->jenis_sbw_kotor,
+            'jumlah_box' => $request->jumlah_box,
+            'kadar_air' => $request->kadar_air,
             'tanggal_panen' => $request->tanggal_panen,
             'tanggal_penerima' => $request->tanggal_penerima,
             'alamat' => $request->alamat,
@@ -182,14 +187,28 @@ class AddingController extends Controller
      * @param  \App\adding  $adding
      * @return \Illuminate\Http\Response
      */
-    public function destroy(adding $adding)
+    public function destroy(adding $adding, Request $request)
     {
-        $adding->delete();
-        
-        return response()->json([
-            'success' => true,
-            'message' => 'data  deleted successfully'
-        ], Response::HTTP_OK);
+        $data = $request->get('data');
+        $id = $request->get('id');
+        $gradding =  gradding::where('kode_partai', 'like', "{$data}")
+                        ->first();
+        if ($gradding == null ){
+            adding::where('id', 'like', "{$id}")->delete();
+            return response()->json([
+                        'success' => true,
+                        'pesancari' => 'data tidak ditemukan',
+                        'message' => 'data berhasil di hapus'
+                    ], Response::HTTP_OK);
+        }else{
+            return response()->json([
+                        'success' => false,
+                        'pesancari' => 'data  ditemukan',
+                        'message' => 'data tidak dapat dihapus karena sudha di proses'
+
+                    ], Response::HTTP_OK);
+
+        }
     }
 
   
