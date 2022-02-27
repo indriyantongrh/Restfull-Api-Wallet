@@ -718,4 +718,28 @@ class ApiController extends Controller
         }
         return $mandor;
     }
+
+     public function getCount(Request $request)
+        {
+        $adding = adding::count();
+        $gradding = gradding::count();
+        $mandor = mandor::count();
+        $koreksi = koreksi::count();
+        $drypertama = drypertama::count();
+        $molding = molding::count();
+        $drykedua = drykedua::count();
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => [
+                    'adding' => $adding,
+                    'gradding' => $gradding,
+                    'mandor' => $mandor,
+                    'koreksi' => $koreksi,
+                    'drypertama' => $drypertama,
+                    'molding' => $molding,
+                    'drykedua' => $drykedua
+                ]
+            ], Response::HTTP_OK);
+    }
 }

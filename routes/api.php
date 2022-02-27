@@ -53,9 +53,7 @@ Route::post('view-adding/{id}',  [ApiController::class, 'showadding']);
 Route::post('view-gradding/{id}',  [ApiController::class, 'showgradding']);
 Route::post('view-mandor/{id}',  [ApiController::class, 'showmandor']);
 Route::post('lookup',  [LookupController::class, 'store']);
-
-
-
+Route::post('getCount',  [ApiController::class, 'getCount']);
 
 Route::post('listNama',  [ApiController::class, 'listNama']);
  // service data Users start
