@@ -30,7 +30,7 @@ class AddingController extends Controller
         //     ->adding()
         //     ->get();
 
-        $adding= $this->user->adding()->get();
+        $adding= $this->user->adding()->orderBy('id', 'DESC')->get();
          return response()->json([
           
             'success' => true,

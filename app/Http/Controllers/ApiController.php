@@ -614,6 +614,44 @@ class ApiController extends Controller
                 'data' => $data
             ], Response::HTTP_OK);
     }
+      public function allKoreksi(Request $request)
+        {
+        $data = koreksi::all();
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $data
+            ], Response::HTTP_OK);
+    }
+      public function allDrypertama(Request $request)
+        {
+        $data = drypertama::all();
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $data
+            ], Response::HTTP_OK);
+    }
+
+      public function allMolding(Request $request)
+        {
+        $data = molding::all();
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $data
+            ], Response::HTTP_OK);
+    }
+
+      public function allDrykedua(Request $request)
+        {
+        $data = drykedua::all();
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $data
+            ], Response::HTTP_OK);
+    }
 
      public function allRumahWalet(Request $request)
         {
@@ -683,6 +721,83 @@ class ApiController extends Controller
         }
     }
 
+     public function filterbyDateKoreksi(Request $request){
+        $from = $request->from;
+        $to = $request->to;
+        $filterDate = koreksi::whereBetween('tanggal_proses', [$from , $to])->get();
+          if ($filterDate){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $filterDate
+            ],  200);
+            
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
+    }
+
+     public function filterbyDateDrypertama(Request $request){
+        $from = $request->from;
+        $to = $request->to;
+        $filterDate = drypertama::whereBetween('tanggal_proses', [$from , $to])->get();
+          if ($filterDate){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $filterDate
+            ],  200);
+            
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
+    }
+
+     public function filterbyDateMolding(Request $request){
+        $from = $request->from;
+        $to = $request->to;
+        
+        $filterDate = molding::whereBetween('tanggal_proses', [$from , $to])->get();
+          if ($filterDate){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $filterDate
+            ],  200);
+            
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
+    }
+
+     public function filterbyDateDrykedua(Request $request){
+        $from = $request->from;
+        $to = $request->to;
+        $filterDate = drykedua::whereBetween('tanggal_proses', [$from , $to])->get();
+          if ($filterDate){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $filterDate
+            ],  200);
+            
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
+    }
+
     public function showadding($id)
     {
         $adding = adding::whereId($id)->first();
@@ -719,6 +834,54 @@ class ApiController extends Controller
         return $mandor;
     }
 
+       public function showkoreksi($id)
+    {
+        $data = koreksi::whereId($id)->first();
+        if (!$data) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sorry, data tidak ditemukan.'
+            ], 400);
+        }
+        return $data;
+    }
+
+        public function showdrypertama($id)
+    {
+        $data = drypertama::whereId($id)->first();
+        if (!$data) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sorry, data tidak ditemukan.'
+            ], 400);
+        }
+        return $data;
+    }
+
+    public function showmolding($id)
+    {
+        $data = molding::whereId($id)->first();
+        if (!$data) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sorry, data tidak ditemukan.'
+            ], 400);
+        }
+        return $data;
+    }
+
+    public function showdrykedua($id)
+    {
+        $data = drykedua::whereId($id)->first();
+        if (!$data) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sorry, data tidak ditemukan.'
+            ], 400);
+        }
+        return $data;
+    }
+
      public function getCount(Request $request)
         {
         $adding = adding::count();
@@ -741,5 +904,123 @@ class ApiController extends Controller
                     'drykedua' => $drykedua
                 ]
             ], Response::HTTP_OK);
+    }
+
+     public function filterKodepartaiAdding(Request $request){
+        $data = $request->get('data');
+        $filter = adding::where('kode_partai', 'like', "{$data}")->get();
+          if ($filter){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $filter
+            ],  200);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
+    }
+
+    public function filterKodepartaiGrading(Request $request){
+        $data = $request->get('data');
+        $filter = gradding::where('kode_partai', 'like', "{$data}")->get();
+          if ($filter){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $filter
+            ],  200);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
+    }
+    public function filterKodepartaiMandor(Request $request){
+        $data = $request->get('data');
+        $filter = mandor::where('kode_partai', 'like', "{$data}")->get();
+          if ($filter){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $filter
+            ],  200);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
+    }
+
+     public function filterKodepartaiKoreksi(Request $request){
+        $data = $request->get('data');
+        $filter = koreksi::where('kode_partai', 'like', "{$data}")->get();
+          if ($filter){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $filter
+            ],  200);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
+    }
+
+    public function filterKodepartaiDryPertama(Request $request){
+        $data = $request->get('data');
+        $filter = drypertama::where('kode_partai', 'like', "{$data}")->get();
+          if ($filter){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $filter
+            ],  200);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
+    }
+
+    public function filterKodepartaiMolding(Request $request){
+        $data = $request->get('data');
+        $filter = molding::where('kode_partai', 'like', "{$data}")->get();
+          if ($filter){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $filter
+            ],  200);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
+    }
+
+    public function filterKodepartaiDryKedua(Request $request){
+        $data = $request->get('data');
+        $filter = drykedua::where('kode_partai', 'like', "{$data}")->get();
+          if ($filter){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $filter
+            ],  200);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
     }
 }

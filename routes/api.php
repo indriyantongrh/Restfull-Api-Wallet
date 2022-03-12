@@ -41,20 +41,39 @@ Route::post('cari-transaksi-dry-kedua',  [ApiController::class, 'searchtransaksi
 Route::get('cari-type',  [LookupController::class, 'searchlookup']);
 Route::post('cari-kode-mandor',  [ApiController::class, 'searchkodemandor']);
 
-
+//Get all data
 Route::get('get-all-adding',  [ApiController::class, 'allAdding']);
 Route::get('get-all-gradding',  [ApiController::class, 'allGradding']);
 Route::get('get-all-mandor',  [ApiController::class, 'allMandor']);
+Route::get('get-all-koreksi',  [ApiController::class, 'allKoreksi']);
+Route::get('get-all-drypertama',  [ApiController::class, 'allDrypertama']);
+Route::get('get-all-molding',  [ApiController::class, 'allMolding']);
+Route::get('get-all-drykedua',  [ApiController::class, 'allDrykedua']);
 Route::get('get-all-rumahwalet',  [ApiController::class, 'allRumahWalet']);
+// end
+// Filter by date 
 Route::get('filter-date-adding',  [ApiController::class, 'filterbyDateAdding']);
 Route::get('filter-date-gradding',  [ApiController::class, 'filterbyDateGradding']);
 Route::get('filter-date-mandor',  [ApiController::class, 'filterbyDateMandor']);
+Route::get('filter-date-koreksi',  [ApiController::class, 'filterbyDateKoreksi']);
+Route::get('filter-date-drypertama',  [ApiController::class, 'filterbyDateDrypertama']);
+Route::get('filter-date-drykedua',  [ApiController::class, 'filterbyDateDrykedua']);
+Route::get('filter-date-molding',  [ApiController::class, 'filterbyDateMolding']);
+// end
+// view data 
 Route::post('view-adding/{id}',  [ApiController::class, 'showadding']);
 Route::post('view-gradding/{id}',  [ApiController::class, 'showgradding']);
 Route::post('view-mandor/{id}',  [ApiController::class, 'showmandor']);
+Route::post('view-koreksi/{id}',  [ApiController::class, 'showkoreksi']);
+Route::post('view-drypertama/{id}',  [ApiController::class, 'showdrypertama']);
+Route::post('view-laporanmolding/{id}',  [ApiController::class, 'showmolding']);
+Route::post('view-laporandrykedua/{id}',  [ApiController::class, 'showdrykedua']);
+// end
+// Lookup
 Route::post('lookup',  [LookupController::class, 'store']);
+// getcount
 Route::post('getCount',  [ApiController::class, 'getCount']);
-
+// get all nama pegawai
 Route::post('listNama',  [ApiController::class, 'listNama']);
  // service data Users start
 Route::get('loadUsers', [ApiController::class, 'index']);
@@ -64,8 +83,17 @@ Route::post('updatepassword/{users}',  [ApiController::class, 'updatepassword'])
 Route::post('deleteusers/{users}',  [ApiController::class, 'destroy']);
 Route::post('loadrole',  [ApiController::class, 'indexrole']);
 // end
+// Filter Laporan by Kode Kode Partai
+Route::get('filter-kp-adding',  [ApiController::class, 'filterKodepartaiAdding']);
+Route::get('filter-kp-grading',  [ApiController::class, 'filterKodepartaiGrading']);
+Route::get('filter-kp-mandor',  [ApiController::class, 'filterKodepartaiMandor']);
+Route::get('filter-kp-koreksi',  [ApiController::class, 'filterKodepartaiKoreksi']);
+Route::get('filter-kp-drypertama',  [ApiController::class, 'filterKodepartaiDryPertama']);
+Route::get('filter-kp-molding',  [ApiController::class, 'filterKodepartaiMolding']);
+Route::get('filter-kp-drykedua',  [ApiController::class, 'filterKodepartaiDryKedua']);
 
 
+// Middleware using token JWT
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
