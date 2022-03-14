@@ -140,7 +140,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('viewkoreksi/{id}', [KoreksiController::class, 'show']);
     Route::post('createkoreksi', [KoreksiController::class, 'store']);
     Route::post('updatekoreksi/{koreksi}',  [KoreksiController::class, 'update']);
-    Route::post('deletekoreksi/{koreksi}',  [KoreksiController::class, 'destroy']);
+    Route::post('deletekoreksi',  [KoreksiController::class, 'destroy']);
     // end
 
     // service Dry pertama start
@@ -148,7 +148,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('viewdry-1/{id}', [PengeringPertamaController::class, 'show']);
     Route::post('createdry-1', [PengeringPertamaController::class, 'store']);
     Route::post('updatedry-1/{drypertama}',  [PengeringPertamaController::class, 'update']);
-    Route::post('deletedry-1/{drypertama}',  [PengeringPertamaController::class, 'destroy']);
+    Route::post('deletedry-1',  [PengeringPertamaController::class, 'destroy']);
     // end
 
     // service master rumah walet start
@@ -164,7 +164,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('view-molding/{id}', [MoldingController::class, 'show']);
     Route::post('create-molding', [MoldingController::class, 'store']);
     Route::post('update-molding/{molding}',  [MoldingController::class, 'update']);
-    Route::post('delete-molding/{molding}',  [MoldingController::class, 'destroy']);
+    Route::post('delete-molding',  [MoldingController::class, 'destroy']);
     // end
 
     // service Dry Kedua start

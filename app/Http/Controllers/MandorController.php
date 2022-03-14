@@ -51,7 +51,7 @@ class MandorController extends Controller
     {
 
         //Validate data
-        $data = $request->only('user_id', 'adding_id', 'gradding_id','kode_partai', 'no_register','kode_transaksi', 'tanggal_proses', 'jumlah_sbw','jumlah_box','jumlah_keping', 'nama_pekerja',  'progres_pekerja',  'status','kode_mandor'  );
+        $data = $request->only('user_id', 'adding_id', 'gradding_id','kode_partai', 'no_register','kode_transaksi','nip_pekerja' ,'tanggal_proses', 'jumlah_sbw','jumlah_box','jumlah_keping', 'nama_pekerja',  'progres_pekerja',  'status','kode_mandor'  );
         $validator = Validator::make($data, [
             // 'no_register' => 'required',
             // 'kode_partai' => 'required'
@@ -74,6 +74,8 @@ class MandorController extends Controller
             'jumlah_sbw' => $request->jumlah_sbw,
             'jumlah_box' => $request->jumlah_box,
             'jumlah_keping' => $request->jumlah_keping,
+            
+            'nip_pekerja' => $request->nip_pekerja,
             'nama_pekerja' => $request->nama_pekerja,
             'progres_pekerja' => $request->progres_pekerja,
             'kode_mandor' => $request->kode_mandor,
@@ -123,6 +125,7 @@ class MandorController extends Controller
                 'kode_mandor' => $mandor->kode_mandor,
                 'no_register' => $mandor->no_register,
                 'jenis_grade' => $gradding->jenis_grade,
+                'nip_pekerja' => $mandor->nip_pekerja,
                 'nama_pekerja' => $mandor->nama_pekerja,
                 'tanggal_proses' => $mandor->tanggal_proses,
                 'jumlah_sbw' => $mandor->jumlah_sbw,
@@ -162,7 +165,7 @@ class MandorController extends Controller
     public function update(Request $request, mandor $mandor)
     {
         //Validate data
-        $data = $request->only('user_id', 'adding_id', 'gradding_id','kode_partai', 'no_register','kode_transaksi', 'jumlah_sbw', 'jumlah_box', 'jumlah_keping','tanggal_proses', 'tanggal_selesai','jumlah_sbw_selesai', 'jumlah_box_selesai','jumlah_keping_selesai','nama_pekerja',  'progress_pekerja',  'status'  );
+        $data = $request->only('user_id', 'adding_id', 'gradding_id','kode_partai', 'no_register','kode_transaksi', 'nip_pekerja','jumlah_sbw', 'jumlah_box', 'jumlah_keping','tanggal_proses', 'tanggal_selesai','jumlah_sbw_selesai', 'jumlah_box_selesai','jumlah_keping_selesai','nama_pekerja',  'progress_pekerja',  'status'  );
         $validator = Validator::make($data, [
         ]);
 
@@ -187,6 +190,7 @@ class MandorController extends Controller
             'jumlah_sbw_selesai' => $request->jumlah_sbw_selesai,
             'jumlah_box_selesai' => $request->jumlah_box_selesai,
             'jumlah_keping_selesai' => $request->jumlah_keping_selesai,
+            'nip_pekerja' => $request->nip_pekerja,
             'nama_pekerja' => $request->nama_pekerja,
             'progres_pekerja' => $request->progres_pekerja,
             'status' => $request->status
@@ -293,7 +297,6 @@ class MandorController extends Controller
                         'message' => 'data tidak dapat dihapus karena sudha di proses'
 
                     ], Response::HTTP_OK);
-
         }
     }
 }

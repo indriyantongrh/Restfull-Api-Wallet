@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\gradding;
 use App\molding;
+use App\drykedua;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
@@ -205,13 +206,27 @@ class MoldingController extends Controller
      * @param  \App\gradding  $gradding
      * @return \Illuminate\Http\Response
      */
-    public function destroy(molding $molding)
+    public function destroy(molding $molding, Request $request)
     {
-        $molding->delete();
-        
-        return response()->json([
-            'success' => true,
-            'message' => 'data  deleted successfully'
-        ], Response::HTTP_OK);
+        $data = $request->get('data');
+        $id = $request->get('id');
+        $getDatas =  drykedua::where('kode_transaksi', 'like', "{$data}")
+                        ->first();
+        if ($getDatas == null ){
+            molding::where('id', 'like', "{$id}")->delete();
+            return response()->json([
+                        'success' => true,
+                        'pesancari' => 'data tidak ditemukan',
+                        'message' => 'data berhasil di hapus'
+                    ], Response::HTTP_OK);
+        }else{
+            return response()->json([
+                        'success' => false,
+                        'pesancari' => 'data  ditemukan',
+                        'message' => 'data tidak dapat dihapus karena sudha di proses'
+
+                    ], Response::HTTP_OK);
+
+        }
     }
 }
