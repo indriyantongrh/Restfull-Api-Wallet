@@ -587,17 +587,24 @@ class ApiController extends Controller
 
      public function allAdding(Request $request)
         {
-        $data = adding::all();
+        $data = adding::first()->orderBy('id', 'DESC')->get();
+        $sbwsum = adding::sum('jumlah_sbw_kotor');
+        $pcssum = adding::sum('jumlah_pcs');
+        $boxsum = adding::sum('jumlah_box');
+        $number = 0;
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
-                'data' => $data
+                'sbwTotal' => $sbwsum,
+                'pcsTotal' => $pcssum,
+                'boxTotal' => $boxsum,
+                'data' =>  $data,
             ], Response::HTTP_OK);
     }
 
     public function allGradding(Request $request)
         {
-        $data = gradding::all();
+        $data = gradding::orderBy('id', 'DESC')->get();
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
@@ -607,7 +614,7 @@ class ApiController extends Controller
 
     public function allMandor(Request $request)
         {
-        $data = mandor::all();
+        $data = mandor::orderBy('id', 'DESC')->get();
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
@@ -616,7 +623,7 @@ class ApiController extends Controller
     }
       public function allKoreksi(Request $request)
         {
-        $data = koreksi::all();
+        $data = koreksi::orderBy('id', 'DESC')->get();
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
@@ -625,7 +632,7 @@ class ApiController extends Controller
     }
       public function allDrypertama(Request $request)
         {
-        $data = drypertama::all();
+        $data = drypertama::orderBy('id', 'DESC')->get();
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
@@ -635,7 +642,7 @@ class ApiController extends Controller
 
       public function allMolding(Request $request)
         {
-        $data = molding::all();
+        $data = molding::orderBy('id', 'DESC')->get();
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
@@ -645,7 +652,7 @@ class ApiController extends Controller
 
       public function allDrykedua(Request $request)
         {
-        $data = drykedua::all();
+        $data = drykedua::orderBy('id', 'DESC')->get();
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
@@ -686,7 +693,7 @@ class ApiController extends Controller
     public function filterbyDateGradding(Request $request){
         $from = $request->from;
         $to = $request->to;
-        $filterDate = gradding::whereBetween('tanggal_proses', [$from , $to])->get();
+        $filterDate = gradding::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->get();;
           if ($filterDate){
             return response()->json([
                 'success' => true,
@@ -705,7 +712,7 @@ class ApiController extends Controller
     public function filterbyDateMandor(Request $request){
         $from = $request->from;
         $to = $request->to;
-        $filterDate = mandor::whereBetween('tanggal_proses', [$from , $to])->get();
+        $filterDate = mandor::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->get();
           if ($filterDate){
             return response()->json([
                 'success' => true,
@@ -724,7 +731,7 @@ class ApiController extends Controller
      public function filterbyDateKoreksi(Request $request){
         $from = $request->from;
         $to = $request->to;
-        $filterDate = koreksi::whereBetween('tanggal_proses', [$from , $to])->get();
+        $filterDate = koreksi::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->get();
           if ($filterDate){
             return response()->json([
                 'success' => true,
@@ -743,7 +750,7 @@ class ApiController extends Controller
      public function filterbyDateDrypertama(Request $request){
         $from = $request->from;
         $to = $request->to;
-        $filterDate = drypertama::whereBetween('tanggal_proses', [$from , $to])->get();
+        $filterDate = drypertama::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->get();
           if ($filterDate){
             return response()->json([
                 'success' => true,
@@ -763,7 +770,7 @@ class ApiController extends Controller
         $from = $request->from;
         $to = $request->to;
         
-        $filterDate = molding::whereBetween('tanggal_proses', [$from , $to])->get();
+        $filterDate = molding::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->get();
           if ($filterDate){
             return response()->json([
                 'success' => true,
@@ -782,7 +789,7 @@ class ApiController extends Controller
      public function filterbyDateDrykedua(Request $request){
         $from = $request->from;
         $to = $request->to;
-        $filterDate = drykedua::whereBetween('tanggal_proses', [$from , $to])->get();
+        $filterDate = drykedua::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->get();
           if ($filterDate){
             return response()->json([
                 'success' => true,
@@ -908,7 +915,7 @@ class ApiController extends Controller
 
      public function filterKodepartaiAdding(Request $request){
         $data = $request->get('data');
-        $filter = adding::where('kode_partai', 'like', "{$data}")->get();
+        $filter = adding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->get();
           if ($filter){
             return response()->json([
                 'success' => true,
@@ -925,7 +932,7 @@ class ApiController extends Controller
 
     public function filterKodepartaiGrading(Request $request){
         $data = $request->get('data');
-        $filter = gradding::where('kode_partai', 'like', "{$data}")->get();
+        $filter = gradding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->get();
           if ($filter){
             return response()->json([
                 'success' => true,
@@ -941,7 +948,7 @@ class ApiController extends Controller
     }
     public function filterKodepartaiMandor(Request $request){
         $data = $request->get('data');
-        $filter = mandor::where('kode_partai', 'like', "{$data}")->get();
+        $filter = mandor::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->get();
           if ($filter){
             return response()->json([
                 'success' => true,
@@ -958,7 +965,7 @@ class ApiController extends Controller
 
      public function filterKodepartaiKoreksi(Request $request){
         $data = $request->get('data');
-        $filter = koreksi::where('kode_partai', 'like', "{$data}")->get();
+        $filter = koreksi::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->get();
           if ($filter){
             return response()->json([
                 'success' => true,
@@ -975,7 +982,7 @@ class ApiController extends Controller
 
     public function filterKodepartaiDryPertama(Request $request){
         $data = $request->get('data');
-        $filter = drypertama::where('kode_partai', 'like', "{$data}")->get();
+        $filter = drypertama::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->get();
           if ($filter){
             return response()->json([
                 'success' => true,
@@ -992,7 +999,7 @@ class ApiController extends Controller
 
     public function filterKodepartaiMolding(Request $request){
         $data = $request->get('data');
-        $filter = molding::where('kode_partai', 'like', "{$data}")->get();
+        $filter = molding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->get();
           if ($filter){
             return response()->json([
                 'success' => true,
@@ -1009,7 +1016,7 @@ class ApiController extends Controller
 
     public function filterKodepartaiDryKedua(Request $request){
         $data = $request->get('data');
-        $filter = drykedua::where('kode_partai', 'like', "{$data}")->get();
+        $filter = drykedua::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->get();
           if ($filter){
             return response()->json([
                 'success' => true,

@@ -27,7 +27,7 @@ class DataPekerjaController extends Controller
     {
         return $this->user
             ->datapekerja()
-            ->get();
+            ->orderBy('id', 'DESC')->get();
     }
 
     /**

@@ -27,7 +27,7 @@ class MandorController extends Controller
     public function index(Request $request)
     {
         $data =  $request->get('data');
-          return $this->user->mandor()->where('progres_pekerja', 'like', "{$data}")->get();
+          return $this->user->mandor()->where('progres_pekerja', 'like', "{$data}")->orderBy('id', 'DESC')->get();
         //  return $this->user->mandor()->get();
     }
 

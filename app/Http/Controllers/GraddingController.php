@@ -26,9 +26,7 @@ class GraddingController extends Controller
      */
     public function index()
     {
-        return $this->user
-            ->gradding()
-            ->get();
+        return $this->user->gradding()->orderBy('id', 'DESC')->get();
     }
 
     /**

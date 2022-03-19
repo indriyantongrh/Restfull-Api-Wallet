@@ -28,7 +28,7 @@ class pemanasController extends Controller
     {
         return $this->user
             ->pemanas()
-            ->get();
+            ->orderBy('id', 'DESC')->get();
     }
 
     /**

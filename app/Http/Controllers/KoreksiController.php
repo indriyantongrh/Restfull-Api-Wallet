@@ -32,7 +32,7 @@ class KoreksiController extends Controller
         //     ->koreksi()
         //     ->get();
         $data =  $request->get('data');
-        return $this->user->koreksi()->where('progres_koreksi', 'like', "{$data}")->get();
+        return $this->user->koreksi()->where('progres_koreksi', 'like', "{$data}")->orderBy('id', 'DESC')->get();
     }
 
     /**

@@ -27,7 +27,7 @@ class PengeringKeduaController extends Controller
     {
         return $this->user
             ->drykedua()
-            ->get();
+            ->orderBy('id', 'DESC')->get();
     }
 
     /**

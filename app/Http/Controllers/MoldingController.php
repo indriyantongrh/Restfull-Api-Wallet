@@ -29,7 +29,7 @@ class MoldingController extends Controller
     {
         return $this->user
             ->molding()
-            ->get();
+            ->orderBy('id', 'DESC')->get();
     }
 
     /**

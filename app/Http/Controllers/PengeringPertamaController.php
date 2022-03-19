@@ -30,7 +30,7 @@ class PengeringPertamaController extends Controller
     {
         return $this->user
             ->drypertama()
-            ->get();
+            ->orderBy('id', 'DESC')->get();
     }
 
     /**

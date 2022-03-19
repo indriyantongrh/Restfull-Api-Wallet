@@ -84,13 +84,13 @@ Route::post('deleteusers/{users}',  [ApiController::class, 'destroy']);
 Route::post('loadrole',  [ApiController::class, 'indexrole']);
 // end
 // Filter Laporan by Kode Kode Partai
-Route::get('filter-kp-adding',  [ApiController::class, 'filterKodepartaiAdding']);
-Route::get('filter-kp-grading',  [ApiController::class, 'filterKodepartaiGrading']);
-Route::get('filter-kp-mandor',  [ApiController::class, 'filterKodepartaiMandor']);
-Route::get('filter-kp-koreksi',  [ApiController::class, 'filterKodepartaiKoreksi']);
-Route::get('filter-kp-drypertama',  [ApiController::class, 'filterKodepartaiDryPertama']);
-Route::get('filter-kp-molding',  [ApiController::class, 'filterKodepartaiMolding']);
-Route::get('filter-kp-drykedua',  [ApiController::class, 'filterKodepartaiDryKedua']);
+Route::post('filter-kp-adding',  [ApiController::class, 'filterKodepartaiAdding']);
+Route::post('filter-kp-grading',  [ApiController::class, 'filterKodepartaiGrading']);
+Route::post('filter-kp-mandor',  [ApiController::class, 'filterKodepartaiMandor']);
+Route::post('filter-kp-koreksi',  [ApiController::class, 'filterKodepartaiKoreksi']);
+Route::post('filter-kp-drypertama',  [ApiController::class, 'filterKodepartaiDryPertama']);
+Route::post('filter-kp-molding',  [ApiController::class, 'filterKodepartaiMolding']);
+Route::post('filter-kp-drykedua',  [ApiController::class, 'filterKodepartaiDryKedua']);
 
 
 // Middleware using token JWT

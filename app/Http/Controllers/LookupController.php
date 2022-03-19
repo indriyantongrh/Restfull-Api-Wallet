@@ -50,7 +50,7 @@ class LookupController extends Controller
     //  function get all user
     public function index()
         {
-            return lookup::all();
+            return lookup::orderBy('id', 'DESC')->get();
         }
 
     //  function update user

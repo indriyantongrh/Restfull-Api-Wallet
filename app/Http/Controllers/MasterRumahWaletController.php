@@ -27,7 +27,7 @@ class MasterRumahWaletController extends Controller
     {
         return $this->user
             ->rumahwalet()
-            ->get();
+            ->orderBy('id', 'DESC')->get();
     }
 
     /**
