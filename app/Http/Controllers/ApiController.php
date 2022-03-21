@@ -605,9 +605,15 @@ class ApiController extends Controller
     public function allGradding(Request $request)
         {
         $data = gradding::orderBy('id', 'DESC')->get();
+        $sbwsum = gradding::sum('jumlah_sbw');
+        $pcssum = gradding::sum('jumlah_keping');
+        $boxsum = gradding::sum('jumlah_box');
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
+                'pcsTotal' => $pcssum,
+                'boxTotal' => $boxsum,
                 'data' => $data
             ], Response::HTTP_OK);
     }
@@ -615,27 +621,45 @@ class ApiController extends Controller
     public function allMandor(Request $request)
         {
         $data = mandor::orderBy('id', 'DESC')->get();
+        $sbwsum = mandor::sum('jumlah_sbw');
+        $pcssum = mandor::sum('jumlah_keping');
+        $boxsum = mandor::sum('jumlah_box');
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
+                 'sbwTotal' => $sbwsum,
+                'pcsTotal' => $pcssum,
+                'boxTotal' => $boxsum,
                 'data' => $data
             ], Response::HTTP_OK);
     }
       public function allKoreksi(Request $request)
         {
         $data = koreksi::orderBy('id', 'DESC')->get();
+        $sbwsum = koreksi::sum('jumlah_sbw');
+        $pcssum = koreksi::sum('jumlah_keping');
+        $boxsum = koreksi::sum('jumlah_box');
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
+                'pcsTotal' => $pcssum,
+                'boxTotal' => $boxsum,
                 'data' => $data
             ], Response::HTTP_OK);
     }
       public function allDrypertama(Request $request)
         {
         $data = drypertama::orderBy('id', 'DESC')->get();
+        $sbwsum = drypertama::sum('jumlah_sbw');
+        $pcssum = drypertama::sum('jumlah_keping');
+        $boxsum = drypertama::sum('jumlah_box');
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
+                'pcsTotal' => $pcssum,
+                'boxTotal' => $boxsum,
                 'data' => $data
             ], Response::HTTP_OK);
     }
@@ -643,9 +667,15 @@ class ApiController extends Controller
       public function allMolding(Request $request)
         {
         $data = molding::orderBy('id', 'DESC')->get();
+        $sbwsum = molding::sum('jumlah_sbw');
+        $pcssum = molding::sum('jumlah_keping');
+        $boxsum = molding::sum('jumlah_box');
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
+                'pcsTotal' => $pcssum,
+                'boxTotal' => $boxsum,
                 'data' => $data
             ], Response::HTTP_OK);
     }
@@ -653,9 +683,15 @@ class ApiController extends Controller
       public function allDrykedua(Request $request)
         {
         $data = drykedua::orderBy('id', 'DESC')->get();
+        $sbwsum = drykedua::sum('jumlah_sbw');
+        $pcssum = drykedua::sum('jumlah_keping');
+        $boxsum = drykedua::sum('jumlah_box');
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
+                'pcsTotal' => $pcssum,
+                'boxTotal' => $boxsum,
                 'data' => $data
             ], Response::HTTP_OK);
     }
@@ -674,10 +710,16 @@ class ApiController extends Controller
         $from = $request->from;
         $to = $request->to;
         $filterDate = adding::whereBetween('tanggal_penerima', [$from , $to])->get();
+        $sbwsum = adding::whereBetween('tanggal_penerima', [$from , $to])->sum('jumlah_sbw_kotor');
+        $pcssum = adding::whereBetween('tanggal_penerima', [$from , $to])->sum('jumlah_pcs');
+        $boxsum = adding::whereBetween('tanggal_penerima', [$from , $to])->sum('jumlah_box');
         if ($filterDate){
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
+                'pcsTotal' => $pcssum,
+                'boxTotal' => $boxsum,
                 'data' => $filterDate
             ],  200);
             
@@ -694,10 +736,16 @@ class ApiController extends Controller
         $from = $request->from;
         $to = $request->to;
         $filterDate = gradding::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->get();;
-          if ($filterDate){
+        $sbwsum = gradding::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_sbw');
+        $pcssum = gradding::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_keping');
+        $boxsum = gradding::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_box');
+        if ($filterDate){
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
+                'pcsTotal' => $pcssum,
+                'boxTotal' => $boxsum,
                 'data' => $filterDate
             ],  200);
             
@@ -713,10 +761,16 @@ class ApiController extends Controller
         $from = $request->from;
         $to = $request->to;
         $filterDate = mandor::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->get();
+        $sbwsum = mandor::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_sbw');
+        $pcssum = mandor::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_keping');
+        $boxsum = mandor::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_box');
           if ($filterDate){
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
+                'pcsTotal' => $pcssum,
+                'boxTotal' => $boxsum,
                 'data' => $filterDate
             ],  200);
             
@@ -732,10 +786,16 @@ class ApiController extends Controller
         $from = $request->from;
         $to = $request->to;
         $filterDate = koreksi::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->get();
+         $sbwsum = koreksi::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_sbw');
+        $pcssum = koreksi::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_keping');
+        $boxsum = koreksi::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_box');
           if ($filterDate){
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
+                'pcsTotal' => $pcssum,
+                'boxTotal' => $boxsum,
                 'data' => $filterDate
             ],  200);
             
@@ -751,10 +811,16 @@ class ApiController extends Controller
         $from = $request->from;
         $to = $request->to;
         $filterDate = drypertama::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->get();
+        $sbwsum = drypertama::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_sbw');
+        $pcssum = drypertama::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_keping');
+        $boxsum = drypertama::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_box');
           if ($filterDate){
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
+                'pcsTotal' => $pcssum,
+                'boxTotal' => $boxsum,
                 'data' => $filterDate
             ],  200);
             
@@ -771,10 +837,16 @@ class ApiController extends Controller
         $to = $request->to;
         
         $filterDate = molding::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->get();
+        $sbwsum = molding::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_sbw');
+        $pcssum = molding::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_keping');
+        $boxsum = molding::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_box');
           if ($filterDate){
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
+                 'sbwTotal' => $sbwsum,
+                'pcsTotal' => $pcssum,
+                'boxTotal' => $boxsum,
                 'data' => $filterDate
             ],  200);
             
@@ -790,10 +862,16 @@ class ApiController extends Controller
         $from = $request->from;
         $to = $request->to;
         $filterDate = drykedua::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->get();
-          if ($filterDate){
+        $sbwsum = drykedua::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_sbw');
+        $pcssum = drykedua::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_keping');
+        $boxsum = drykedua::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_box');
+        if ($filterDate){
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
+                'pcsTotal' => $pcssum,
+                'boxTotal' => $boxsum,
                 'data' => $filterDate
             ],  200);
             
@@ -916,10 +994,16 @@ class ApiController extends Controller
      public function filterKodepartaiAdding(Request $request){
         $data = $request->get('data');
         $filter = adding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->get();
+        $sbwsum = adding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_sbw_kotor');
+        $pcssum = adding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_pcs');
+        $boxsum = adding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_box');
           if ($filter){
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
+                'pcsTotal' => $pcssum,
+                'boxTotal' => $boxsum,
                 'data' => $filter
             ],  200);
         }else{
@@ -933,10 +1017,16 @@ class ApiController extends Controller
     public function filterKodepartaiGrading(Request $request){
         $data = $request->get('data');
         $filter = gradding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->get();
-          if ($filter){
+        $sbwsum = gradding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_sbw');
+        $pcssum = gradding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_keping');
+        $boxsum = gradding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_box');
+        if ($filter){
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
+                'pcsTotal' => $pcssum,
+                'boxTotal' => $boxsum,
                 'data' => $filter
             ],  200);
         }else{
@@ -949,10 +1039,16 @@ class ApiController extends Controller
     public function filterKodepartaiMandor(Request $request){
         $data = $request->get('data');
         $filter = mandor::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->get();
+        $sbwsum = mandor::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_sbw');
+        $pcssum = mandor::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_keping');
+        $boxsum = mandor::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_box');
           if ($filter){
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
+                'pcsTotal' => $pcssum,
+                'boxTotal' => $boxsum,
                 'data' => $filter
             ],  200);
         }else{
@@ -966,10 +1062,16 @@ class ApiController extends Controller
      public function filterKodepartaiKoreksi(Request $request){
         $data = $request->get('data');
         $filter = koreksi::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->get();
+        $sbwsum = koreksi::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_sbw');
+        $pcssum = koreksi::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_keping');
+        $boxsum = koreksi::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_box');
           if ($filter){
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
+                'pcsTotal' => $pcssum,
+                'boxTotal' => $boxsum,
                 'data' => $filter
             ],  200);
         }else{
@@ -983,10 +1085,16 @@ class ApiController extends Controller
     public function filterKodepartaiDryPertama(Request $request){
         $data = $request->get('data');
         $filter = drypertama::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->get();
+        $sbwsum = drypertama::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_sbw');
+        $pcssum = drypertama::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_keping');
+        $boxsum = drypertama::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_box');
           if ($filter){
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
+                'pcsTotal' => $pcssum,
+                'boxTotal' => $boxsum,
                 'data' => $filter
             ],  200);
         }else{
@@ -1000,10 +1108,16 @@ class ApiController extends Controller
     public function filterKodepartaiMolding(Request $request){
         $data = $request->get('data');
         $filter = molding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->get();
+        $sbwsum = molding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_sbw');
+        $pcssum = molding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_keping');
+        $boxsum = molding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_box');
           if ($filter){
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
+                'pcsTotal' => $pcssum,
+                'boxTotal' => $boxsum,
                 'data' => $filter
             ],  200);
         }else{
@@ -1017,10 +1131,16 @@ class ApiController extends Controller
     public function filterKodepartaiDryKedua(Request $request){
         $data = $request->get('data');
         $filter = drykedua::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->get();
+        $sbwsum = drykedua::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_sbw');
+        $pcssum = drykedua::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_keping');
+        $boxsum = drykedua::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_box');
           if ($filter){
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
+                'pcsTotal' => $pcssum,
+                'boxTotal' => $boxsum,
                 'data' => $filter
             ],  200);
         }else{
