@@ -38,7 +38,7 @@ Route::post('cari-transaksi-mandor',  [ApiController::class, 'searchmandorselesa
 Route::post('cari-transaksi-dry-pertama',  [ApiController::class, 'searchtransaksidrypertama']);
 Route::post('cari-transaksi-molding',  [ApiController::class, 'searchtransaksimolding']);
 Route::post('cari-transaksi-dry-kedua',  [ApiController::class, 'searchtransaksidrykedua']);
-Route::get('cari-type',  [LookupController::class, 'searchlookup']);
+Route::post('cari-type', [LookupController::class, 'searchlookup']);
 Route::post('cari-kode-mandor',  [ApiController::class, 'searchkodemandor']);
 
 //Get all data
@@ -50,6 +50,8 @@ Route::get('get-all-drypertama',  [ApiController::class, 'allDrypertama']);
 Route::get('get-all-molding',  [ApiController::class, 'allMolding']);
 Route::get('get-all-drykedua',  [ApiController::class, 'allDrykedua']);
 Route::get('get-all-rumahwalet',  [ApiController::class, 'allRumahWalet']);
+Route::get('get-all-stock',  [ApiController::class, 'getLoadDrykedua']);
+
 // end
 // Filter by date 
 Route::get('filter-date-adding',  [ApiController::class, 'filterbyDateAdding']);

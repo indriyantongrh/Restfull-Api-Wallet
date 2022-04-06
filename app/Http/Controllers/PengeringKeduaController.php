@@ -50,7 +50,7 @@ class PengeringKeduaController extends Controller
     {
 
         //Validate data
-        $data = $request->only('user_id', 'adding_id','mandor_id', 'gradding_id','koreksi_id', 'dry_pertama_id', 'molding_id','kode_partai','no_register', 'tanggal_proses', 'jumlah_sbw','jumlah_keping', 'jumlah_box', 'kode_transaksi', 'status');
+        $data = $request->only('user_id', 'adding_id','mandor_id', 'gradding_id','koreksi_id', 'dry_pertama_id', 'molding_id','kode_partai','no_register', 'tanggal_proses', 'jumlah_sbw','jumlah_keping', 'jumlah_box', 'kode_transaksi','jumlah_sbw_saldo','jumlah_box_saldo','jumlah_keping_saldo', 'status');
         $kode_transaksiExist = drykedua::where('kode_transaksi', '=', $request->input('kode_transaksi'))->first();
         $validator = Validator::make($data, [
             // 'no_register' => 'required',
@@ -79,6 +79,9 @@ class PengeringKeduaController extends Controller
                 'jumlah_sbw' => $request->jumlah_sbw,
                 'jumlah_box' => $request->jumlah_box,
                 'jumlah_keping' => $request->jumlah_keping,
+                'jumlah_sbw_saldo' => $request->jumlah_sbw_saldo,
+                'jumlah_box_saldo' => $request->jumlah_box_saldo,
+                'jumlah_keping_saldo' => $request->jumlah_keping_saldo,
                 'status' => $request->status
             ]);
 

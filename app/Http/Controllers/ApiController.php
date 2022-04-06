@@ -525,7 +525,7 @@ class ApiController extends Controller
             }
         }
 
-          public function searchtransaksidrykedua(Request $request)
+        public function searchtransaksidrykedua(Request $request)
         {
             //$adding = $this->adding()->get();
             $data = $request->get('data');
@@ -549,6 +549,9 @@ class ApiController extends Controller
                         'molding_id' => $kodetransaksi->molding_id,
                         'kode_transaksi' => $kodetransaksi->kode_transaksi,
                         'kode_partai' => $kodetransaksi->kode_partai,
+                        'jumlah_sbw_saldo' => $kodetransaksi->jumlah_sbw_saldo,
+                        'jumlah_box_saldo' => $kodetransaksi->jumlah_box_saldo,
+                        'jumlah_keping_saldo' => $kodetransaksi->jumlah_keping_saldo,
                         'no_register' => $kodetransaksi->no_register,
                         'jenis_grade' => $gradding->jenis_grade,
 
@@ -562,6 +565,8 @@ class ApiController extends Controller
                 ], 200);
             }
         }
+
+        
 
     public function get_user()
     {
@@ -1149,5 +1154,9 @@ class ApiController extends Controller
                 'message' => 'Data Kosong',
             ],  200);
         }
+    }
+
+    public function getLoadDrykedua(){
+        return drykedua::orderBy('id', 'DESC')->get();
     }
 }

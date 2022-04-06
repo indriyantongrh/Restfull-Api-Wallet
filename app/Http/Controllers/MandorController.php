@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\mandor;
 use App\gradding;
+use App\koreksi;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
@@ -270,11 +271,11 @@ class MandorController extends Controller
 
         $data = $request->get('data');
         $id = $request->get('id');
-        $getDatas =  mandor::where('kode_transaksi', 'like', "{$data}")
+        $getDatas =  koreksi::where('kode_transaksi', 'like', "{$data}")
                         ->first();
         if ($getDatas == null ){
             // $data = $request->only('user_id', 'adding_id', 'gradding_id','kode_partai', 'no_register','kode_transaksi', 'tanggal_proses', 'jumlah_sbw','jumlah_box','jumlah_keping', 'nama_pekerja',  'progres_pekerja',  'status'   );
-            $mandorGet = $this->user->mandor()->find($id)->first();
+            $mandorGet = $this->user->mandor()->where('id',$id)->first();
             $jumlahsaldo = $mandorGet->jumlah_sbw;
             $kepingsaldo = $mandorGet->jumlah_keping;
             $idgrading = $mandorGet->gradding_id;
@@ -284,11 +285,21 @@ class MandorController extends Controller
             $gradding->jmlh_keping_saldo = ($gradding->jmlh_keping_saldo + $kepingsaldo);
             $gradding->update();
 
-            $mandor->delete();
+
+             $mandor->where('id',$id)->delete();
             return response()->json([
                         'success' => true,
                         'pesancari' => 'data tidak ditemukan',
-                        'message' => 'data berhasil di hapus'
+                        'message' => 'data berhasil di hapus',
+                        'TES' => [
+                            'mandor get' => $mandorGet,
+                            'jumlahsaldo' => $jumlahsaldo,
+                            'kepingsaldo' => $kepingsaldo,
+                            'id asli' => $idgrading,
+                            'id grad' => $gradding,
+                           
+                        ]
+
                     ], Response::HTTP_OK);
         }else{
             return response()->json([
