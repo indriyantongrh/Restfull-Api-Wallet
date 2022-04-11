@@ -100,4 +100,8 @@ class User extends Authenticatable implements JWTSubject
         {
             return $this->hasMany(pemanas::class);
         }
+        public function gradingakhir()
+        {
+            return $this->hasMany(gradingakhir::class);
+        }
 }

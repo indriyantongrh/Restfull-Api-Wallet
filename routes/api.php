@@ -15,6 +15,7 @@ use App\Http\Controllers\MoldingController;
 use App\Http\Controllers\PengeringKeduaController;
 use App\Http\Controllers\pemanasController;
 use App\Http\Controllers\LookupController;
+use App\Http\Controllers\GradingAkhirController;
 
 
 /*
@@ -93,7 +94,14 @@ Route::post('filter-kp-koreksi',  [ApiController::class, 'filterKodepartaiKoreks
 Route::post('filter-kp-drypertama',  [ApiController::class, 'filterKodepartaiDryPertama']);
 Route::post('filter-kp-molding',  [ApiController::class, 'filterKodepartaiMolding']);
 Route::post('filter-kp-drykedua',  [ApiController::class, 'filterKodepartaiDryKedua']);
+// End
+// Penjumlahan grade akhir
 
+Route::post('kurangi-stock-ga',  [ApiController::class, 'kurangistock']);
+Route::post('restore-stock-ga',  [ApiController::class, 'restorestock']);
+
+
+// End
 
 // Middleware using token JWT
 Route::middleware('auth:api')->get('/user', function (Request $request) {
@@ -192,4 +200,9 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('update-lookup/{id}',  [LookupController::class, 'update']);
     Route::post('delete-lookup/{id}',  [LookupController::class, 'destroy']);
     // end
+
+    Route::post('post-grading-akhir',  [GradingAkhirController::class, 'storeInsert']);
+    Route::get('load-ga', [GradingAkhirController::class, 'index']);
+
+
 });
