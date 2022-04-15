@@ -83,7 +83,8 @@ class MandorController extends Controller
             'status' => $request->status
         ]);
 
-        $gradding = gradding::find($request->gradding_id);
+        // $gradding = gradding::find($request->gradding_id);
+        $gradding = gradding::where('id', 'like', "{$request->gradding_id}")->first();
         $gradding->jmlh_sbw_saldo = ($gradding->jmlh_sbw_saldo - $request->jumlah_sbw);
         $gradding->jmlh_keping_saldo = ($gradding->jmlh_keping_saldo - $request->jumlah_keping);
         $gradding->update();
@@ -200,7 +201,7 @@ class MandorController extends Controller
         //Product updated, return success response
         return response()->json([
             'success' => true,
-            'message' => 'data adding updated successfully',
+            'message' => 'data Mandor updated successfully',
             'data' => $mandor
         ], Response::HTTP_OK);
     }
@@ -218,18 +219,25 @@ class MandorController extends Controller
             $kepingsaldo = $mandorGet->jumlah_keping;
             $idgrading = $mandorGet->gradding_id;
 
-            $gradding = gradding::find($idgrading);
+            // $gradding = gradding::find($idgrading);
+            $gradding = gradding::where('id', 'like', "{$idgrading}")->first();
             $gradding->jmlh_sbw_saldo = ($gradding->jmlh_sbw_saldo + $jumlahsaldo);
             $gradding->jmlh_keping_saldo = ($gradding->jmlh_keping_saldo + $kepingsaldo);
             $gradding->update();
 
-            $mandor->delete();
+             $mandor->delete();
+            
 
         return response()->json([
             'success' => true,
             'message' => 'data  deleted successfully',
-            'datass' => $jumlahsaldo,
-            'data' => $idgrading
+            'mandorid' => $mandorGet,
+            'jmlhsaldo' => $jumlahsaldo,
+            'kepingsalso' => $kepingsaldo,
+            'idgrading' => $idgrading,
+            'gradding' => $gradding,
+            'data' => $jumlahsaldo,
+            'data' => $jumlahsaldo,
         ], Response::HTTP_OK);
 
         // $data = $request->get('data');
@@ -280,7 +288,9 @@ class MandorController extends Controller
             $kepingsaldo = $mandorGet->jumlah_keping;
             $idgrading = $mandorGet->gradding_id;
 
-            $gradding = gradding::find($idgrading);
+            // $gradding = gradding::find($idgrading);
+            $gradding = gradding::where('id', 'like', "{$idgrading}")->first();
+
             $gradding->jmlh_sbw_saldo = ($gradding->jmlh_sbw_saldo + $jumlahsaldo);
             $gradding->jmlh_keping_saldo = ($gradding->jmlh_keping_saldo + $kepingsaldo);
             $gradding->update();
