@@ -29,6 +29,9 @@ class CreateDryingKeduaTable extends Migration
             $table->string('jumlah_sbw');
             $table->string('jumlah_box');
             $table->string('jumlah_keping');
+             $table->string('jumlah_sbw_saldo');
+            $table->string('jumlah_box_saldo');
+            $table->string('jumlah_keping_saldo');
             $table->string('status');
             $table->timestamps();
         });
