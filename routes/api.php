@@ -41,6 +41,7 @@ Route::post('cari-transaksi-molding',  [ApiController::class, 'searchtransaksimo
 Route::post('cari-transaksi-dry-kedua',  [ApiController::class, 'searchtransaksidrykedua']);
 Route::post('cari-type', [LookupController::class, 'searchlookup']);
 Route::post('cari-kode-mandor',  [ApiController::class, 'searchkodemandor']);
+Route::post('cari-gradeakhir',  [ApiController::class, 'searchtransaksigradeakhir']);
 
 //Get all data
 Route::get('get-all-adding',  [ApiController::class, 'allAdding']);
@@ -52,6 +53,7 @@ Route::get('get-all-molding',  [ApiController::class, 'allMolding']);
 Route::get('get-all-drykedua',  [ApiController::class, 'allDrykedua']);
 Route::get('get-all-rumahwalet',  [ApiController::class, 'allRumahWalet']);
 Route::get('get-all-stock',  [ApiController::class, 'getLoadDrykedua']);
+Route::get('get-all-gradeakhir',  [ApiController::class, 'allGradAkhir']);
 
 // end
 // Filter by date 
@@ -62,6 +64,8 @@ Route::get('filter-date-koreksi',  [ApiController::class, 'filterbyDateKoreksi']
 Route::get('filter-date-drypertama',  [ApiController::class, 'filterbyDateDrypertama']);
 Route::get('filter-date-drykedua',  [ApiController::class, 'filterbyDateDrykedua']);
 Route::get('filter-date-molding',  [ApiController::class, 'filterbyDateMolding']);
+Route::get('filter-date-gradeakhir',  [ApiController::class, 'filterbyDateGradingakhir']);
+
 // end
 // view data 
 Route::post('view-adding/{id}',  [ApiController::class, 'showadding']);
@@ -94,6 +98,8 @@ Route::post('filter-kp-koreksi',  [ApiController::class, 'filterKodepartaiKoreks
 Route::post('filter-kp-drypertama',  [ApiController::class, 'filterKodepartaiDryPertama']);
 Route::post('filter-kp-molding',  [ApiController::class, 'filterKodepartaiMolding']);
 Route::post('filter-kp-drykedua',  [ApiController::class, 'filterKodepartaiDryKedua']);
+Route::post('filter-kp-gradeakhir',  [ApiController::class, 'filterKodepartaiGradeakhir']);
+
 // End
 // Penjumlahan grade akhir
 

@@ -15,6 +15,7 @@ use App\rumahwalet;
 use App\drypertama;
 use App\drykedua;
 use App\molding;
+use App\gradingakhir;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
@@ -566,7 +567,47 @@ class ApiController extends Controller
             }
         }
 
-        
+        public function searchtransaksigradeakhir(Request $request)
+        {
+            //$adding = $this->adding()->get();
+            $data = $request->get('data');
+            $kodetransaksi = gradingakhir::where('kode_transaksi_grading', 'like', "{$data}")
+                        ->first();
+            if($kodetransaksi){
+                // $gradding = gradding::where('id', $drykedua->gradding_id)->first();
+                $drykeduas = drykedua::where('id', $kodetransaksi->id_dry_kedua)->first();
+
+                 return response()->json([
+                    'success' => true,
+                    'message' => 'Data ditemukan',
+                    'data' =>
+                    [
+                        'id' => $kodetransaksi->id,
+                        'user_id' => $kodetransaksi->user_id,
+                        'gradding_id' => $drykeduas->gradding_id,
+                        'adding_id' => $drykeduas->adding_id,
+                        'mandor_id' => $drykeduas->mandor_id,
+                        'koreksi_id' => $drykeduas->koreksi_id,
+                        'dry_pertama_id' => $drykeduas->dry_pertama_id,
+                        'molding_id' => $drykeduas->molding_id,
+                        'id_dry_kedua' => $kodetransaksi->id_dry_kedua,
+                        'kode_transaksi' => $kodetransaksi->kode_transaksi,
+                        'kode_partai' => $kodetransaksi->kode_partai,
+                        'jumlah_sbw_grading' => $kodetransaksi->jumlah_sbw_grading,
+                        'jumlah_keping_saldo' => $kodetransaksi->jumlah_keping_saldo,
+                        'kode_register' => $kodetransaksi->kode_register,
+                        'created_at' => $kodetransaksi->created_at,
+
+                    ]
+                ], 200);
+
+            }else{
+                 return response()->json([
+                    'success' => false,
+                    'message' => 'Data tidak ditemukan',
+                ], 200);
+            }
+        }
 
     public function get_user()
     {
@@ -697,6 +738,20 @@ class ApiController extends Controller
                 'sbwTotal' => $sbwsum,
                 'pcsTotal' => $pcssum,
                 'boxTotal' => $boxsum,
+                'data' => $data
+            ], Response::HTTP_OK);
+    }
+
+    public function allGradAkhir(Request $request)
+        {
+        $data = gradingakhir::orderBy('id', 'DESC')->get();
+        $sbwsum = gradingakhir::sum('jumlah_sbw_grading');
+       
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
+             
                 'data' => $data
             ], Response::HTTP_OK);
     }
@@ -877,6 +932,31 @@ class ApiController extends Controller
                 'sbwTotal' => $sbwsum,
                 'pcsTotal' => $pcssum,
                 'boxTotal' => $boxsum,
+                'data' => $filterDate
+            ],  200);
+            
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
+    }
+
+    public function filterbyDateGradingakhir(Request $request){
+        $from = $request->from;
+        $to = $request->to;
+        $filterDate = gradingakhir::whereBetween('created_at', [$from , $to])->orderBy('id', 'DESC')->get();
+        $sbwsum = gradingakhir::whereBetween('created_at', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_sbw_grading');
+        // $pcssum = drykedua::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_keping');
+        // $boxsum = drykedua::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_box');
+        if ($filterDate){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
+                // 'pcsTotal' => $pcssum,
+                // 'boxTotal' => $boxsum,
                 'data' => $filterDate
             ],  200);
             
@@ -1146,6 +1226,29 @@ class ApiController extends Controller
                 'sbwTotal' => $sbwsum,
                 'pcsTotal' => $pcssum,
                 'boxTotal' => $boxsum,
+                'data' => $filter
+            ],  200);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
+    }
+
+    public function filterKodepartaiGradeakhir(Request $request){
+        $data = $request->get('data');
+        $filter = gradingakhir::where('kode_transaksi_grading', 'like', "{$data}")->orderBy('id', 'DESC')->get();
+        $sbwsum = gradingakhir::where('kode_transaksi_grading', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_sbw_grading');
+        // $pcssum = drykedua::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_keping');
+        // $boxsum = drykedua::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_box');
+          if ($filter){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
+                // 'pcsTotal' => $pcssum,
+                // 'boxTotal' => $boxsum,
                 'data' => $filter
             ],  200);
         }else{
