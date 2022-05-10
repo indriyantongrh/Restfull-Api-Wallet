@@ -23,6 +23,7 @@ class CreateTransaksiDataGradingAkhir extends Migration
             $table->string('kode_partai');
             $table->string('jumlah_saldo');
             $table->string('jumlah_sbw_grading');
+            $table->string('jumlah_pcs');
             $table->string('id_jenis_garding');
             $table->string('name_jenis_garding');
             $table->timestamps();
