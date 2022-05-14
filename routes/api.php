@@ -75,6 +75,8 @@ Route::post('view-koreksi/{id}',  [ApiController::class, 'showkoreksi']);
 Route::post('view-drypertama/{id}',  [ApiController::class, 'showdrypertama']);
 Route::post('view-laporanmolding/{id}',  [ApiController::class, 'showmolding']);
 Route::post('view-laporandrykedua/{id}',  [ApiController::class, 'showdrykedua']);
+Route::post('view-showgradingakhir/{id}',  [ApiController::class, 'showgradingakhir']);
+
 // end
 // Lookup
 Route::post('lookup',  [LookupController::class, 'store']);

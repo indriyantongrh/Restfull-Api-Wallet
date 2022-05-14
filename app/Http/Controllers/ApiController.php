@@ -1099,6 +1099,18 @@ class ApiController extends Controller
         }
     }
 
+    public function showgradingakhir($id)
+        {
+            $data = gradingakhir::whereId($id)->first();
+            if (!$data) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Sorry, data tidak ditemukan.'
+                ], 400);
+            }
+            return $data;
+        }
+
     public function filterKodepartaiGrading(Request $request){
         $data = $request->get('data');
         $filter = gradding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->get();
