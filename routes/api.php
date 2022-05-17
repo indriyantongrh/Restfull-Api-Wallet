@@ -42,6 +42,8 @@ Route::post('cari-transaksi-dry-kedua',  [ApiController::class, 'searchtransaksi
 Route::post('cari-type', [LookupController::class, 'searchlookup']);
 Route::post('cari-kode-mandor',  [ApiController::class, 'searchkodemandor']);
 Route::post('cari-gradeakhir',  [ApiController::class, 'searchtransaksigradeakhir']);
+Route::post('filter-jenis-gradeakhir',  [ApiController::class, 'filterJenisGradeakhir']);
+
 
 //Get all data
 Route::get('get-all-adding',  [ApiController::class, 'allAdding']);
