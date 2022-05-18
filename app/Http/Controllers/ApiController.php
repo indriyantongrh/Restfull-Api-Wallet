@@ -1061,6 +1061,8 @@ class ApiController extends Controller
         $drypertama = drypertama::count();
         $molding = molding::count();
         $drykedua = drykedua::count();
+        $gradingakhir = gradingakhir::count();
+        // $kartustock = drykedua::count();
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
@@ -1071,7 +1073,9 @@ class ApiController extends Controller
                     'koreksi' => $koreksi,
                     'drypertama' => $drypertama,
                     'molding' => $molding,
-                    'drykedua' => $drykedua
+                    'drykedua' => $drykedua,
+                    'gradingakhir' => $gradingakhir,
+                    'kartustock' => $gradingakhir
                 ]
             ], Response::HTTP_OK);
     }
