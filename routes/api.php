@@ -16,6 +16,7 @@ use App\Http\Controllers\PengeringKeduaController;
 use App\Http\Controllers\pemanasController;
 use App\Http\Controllers\LookupController;
 use App\Http\Controllers\GradingAkhirController;
+use App\Http\Controllers\packingController;
 
 
 /*
@@ -42,6 +43,9 @@ Route::post('cari-transaksi-dry-kedua',  [ApiController::class, 'searchtransaksi
 Route::post('cari-type', [LookupController::class, 'searchlookup']);
 Route::post('cari-kode-mandor',  [ApiController::class, 'searchkodemandor']);
 Route::post('cari-gradeakhir',  [ApiController::class, 'searchtransaksigradeakhir']);
+Route::post('cari-gradingakhir',  [ApiController::class, 'searchGradingAkhir']);
+Route::post('cari-ga-streaming',  [ApiController::class, 'searchKodeGAStreaming']);
+Route::post('cari-ga-packing',  [ApiController::class, 'searchKodeGAPacking']);
 Route::post('filter-jenis-gradeakhir',  [ApiController::class, 'filterJenisGradeakhir']);
 
 
@@ -56,6 +60,8 @@ Route::get('get-all-drykedua',  [ApiController::class, 'allDrykedua']);
 Route::get('get-all-rumahwalet',  [ApiController::class, 'allRumahWalet']);
 Route::get('get-all-stock',  [ApiController::class, 'getLoadDrykedua']);
 Route::get('get-all-gradeakhir',  [ApiController::class, 'allGradAkhir']);
+Route::get('get-all-streaming',  [ApiController::class, 'allStreaming']);
+Route::get('get-all-packing',  [ApiController::class, 'allPacking']);
 
 // end
 // Filter by date 
@@ -67,6 +73,8 @@ Route::get('filter-date-drypertama',  [ApiController::class, 'filterbyDateDryper
 Route::get('filter-date-drykedua',  [ApiController::class, 'filterbyDateDrykedua']);
 Route::get('filter-date-molding',  [ApiController::class, 'filterbyDateMolding']);
 Route::get('filter-date-gradeakhir',  [ApiController::class, 'filterbyDateGradingakhir']);
+Route::get('filter-date-streaming',  [ApiController::class, 'filterbyDateStreaming']);
+Route::get('filter-date-packing',  [ApiController::class, 'filterbyDatePacking']);
 
 // end
 // view data 
@@ -78,6 +86,8 @@ Route::post('view-drypertama/{id}',  [ApiController::class, 'showdrypertama']);
 Route::post('view-laporanmolding/{id}',  [ApiController::class, 'showmolding']);
 Route::post('view-laporandrykedua/{id}',  [ApiController::class, 'showdrykedua']);
 Route::post('view-showgradingakhir/{id}',  [ApiController::class, 'showgradingakhir']);
+Route::post('view-showstreaming/{id}',  [ApiController::class, 'showstreaming']);
+Route::post('view-showpacking/{id}',  [ApiController::class, 'showpacking']);
 
 // end
 // Lookup
@@ -201,6 +211,14 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('create-pemanas', [pemanasController::class, 'store']);
     Route::post('update-pemanas/{pemanas}',  [pemanasController::class, 'update']);
     Route::post('delete-pemanas/{pemanas}',  [pemanasController::class, 'destroy']);
+    // end
+
+    // service Packing start
+    Route::get('load-packing', [packingController::class, 'index']);
+    Route::post('view-packing/{id}', [packingController::class, 'show']);
+    Route::post('create-packing', [packingController::class, 'store']);
+    Route::post('update-packing/{packing}',  [packingController::class, 'update']);
+    Route::post('delete-packing/{packing}',  [packingController::class, 'destroy']);
     // end
 
         // service datapekerja start

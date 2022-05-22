@@ -104,4 +104,8 @@ class User extends Authenticatable implements JWTSubject
         {
             return $this->hasMany(gradingakhir::class);
         }
+        public function packing()
+        {
+            return $this->hasMany(packing::class);
+        }
 }

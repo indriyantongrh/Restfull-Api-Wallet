@@ -69,7 +69,6 @@ class GradingAkhirController extends Controller
 
     public function storeInsert(Request $request)
     {
-       
         $data= $request->get('data');
         $response =  gradingakhir::insert(json_decode($data, true)); // Eloquent approach
          return response()->json([
@@ -77,6 +76,42 @@ class GradingAkhirController extends Controller
             'success' => true,
             'message' => 'Data berhasil ditambah!',
             'data' => $data
+        ], Response::HTTP_OK);
+        // $data= $request->get('data');
+        // $response =  gradingakhir::insert(json_decode($data, true)); // Eloquent approach
+        //  return response()->json([;
+        //     'code' => 1,
+        //     'success' => true,
+        //     'message' => 'Data berhasil ditambah!',
+        //     'data' => $data
+        // ], Response::HTTP_OK);
+    }
+     public function destroy(dryedua $dryedua,  Request $request)
+    {
+            $getData = $this->user->mandor()->find($dryedua)->first();
+            $jumlahsaldo = $getData->jumlah_sbw;
+            $kepingsaldo = $getData->jumlah_keping;
+            $idgrading = $getData->gradding_id;
+
+            // $gradding = gradding::find($idgrading);
+            $gradding = gradding::where('id', 'like', "{$idgrading}")->first();
+            $gradding->jmlh_sbw_saldo = ($gradding->jmlh_sbw_saldo + $jumlahsaldo);
+            $gradding->jmlh_keping_saldo = ($gradding->jmlh_keping_saldo + $kepingsaldo);
+            $gradding->update();
+
+             $mandor->delete();
+            
+
+        return response()->json([
+            'success' => true,
+            'message' => 'data  deleted successfully',
+            'mandorid' => $mandorGet,
+            'jmlhsaldo' => $jumlahsaldo,
+            'kepingsalso' => $kepingsaldo,
+            'idgrading' => $idgrading,
+            'gradding' => $gradding,
+            'data' => $jumlahsaldo,
+            'data' => $jumlahsaldo,
         ], Response::HTTP_OK);
     }
 

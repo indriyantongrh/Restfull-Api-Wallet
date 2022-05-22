@@ -16,6 +16,8 @@ use App\drypertama;
 use App\drykedua;
 use App\molding;
 use App\gradingakhir;
+use App\pemanas;
+use App\packing;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
@@ -609,6 +611,81 @@ class ApiController extends Controller
             }
         }
 
+        public function searchGradingAkhir(Request $request)
+        {
+            //$adding = $this->adding()->get();
+            $data = $request->get('data');
+            $kodetransaksi = gradingakhir::where('kode_transaksi_grading', 'like', "{$data}")
+                        ->get();
+            if(!$kodetransaksi){
+                // $gradding = gradding::where('id', $drykedua->gradding_id)->first();
+                // $drykeduas = drykedua::where('id', $kodetransaksi->id_dry_kedua)->first();
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Data Kosong',
+                ], 200);
+              
+
+            }else{
+                   return response()->json([
+                    'success' => true,
+                    'message' => 'Data ditemukan',
+                    'data' => $kodetransaksi
+                ], 200);
+                
+            }
+        }
+
+        public function searchKodeGAStreaming(Request $request)
+        {
+            //$adding = $this->adding()->get();
+            $data = $request->get('data');
+            $kodetransaksi = pemanas::where('kode_transaksi_grading', 'like', "{$data}")
+                        ->get();
+            if(!$kodetransaksi){
+                // $gradding = gradding::where('id', $drykedua->gradding_id)->first();
+                // $drykeduas = drykedua::where('id', $kodetransaksi->id_dry_kedua)->first();
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Data Kosong',
+                ], 200);
+              
+
+            }else{
+                   return response()->json([
+                    'success' => true,
+                    'message' => 'Data ditemukan',
+                    'data' => $kodetransaksi
+                ], 200);
+                
+            }
+        }
+
+        public function searchKodeGAPacking(Request $request)
+        {
+            //$adding = $this->adding()->get();
+            $data = $request->get('data');
+            $kodetransaksi = packing::where('kode_transaksi_grading', 'like', "{$data}")
+                        ->get();
+            if(!$kodetransaksi){
+                // $gradding = gradding::where('id', $drykedua->gradding_id)->first();
+                // $drykeduas = drykedua::where('id', $kodetransaksi->id_dry_kedua)->first();
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Data Kosong',
+                ], 200);
+              
+
+            }else{
+                   return response()->json([
+                    'success' => true,
+                    'message' => 'Data ditemukan',
+                    'data' => $kodetransaksi
+                ], 200);
+                
+            }
+        }
+
     public function get_user()
     {
         // $this->validate($request, [
@@ -752,6 +829,31 @@ class ApiController extends Controller
                 'message' => 'Data ditemukan',
                 'sbwTotal' => $sbwsum,
              
+                'data' => $data
+            ], Response::HTTP_OK);
+    }
+     public function allStreaming(Request $request)
+        {
+        $data = pemanas::orderBy('id', 'DESC')->get();
+        // $sbwsum = pemanas::sum('jumlah_sbw_grading');
+       
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                // 'sbwTotal' => $sbwsum,
+                'data' => $data
+            ], Response::HTTP_OK);
+    }
+
+    public function allPacking(Request $request)
+        {
+        $data = packing::orderBy('id', 'DESC')->get();
+        // $sbwsum = pemanas::sum('jumlah_sbw_grading');
+       
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                // 'sbwTotal' => $sbwsum,
                 'data' => $data
             ], Response::HTTP_OK);
     }
@@ -968,6 +1070,56 @@ class ApiController extends Controller
         }
     }
 
+    public function filterbyDateStreaming(Request $request){
+        $from = $request->from;
+        $to = $request->to;
+        $filterDate = pemanas::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->get();
+        // $sbwsum = gradingakhir::whereBetween('created_at', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_sbw_grading');
+        // $pcssum = drykedua::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_keping');
+        // $boxsum = drykedua::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_box');
+        if ($filterDate){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                // 'sbwTotal' => $sbwsum,
+                // 'pcsTotal' => $pcssum,
+                // 'boxTotal' => $boxsum,
+                'data' => $filterDate
+            ],  200);
+            
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
+    }
+
+    public function filterbyDatePacking(Request $request){
+        $from = $request->from;
+        $to = $request->to;
+        $filterDate = packing::whereBetween('tanggal_packing', [$from , $to])->orderBy('id', 'DESC')->get();
+        // $sbwsum = gradingakhir::whereBetween('created_at', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_sbw_grading');
+        // $pcssum = drykedua::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_keping');
+        // $boxsum = drykedua::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_box');
+        if ($filterDate){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                // 'sbwTotal' => $sbwsum,
+                // 'pcsTotal' => $pcssum,
+                // 'boxTotal' => $boxsum,
+                'data' => $filterDate
+            ],  200);
+            
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
+    }
+
     public function showadding($id)
     {
         $adding = adding::whereId($id)->first();
@@ -1106,6 +1258,29 @@ class ApiController extends Controller
     public function showgradingakhir($id)
         {
             $data = gradingakhir::whereId($id)->first();
+            if (!$data) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Sorry, data tidak ditemukan.'
+                ], 400);
+            }
+            return $data;
+        }
+
+    public function showstreaming($id)
+        {
+            $data = pemanas::whereId($id)->first();
+            if (!$data) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Sorry, data tidak ditemukan.'
+                ], 400);
+            }
+            return $data;
+        }
+        public function showpacking($id)
+        {
+            $data = packing::whereId($id)->first();
             if (!$data) {
                 return response()->json([
                     'success' => false,

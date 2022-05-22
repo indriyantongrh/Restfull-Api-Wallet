@@ -11,7 +11,7 @@ class pemanas extends Model
      *
      * @var string
      */
-    protected $table = 'pemanas';
+    protected $table = 'streaming';
 
     /**
      * The primary key for the model.
@@ -23,6 +23,6 @@ class pemanas extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id', 'user_id', 'adding_id','mandor_id', 'gradding_id','koreksi_id', 'dry_pertama_id', 'molding_id', 'dry_kedua_id','kode_partai','no_register', 'tanggal_proses', 'suhu','waktu', 'kode_transaksi', 'status', 'created_at', 'updated_at'];
+    protected $fillable = ['id', 'user_id', 'kode_transaksi_grading','temperatur_pre_heating', 'waktu_pre_heating','temperatur_tot', 'waktu_tot', 'tanggal_proses', 'keterangan', 'created_at', 'updated_at'];
 
 }
