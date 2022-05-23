@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\adding;
 use App\gradingakhir;
-use App\dryedua;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
@@ -86,34 +85,34 @@ class GradingAkhirController extends Controller
         //     'data' => $data
         // ], Response::HTTP_OK);
     }
-     public function destroy(dryedua $dryedua,  Request $request)
-    {
-            $getData = $this->user->mandor()->find($dryedua)->first();
-            $jumlahsaldo = $getData->jumlah_sbw;
-            $kepingsaldo = $getData->jumlah_keping;
-            $idgrading = $getData->gradding_id;
+    //  public function destroy(dryedua $dryedua,  Request $request)
+    // {
+    //         $getData = $this->user->mandor()->find($dryedua)->first();
+    //         $jumlahsaldo = $getData->jumlah_sbw;
+    //         $kepingsaldo = $getData->jumlah_keping;
+    //         $idgrading = $getData->gradding_id;
 
-            // $gradding = gradding::find($idgrading);
-            $gradding = gradding::where('id', 'like', "{$idgrading}")->first();
-            $gradding->jmlh_sbw_saldo = ($gradding->jmlh_sbw_saldo + $jumlahsaldo);
-            $gradding->jmlh_keping_saldo = ($gradding->jmlh_keping_saldo + $kepingsaldo);
-            $gradding->update();
+    //         // $gradding = gradding::find($idgrading);
+    //         $gradding = gradding::where('id', 'like', "{$idgrading}")->first();
+    //         $gradding->jmlh_sbw_saldo = ($gradding->jmlh_sbw_saldo + $jumlahsaldo);
+    //         $gradding->jmlh_keping_saldo = ($gradding->jmlh_keping_saldo + $kepingsaldo);
+    //         $gradding->update();
 
-             $mandor->delete();
+    //          $mandor->delete();
             
 
-        return response()->json([
-            'success' => true,
-            'message' => 'data  deleted successfully',
-            'mandorid' => $mandorGet,
-            'jmlhsaldo' => $jumlahsaldo,
-            'kepingsalso' => $kepingsaldo,
-            'idgrading' => $idgrading,
-            'gradding' => $gradding,
-            'data' => $jumlahsaldo,
-            'data' => $jumlahsaldo,
-        ], Response::HTTP_OK);
-    }
+    //     return response()->json([
+    //         'success' => true,
+    //         'message' => 'data  deleted successfully',
+    //         'mandorid' => $mandorGet,
+    //         'jmlhsaldo' => $jumlahsaldo,
+    //         'kepingsalso' => $kepingsaldo,
+    //         'idgrading' => $idgrading,
+    //         'gradding' => $gradding,
+    //         'data' => $jumlahsaldo,
+    //         'data' => $jumlahsaldo,
+    //     ], Response::HTTP_OK);
+    // }
 
    
 }
