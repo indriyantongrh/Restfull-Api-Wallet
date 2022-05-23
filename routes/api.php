@@ -16,6 +16,7 @@ use App\Http\Controllers\PengeringKeduaController;
 use App\Http\Controllers\pemanasController;
 use App\Http\Controllers\LookupController;
 use App\Http\Controllers\GradingAkhirController;
+use App\Http\Controllers\GradingAkhirNewController;
 use App\Http\Controllers\packingController;
 
 
@@ -231,6 +232,9 @@ Route::group(['middleware' => ['jwt.verify']], function() {
 
     Route::post('post-grading-akhir',  [GradingAkhirController::class, 'storeInsert']);
     Route::get('load-ga', [GradingAkhirController::class, 'index']);
+
+    Route::post('post-grading-akhir-new',  [GradingAkhirNewController::class, 'storeInsert']);
+    Route::get('load-ga-new', [GradingAkhirNewController::class, 'index']);
 
 
 });
