@@ -20,6 +20,7 @@ class CreateGraddingTable extends Migration
             $table->string('kode_partai');
             $table->string('no_register');
             $table->string('tanggal_proses');
+            $table->string('tanggal_cuci');
             $table->string('jumlah_sbw');
             $table->string('jmlh_sbw_saldo');
             $table->string('jumlah_keping');

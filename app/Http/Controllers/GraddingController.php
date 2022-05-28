@@ -49,7 +49,7 @@ class GraddingController extends Controller
     {
 
         //Validate data
-        $data = $request->only('user_id', 'adding_id', 'kode_partai', 'no_register','tanggal_proses' ,'jumlah_sbw', 'jmlh_sbw_saldo','jumlah_keping','jmlh_keping_saldo', 'jumlah_box',  'jenis_grade', 'kode_transaksi', 'status' );
+        $data = $request->only('user_id', 'adding_id', 'kode_partai', 'no_register','tanggal_proses','tanggal_cuci' ,'jumlah_sbw', 'jmlh_sbw_saldo','jumlah_keping','jmlh_keping_saldo', 'jumlah_box',  'jenis_grade', 'kode_transaksi', 'status' );
         $validator = Validator::make($data, [
             // 'no_register' => 'required',
             // 'kode_partai' => 'required'
@@ -67,6 +67,7 @@ class GraddingController extends Controller
             'kode_partai' => $request->kode_partai,
             'no_register' => $request->no_register,
             'tanggal_proses' => $request->tanggal_proses,
+            'tanggal_cuci' => $request->tanggal_cuci,
             'jumlah_sbw' => $request->jumlah_sbw,
             'jmlh_sbw_saldo' => $request->jmlh_sbw_saldo,
             'jmlh_keping_saldo' => $request->jmlh_keping_saldo,
@@ -127,7 +128,7 @@ class GraddingController extends Controller
     public function update(Request $request, gradding $gradding)
     {
         //Validate data
-        $data = $request->only('user_id', 'adding_id', 'kode_partai', 'no_register','tanggal_proses' ,'jumlah_sbw', 'jmlh_sbw_saldo','jumlah_keping','jmlh_keping_saldo', 'jumlah_box', 'jenis_grade', 'kode_transaksi', 'status' );
+        $data = $request->only('user_id', 'adding_id', 'kode_partai', 'no_register','tanggal_proses' , 'tanggal_cuci', 'jumlah_sbw', 'jmlh_sbw_saldo','jumlah_keping','jmlh_keping_saldo', 'jumlah_box', 'jenis_grade', 'kode_transaksi', 'status' );
 
        // $data = $request->only('user_id', 'adding_id', 'kode_partai','tanggal_proses' ,'jumlah-sbw', 'jenis_grade', 'kode_transaksi', 'status');
         $validator = Validator::make($data, [
@@ -145,6 +146,7 @@ class GraddingController extends Controller
             'kode_partai' => $request->kode_partai,
             'no_register' => $request->no_register,
             'tanggal_proses' => $request->tanggal_proses,
+            'tanggal_cuci' => $request->tanggal_cuci,
             'jumlah_sbw' => $request->jumlah_sbw,
             'jumlah_keping' => $request->jumlah_keping,
              'jmlh_sbw_saldo' => $request->jmlh_sbw_saldo,
