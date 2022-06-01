@@ -48,6 +48,8 @@ Route::post('cari-gradingakhir',  [ApiController::class, 'searchGradingAkhir']);
 Route::post('cari-ga-streaming',  [ApiController::class, 'searchKodeGAStreaming']);
 Route::post('cari-ga-packing',  [ApiController::class, 'searchKodeGAPacking']);
 Route::post('filter-jenis-gradeakhir',  [ApiController::class, 'filterJenisGradeakhir']);
+Route::get('filter-ga-traceability',  [ApiController::class, 'filterSeriGradeAkhir']);
+
 
 
 //Get all data
@@ -63,6 +65,8 @@ Route::get('get-all-stock',  [ApiController::class, 'getLoadDrykedua']);
 Route::get('get-all-gradeakhir',  [ApiController::class, 'allGradAkhir']);
 Route::get('get-all-streaming',  [ApiController::class, 'allStreaming']);
 Route::get('get-all-packing',  [ApiController::class, 'allPacking']);
+Route::get('get-all-tracebility',  [ApiController::class, 'getAllTracebility']);
+
 
 // end
 // Filter by date 
