@@ -24,6 +24,6 @@ class packing extends Model
      * @var array
      */
 
-    protected $fillable = ['id', 'user_id', 'kode_transaksi_grading','jenis_kemasan', 'box','koli', 'tanggal_packing', 'tanggal_pengiriman', 'created_at', 'updated_at'];
+    protected $fillable = ['id', 'user_id', 'grade_akhir_id','kode_transaksi_grading','jenis_kemasan', 'box','koli', 'tanggal_packing', 'tanggal_pengiriman', 'created_at', 'updated_at'];
 
 }

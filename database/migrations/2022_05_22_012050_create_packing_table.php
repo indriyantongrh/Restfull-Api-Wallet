@@ -16,6 +16,7 @@ class CreatePackingTable extends Migration
         Schema::create('packing', function (Blueprint $table) {
             $table->id();
             $table->string('user_id');
+            $table->string('grade_akhir_id');
             $table->string('kode_transaksi_grading');
             $table->string('jenis_kemasan');
             $table->string('box');

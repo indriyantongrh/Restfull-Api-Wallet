@@ -51,7 +51,7 @@ class packingController extends Controller
     {
 
         //Validate data
-        $data = $request->only('user_id', 'kode_transaksi_grading','jenis_kemasan', 'box','koli', 'tanggal_packing', 'tanggal_pengiriman');
+        $data = $request->only('user_id', 'grade_akhir_id','kode_transaksi_grading','jenis_kemasan', 'box','koli', 'tanggal_packing', 'tanggal_pengiriman');
         $kode_transaksiExist = packing::where('kode_transaksi_grading', '=', $request->input('kode_transaksi_grading'))->first();
         $validator = Validator::make($data, [
             // 'no_register' => 'required',
@@ -68,6 +68,7 @@ class packingController extends Controller
             
             $dataResult= $this->user->packing()->create([
                 'user_id' => $request->user_id,
+                'grade_akhir_id' => $request->grade_akhir_id,
                 'kode_transaksi_grading' => $request->kode_transaksi_grading,
                 'jenis_kemasan' => $request->jenis_kemasan,
                 'box' => $request->box,
@@ -138,7 +139,7 @@ class packingController extends Controller
     public function update(Request $request, packing $packing)
     {
         //Validate data
-        $data = $request->only('user_id', 'kode_transaksi_grading','jenis_kemasan', 'box','koli', 'tanggal_packing', 'tanggal_pengiriman');
+        $data = $request->only('user_id', 'grade_akhir_id','kode_transaksi_grading','jenis_kemasan', 'box','koli', 'tanggal_packing', 'tanggal_pengiriman');
 
         $validator = Validator::make($data, [
         ]);
@@ -152,7 +153,8 @@ class packingController extends Controller
 
         //Request is valid, update product
         $packing = $packing->update([
-          'user_id' => $request->user_id,
+                'user_id' => $request->user_id,
+                'grade_akhir_id' => $request->grade_akhir_id,
                 'kode_transaksi_grading' => $request->kode_transaksi_grading,
                 'jenis_kemasan' => $request->jenis_kemasan,
                 'box' => $request->box,
