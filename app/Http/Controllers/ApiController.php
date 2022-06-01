@@ -21,6 +21,7 @@ use App\packing;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class ApiController extends Controller
 {
@@ -1441,6 +1442,98 @@ class ApiController extends Controller
                 // 'pcsTotal' => $pcssum,
                 // 'boxTotal' => $boxsum,
                 'data' => $filter
+            ],  200);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
+    }
+
+    public function filterSeriGradeAkhir(Request $request){
+        $data = $request->get('data');
+            $gradeakhir = DB::table('transaksi_data_grading_akhir')
+                            ->where('kode_transaksi_grading', 'like', "{$data}")
+
+                            ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
+                            ->leftjoin('mandor', 'mandor.id', '=', 'dry_kedua.mandor_id')
+                            ->leftjoin('gradding', 'gradding.id', '=', 'mandor.gradding_id')
+                            ->leftjoin('adding', 'adding.id', '=', 'mandor.adding_id')
+                            //  ->leftjoin('packing', 'packing.grade_akhir_id', '=', 'transaksi_data_grading_akhir.id')
+                            ->leftjoin('master_rumah_walet', 'master_rumah_walet.nama', '=', 'adding.no_register')
+                             ->select('transaksi_data_grading_akhir.*', 
+                            'gradding.id as gradding_id', 
+                            'gradding.jumlah_sbw as gradding_jumlah_sbw', 
+                            'gradding.jumlah_keping as gradding_jumlah_keping', 
+                            'dry_kedua.tanggal_proses as tanggal_proses_dry_kedua', 
+                            'dry_kedua.id as dry_kedua_id' ,
+                            'dry_kedua.jumlah_sbw as dry_kedua_jumlah_sbw' ,
+                            'mandor.id as mandor_id',
+                            'mandor.tanggal_proses as mandor_tanggal_proses',
+                            'mandor.jumlah_sbw as mandor_berat_sbw',
+                            'adding.id as adding_id',
+                            'adding.tanggal_panen as adding_tanggal_panen',
+                            'adding.tanggal_penerima as adding_tanggal_penerima',
+                            'adding.no_register as adding_nama_rumah_walet',
+                            'adding.jumlah_sbw_kotor as adding_berat_sbw_kotor',
+                            'master_rumah_walet.no_register as adding_no_register',
+                            //== 'packing.tanggal_pengiriman as tanggal_pengiriman'
+                            )
+                            ->orderBy('id', 'DESC')
+                            ->get();
+
+          if ($gradeakhir){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $gradeakhir
+            ],  200);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
+    }
+
+     public function getAllTracebility(Request $request){
+        $data = $request->get('data');
+            $gradeakhir = DB::table('transaksi_data_grading_akhir')
+                            ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
+                            ->leftjoin('mandor', 'mandor.id', '=', 'dry_kedua.mandor_id')
+                            ->leftjoin('gradding', 'gradding.id', '=', 'mandor.gradding_id')
+                            ->leftjoin('adding', 'adding.id', '=', 'mandor.adding_id')
+                            ->leftjoin('master_rumah_walet', 'master_rumah_walet.nama', '=', 'adding.no_register')
+                            ->leftjoin('packing', 'packing.grade_akhir_id', '=', 'transaksi_data_grading_akhir.id')
+                            // ->(('gradding.jumlah_sbw' - 'dry_kedua.jumlah_sbw')/'gradding.jumlah_sbw' )
+                            
+                            ->select('transaksi_data_grading_akhir.*', 
+                            'gradding.id as gradding_id', 
+                            'gradding.jumlah_sbw as gradding_jumlah_sbw', 
+                            'gradding.jumlah_keping as gradding_jumlah_keping', 
+                            'dry_kedua.tanggal_proses as tanggal_proses_dry_kedua', 
+                            'dry_kedua.id as dry_kedua_id' ,
+                            'dry_kedua.jumlah_sbw as dry_kedua_jumlah_sbw' ,
+                            'mandor.id as mandor_id',
+                            'mandor.tanggal_proses as mandor_tanggal_proses',
+                            'mandor.jumlah_sbw as mandor_berat_sbw',
+                            'adding.id as adding_id',
+                            'adding.tanggal_panen as adding_tanggal_panen',
+                            'adding.tanggal_penerima as adding_tanggal_penerima',
+                         
+                            'adding.no_register as adding_nama_rumah_walet',
+                            'adding.jumlah_sbw_kotor as adding_berat_sbw_kotor',
+                            'master_rumah_walet.no_register as adding_no_register',
+                            'packing.tanggal_pengiriman as tanggal_pengiriman')
+                            ->orderBy('id', 'DESC')
+                            ->get();
+
+          if ($gradeakhir){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'data' => $gradeakhir
             ],  200);
         }else{
             return response()->json([
