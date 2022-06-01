@@ -50,7 +50,7 @@ class MasterRumahWaletController extends Controller
     {
 
         //Validate data
-        $data = $request->only('user_id','nama', 'alamat' , );
+        $data = $request->only('user_id','no_register','nama', 'alamat' , );
         $validator = Validator::make($data, [
             // 'no_register' => 'required',
             // 'kode_partai' => 'required'
@@ -63,6 +63,7 @@ class MasterRumahWaletController extends Controller
 
         //Request is valid, create new product
         $rumahwalet = $this->user->rumahwalet()->create([
+            'no_register' => $request->no_register,
             'nama' => $request->nama,
             'alamat' => $request->alamat
             
@@ -128,7 +129,7 @@ class MasterRumahWaletController extends Controller
 
         //Request is valid, update product
         $rumahwalet = $rumahwalet->update([
-        
+            'no_register' => $request->no_register,
            'nama' => $request->nama,
             'alamat' => $request->alamat
         ]);
@@ -136,7 +137,7 @@ class MasterRumahWaletController extends Controller
         //Product updated, return success response
         return response()->json([
             'success' => true,
-            'message' => 'data Mandor updated successfully',
+            'message' => 'data  updated successfully',
             'data' => $rumahwalet
         ], Response::HTTP_OK);
     }

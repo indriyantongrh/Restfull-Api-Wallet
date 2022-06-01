@@ -16,6 +16,7 @@ class CreateMasterRumahWaletTable extends Migration
         Schema::create('master_rumah_walet', function (Blueprint $table) {
             $table->id();
             $table->string('user_id');
+            $table->string('no_register');
             $table->string('nama');
             $table->string('alamat');
             $table->timestamps();

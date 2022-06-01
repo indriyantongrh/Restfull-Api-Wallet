@@ -23,5 +23,5 @@ class rumahwalet extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id','user_id', 'nama', 'alamat' ,'created_at', 'updated_at'];
+    protected $fillable = ['id','user_id', 'no_register','nama', 'alamat' ,'created_at', 'updated_at'];
 }
