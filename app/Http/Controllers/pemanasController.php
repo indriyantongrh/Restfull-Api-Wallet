@@ -51,7 +51,7 @@ class pemanasController extends Controller
     {
 
         //Validate data
-        $data = $request->only('id', 'user_id', 'kode_transaksi_grading','temperatur_pre_heating', 'waktu_pre_heating','temperatur_tot', 'waktu_tot', 'tanggal_proses', 'keterangan');
+        $data = $request->only('id', 'user_id', 'kode_transaksi_grading','temperatur_pre_heating', 'waktu_pre_heating','temperatur_tot', 'waktu_tot','jumlah_keping', 'jumlah_pending_keping', 'status', 'tanggal_proses', 'keterangan');
         $kode_transaksiExist = pemanas::where('kode_transaksi_grading', '=', $request->input('kode_transaksi_grading'))->first();
         $validator = Validator::make($data, [
             // 'no_register' => 'required',
@@ -73,6 +73,9 @@ class pemanasController extends Controller
                 'temperatur_tot' => $request->temperatur_tot,
                 'waktu_tot' => $request->waktu_tot,
                 'tanggal_proses' => $request->tanggal_proses,
+                'jumlah_keping' => $request->jumlah_keping,
+                'jumlah_pending_keping' => $request->jumlah_pending_keping,
+                'status' => $request->status,
                 'keterangan' => $request->keterangan
             ]);
 
@@ -138,7 +141,7 @@ class pemanasController extends Controller
     public function update(Request $request, pemanas $pemanas)
     {
         //Validate data
-        $data = $request->only('id', 'user_id', 'kode_transaksi_grading','temperatur_pre_heating', 'waktu_pre_heating','temperatur_tot', 'waktu_tot', 'tanggal_proses', 'keterangan');
+        $data = $request->only('id', 'user_id', 'kode_transaksi_grading','temperatur_pre_heating', 'waktu_pre_heating','temperatur_tot', 'waktu_tot', 'tanggal_proses','jumlah_keping', 'jumlah_pending_keping', 'status',  'keterangan');
 
         $validator = Validator::make($data, [
         ]);
@@ -153,12 +156,15 @@ class pemanasController extends Controller
         //Request is valid, update product
         $pemanas = $pemanas->update([
            'user_id' => $request->user_id,
-            'kode_transaksi_grading' => $request->kode_transaksi_grading,
+           'kode_transaksi_grading' => $request->kode_transaksi_grading,
             'temperatur_pre_heating' => $request->temperatur_pre_heating,
             'waktu_pre_heating' => $request->waktu_pre_heating,
             'temperatur_tot' => $request->temperatur_tot,
             'waktu_tot' => $request->waktu_tot,
             'tanggal_proses' => $request->tanggal_proses,
+            'jumlah_keping' => $request->jumlah_keping,
+            'jumlah_pending_keping' => $request->jumlah_pending_keping,
+            'status' => $request->status,
             'keterangan' => $request->keterangan
         ]);
 

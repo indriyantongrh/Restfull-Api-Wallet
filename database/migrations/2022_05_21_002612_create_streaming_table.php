@@ -21,8 +21,11 @@ class CreateStreamingTable extends Migration
             $table->string('waktu_pre_heating');
             $table->string('temperatur_tot');
             $table->string('waktu_tot');
+            $table->string('jumlah_keping');
+            $table->string('jumlah_pending_keping');
             $table->string('tanggal_proses');
             $table->string('keterangan');
+            $table->string('status');
             $table->timestamps();
         });
     }

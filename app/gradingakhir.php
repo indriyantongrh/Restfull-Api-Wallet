@@ -23,6 +23,6 @@ class gradingakhir extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id', 'kode_transaksi_grading','user_id','id_dry_kedua', 'kode_transaksi', 'kode_register','kode_partai', 'jumlah_saldo', 'jumlah_sbw_grading', 'id_jenis_garding', 'name_jenis_garding', 'created_at', 'updated_at'];
+    protected $fillable = ['id', 'kode_transaksi_grading','user_id','id_dry_kedua', 'kode_transaksi', 'kode_register','kode_partai', 'jumlah_saldo', 'jumlah_sbw_grading', 'id_jenis_garding', 'name_jenis_garding','keterangan', 'created_at', 'updated_at'];
 
 }

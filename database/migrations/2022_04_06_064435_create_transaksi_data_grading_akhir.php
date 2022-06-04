@@ -26,6 +26,7 @@ class CreateTransaksiDataGradingAkhir extends Migration
             $table->string('jumlah_pcs');
             $table->string('id_jenis_garding');
             $table->string('name_jenis_garding');
+            $table->string('keterangan');
             $table->timestamps();
         });
     }

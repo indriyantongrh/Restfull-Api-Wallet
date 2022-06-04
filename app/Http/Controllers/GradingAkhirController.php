@@ -45,7 +45,7 @@ namespace App\Http\Controllers;
 
 
          //Validate data
-         $data = $request->only('id_user','id_dry_kedua', 'kode_transaksi', 'kode_register','kode_partai', 'jumlah_saldo', 'jumlah_sbw_grading', 'id_jenis_garding', 'name_jenis_garding', );
+         $data = $request->only('id_user','id_dry_kedua', 'kode_transaksi', 'kode_register','kode_partai', 'jumlah_saldo', 'jumlah_sbw_grading', 'id_jenis_garding', 'name_jenis_garding','keterangan' );
          $validator = Validator::make($data, [
              'no_register' => 'required',
              'kode_partai' => 'required'
