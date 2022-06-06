@@ -63,7 +63,7 @@ class pemanasController extends Controller
         //     return response()->json(['error' => $validator->messages()], 200);
         // }
 
-        if($kode_transaksiExist === null){
+        // if($kode_transaksiExist === null){
             //Request is valid, create new product
             $pemanas= $this->user->pemanas()->create([
                 'user_id' => $request->user_id,
@@ -85,12 +85,12 @@ class pemanasController extends Controller
                 'message' => 'Data berhasil ditambah!',
                 'data' => $pemanas
             ], Response::HTTP_OK);
-        }else{
-            return response()->json([
-            'success' => false,
-            'message' => 'Data Transaksi sudah di tambah sebelum nya!',
-        ], Response::HTTP_OK);
-        }
+        // }else{
+        //     return response()->json([
+        //     'success' => false,
+        //     'message' => 'Data Transaksi sudah di tambah sebelum nya!',
+        // ], Response::HTTP_OK);
+        // }
 
        
     }
