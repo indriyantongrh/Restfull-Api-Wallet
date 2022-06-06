@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
  use Illuminate\Http\Request;
  use App\adding;
  use App\gradingakhir;
- use App\dryedua;
+ use App\drykedua;
  use JWTAuth;
  use Tymon\JWTAuth\Exceptions\JWTException;
  use Symfony\Component\HttpFoundation\Response;
@@ -79,6 +79,36 @@ namespace App\Http\Controllers;
              'data' => $data
          ], Response::HTTP_OK);
      }
+
+public function destroy(gradingakhir $gradingakhir,  Request $request)
+    {
+            $id = $request->get('id');
+            $getData = gradingakhir::where('id', 'like', "{$id}")->first();
+            // $getData = $this->user->gradingakhir()->find($gradingakhir)->first();
+            $jumlahsaldo = $getData->jumlah_sbw_grading;
+            $id_dry_kedua = $getData->id_dry_kedua;
+
+            // $gradding = gradding::find($idgrading);
+            $drykedua = drykedua::where('id', 'like', "{$id_dry_kedua}")->first();
+            $drykedua->jumlah_sbw_saldo = ($drykedua->jumlah_sbw_saldo + $jumlahsaldo);
+            // // $gradding->jmlh_keping_saldo = ($gradding->jmlh_keping_saldo + $kepingsaldo);
+            $drykedua->update();
+
+            $gradingakhir->delete();
+            
+
+        return response()->json([
+            'success' => true,
+            'message' => 'data  deleted successfully',
+            // 'mandorid' => $mandorGet,
+            // 'jmlhsaldo' => $jumlahsaldo,
+            // 'kepingsalso' => $kepingsaldo,
+            // 'hasil di hapus' => $idgrading,
+            'drykedua' => $id_dry_kedua,
+            'jumlahsaldo' => $drykedua,
+            'data' => $getData,
+        ], Response::HTTP_OK);
+    }
 
 
  }

@@ -236,6 +236,8 @@ Route::group(['middleware' => ['jwt.verify']], function() {
 
     Route::post('post-grading-akhir',  [GradingAkhirController::class, 'storeInsert']);
     Route::get('load-ga', [GradingAkhirController::class, 'index']);
+    Route::post('delete-gradingakhir',  [GradingAkhirController::class, 'destroy']);
+
 
     Route::post('post-grading-akhir-new',  [GradingAkhirNewController::class, 'storeInsert']);
     Route::get('load-ga-new', [GradingAkhirNewController::class, 'index']);
