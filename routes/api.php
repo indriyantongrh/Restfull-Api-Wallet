@@ -226,7 +226,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('delete-packing/{packing}',  [packingController::class, 'destroy']);
     // end
 
-        // service datapekerja start
+    // service datapekerja start
     Route::get('load-lookup', [LookupController::class, 'index']);
     Route::post('view-lookup/{id}', [LookupController::class, 'show']);
     Route::post('create-lookup', [LookupController::class, 'store']);
@@ -237,6 +237,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('post-grading-akhir',  [GradingAkhirController::class, 'storeInsert']);
     Route::get('load-ga', [GradingAkhirController::class, 'index']);
     Route::post('delete-gradingakhir',  [GradingAkhirController::class, 'destroy']);
+    Route::post('view-ga/{id}', [GradingAkhirController::class, 'show']);
 
 
     Route::post('post-grading-akhir-new',  [GradingAkhirNewController::class, 'storeInsert']);
