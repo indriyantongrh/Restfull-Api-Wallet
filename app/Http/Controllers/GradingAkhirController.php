@@ -108,7 +108,8 @@ public function destroy(gradingakhir $gradingakhir,  Request $request)
             // // $gradding->jmlh_keping_saldo = ($gradding->jmlh_keping_saldo + $kepingsaldo);
             $drykedua->update();
 
-            $gradingakhir->delete();
+            // $gradingakhir->delete($id);
+            $gradingakhir->where('id',$id)->delete();
             
 
         return response()->json([
