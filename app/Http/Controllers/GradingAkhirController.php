@@ -103,7 +103,7 @@ public function destroy(gradingakhir $gradingakhir,  Request $request)
             $id_dry_kedua = $getData->id_dry_kedua;
 
             // $gradding = gradding::find($idgrading);
-            $drykedua = drykedua::where('id', 'like', "{$id_dry_kedua}")->f/pemanasirst();
+            $drykedua = drykedua::where('id', 'like', "{$id_dry_kedua}")->first();
             $drykedua->jumlah_sbw_saldo = ($drykedua->jumlah_sbw_saldo + $jumlahsaldo);
             // // $gradding->jmlh_keping_saldo = ($gradding->jmlh_keping_saldo + $kepingsaldo);
             $drykedua->update();
