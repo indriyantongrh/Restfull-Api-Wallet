@@ -80,6 +80,7 @@ Route::get('filter-date-molding',  [ApiController::class, 'filterbyDateMolding']
 Route::get('filter-date-gradeakhir',  [ApiController::class, 'filterbyDateGradingakhir']);
 Route::get('filter-date-streaming',  [ApiController::class, 'filterbyDateStreaming']);
 Route::get('filter-date-packing',  [ApiController::class, 'filterbyDatePacking']);
+Route::get('filter-date-partai-mandor',  [ApiController::class, 'filterDatePartaimandor']);
 
 // end
 // view data 

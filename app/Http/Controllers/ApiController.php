@@ -1605,4 +1605,29 @@ class ApiController extends Controller
                 'message' => 'Data berhasil diupdate!',
             ], Response::HTTP_OK);
         }
+
+        public function filterDatePartaimandor(Request $request){
+            $tanggal = $request->frotanggalm;
+            $partai = $request->partai;
+            $filterDate = mandor::where('tanggal_proses', $tanggal)->orWhere('kode_partai', $partai)->orderBy('id', 'DESC')->get();
+            $sbwsum = mandor::where('tanggal_proses', $tanggal)->orWhere('kode_partai', $partai)->orderBy('id', 'DESC')->sum('jumlah_sbw');
+            $pcssum = mandor::where('tanggal_proses', $tanggal)->orWhere('kode_partai', $partai)->orderBy('id', 'DESC')->sum('jumlah_keping');
+            $boxsum = mandor::where('tanggal_proses', $tanggal)->orWhere('kode_partai', $partai)->orderBy('id', 'DESC')->sum('jumlah_box');
+            if ($filterDate){
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Data ditemukan',
+                    'sbwTotal' => $sbwsum,
+                    'pcsTotal' => $pcssum,
+                    'boxTotal' => $boxsum,
+                    'data' => $filterDate
+                ],  200);
+                
+            }else{
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Data Kosong',
+                ],  200);
+            }
+        }
 }
