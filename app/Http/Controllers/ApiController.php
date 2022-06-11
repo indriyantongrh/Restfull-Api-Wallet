@@ -1607,7 +1607,7 @@ class ApiController extends Controller
         }
 
         public function filterDatePartaimandor(Request $request){
-            $tanggal = $request->frotanggalm;
+            $tanggal = $request->tanggal;
             $partai = $request->partai;
             $filterDate = mandor::where('tanggal_proses', $tanggal)->orWhere('kode_partai', $partai)->orderBy('id', 'DESC')->get();
             $sbwsum = mandor::where('tanggal_proses', $tanggal)->orWhere('kode_partai', $partai)->orderBy('id', 'DESC')->sum('jumlah_sbw');
