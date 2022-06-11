@@ -1607,12 +1607,12 @@ class ApiController extends Controller
         }
 
         public function filterDatePartaimandor(Request $request){
-            $tanggal_proses = $request->tanggal_proses;
-            $kode_partai = $request->kode_partai;
-            $filterDate = mandor::where('tanggal_proses', $tanggal_proses)->orWhere('kode_partai', $kode_partai)->orderBy('id', 'DESC')->get();
-            $sbwsum = mandor::where('tanggal_proses', $tanggal_proses)->orWhere('kode_partai', $kode_partai)->orderBy('id', 'DESC')->sum('jumlah_sbw');
-            $pcssum = mandor::where('tanggal_proses', $tanggal_proses)->orWhere('kode_partai', $kode_partai)->orderBy('id', 'DESC')->sum('jumlah_keping');
-            $boxsum = mandor::where('tanggal_proses', $tanggal_proses)->orWhere('kode_partai', $kode_partai)->orderBy('id', 'DESC')->sum('jumlah_box');
+            $tanggal = $request->tanggal;
+            $partai = $request->partai;
+            $filterDate = mandor::where('tanggal_proses', $tanggal AND 'kode_partai', $partai )->orderBy('id', 'DESC')->get();
+            $sbwsum = mandor::where('tanggal_proses', $tanggal)->orWhere('kode_partai', $partai)->orderBy('id', 'DESC')->sum('jumlah_sbw');
+            $pcssum = mandor::where('tanggal_proses', $tanggal)->orWhere('kode_partai', $partai)->orderBy('id', 'DESC')->sum('jumlah_keping');
+            $boxsum = mandor::where('tanggal_proses', $tanggal)->orWhere('kode_partai', $partai)->orderBy('id', 'DESC')->sum('jumlah_box');
             if ($filterDate){
                 return response()->json([
                     'success' => true,
