@@ -1428,10 +1428,32 @@ class ApiController extends Controller
         }
     }
 
-    public function filterKodepartaiGradeakhir(Request $request){
+    public function filterKodeSeriGradeakhir(Request $request){
         $data = $request->get('data');
         $filter = gradingakhir::where('kode_transaksi_grading', 'like', "{$data}")->orderBy('id', 'DESC')->get();
         $sbwsum = gradingakhir::where('kode_transaksi_grading', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_sbw_grading');
+        // $pcssum = drykedua::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_keping');
+        // $boxsum = drykedua::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_box');
+          if ($filter){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
+                // 'pcsTotal' => $pcssum,
+                // 'boxTotal' => $boxsum,
+                'data' => $filter
+            ],  200);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
+    }
+    public function filterKodePartaiGradeakhir(Request $request){
+        $data = $request->get('data');
+        $filter = gradingakhir::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->get();
+        $sbwsum = gradingakhir::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_sbw_grading');
         // $pcssum = drykedua::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_keping');
         // $boxsum = drykedua::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_box');
           if ($filter){

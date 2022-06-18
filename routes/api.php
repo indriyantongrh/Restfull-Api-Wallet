@@ -118,7 +118,9 @@ Route::post('filter-kp-koreksi',  [ApiController::class, 'filterKodepartaiKoreks
 Route::post('filter-kp-drypertama',  [ApiController::class, 'filterKodepartaiDryPertama']);
 Route::post('filter-kp-molding',  [ApiController::class, 'filterKodepartaiMolding']);
 Route::post('filter-kp-drykedua',  [ApiController::class, 'filterKodepartaiDryKedua']);
-Route::post('filter-kp-gradeakhir',  [ApiController::class, 'filterKodepartaiGradeakhir']);
+Route::post('filter-kseri-gradeakhir',  [ApiController::class, 'filterKodeSeriGradeakhir']);
+Route::post('filter-kp-gradeakhir',  [ApiController::class, 'filterKodePartaiGradeakhir']);
+
 
 // End
 // Penjumlahan grade akhir
