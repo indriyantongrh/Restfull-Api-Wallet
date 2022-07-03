@@ -93,6 +93,19 @@ class packingController extends Controller
        
     }
 
+    public function storeInsert(Request $request)
+     {
+
+         $data= $request->get('data');
+         $response =  packing::insert(json_decode($data, true)); // Eloquent approach
+          return response()->json([
+             'code' => 1,
+             'success' => true,
+             'message' => 'Data berhasil ditambah!',
+             'data' => $data
+         ], Response::HTTP_OK);
+     }
+
     /**
      * Display the specified resource.
      *
@@ -186,4 +199,6 @@ class packingController extends Controller
             'message' => 'data  deleted successfully'
         ], Response::HTTP_OK);
     }
+
+    
 }

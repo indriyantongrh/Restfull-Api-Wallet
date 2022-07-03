@@ -49,6 +49,7 @@ Route::post('cari-ga-streaming',  [ApiController::class, 'searchKodeGAStreaming'
 Route::post('cari-ga-packing',  [ApiController::class, 'searchKodeGAPacking']);
 Route::post('filter-jenis-gradeakhir',  [ApiController::class, 'filterJenisGradeakhir']);
 Route::get('filter-ga-traceability',  [ApiController::class, 'filterSeriGradeAkhir']);
+Route::post('filter-ga-packinglist',  [ApiController::class, 'filtergradeakhirpackinglist']);
 
 
 
@@ -66,6 +67,7 @@ Route::get('get-all-gradeakhir',  [ApiController::class, 'allGradAkhir']);
 Route::get('get-all-streaming',  [ApiController::class, 'allStreaming']);
 Route::get('get-all-packing',  [ApiController::class, 'allPacking']);
 Route::get('get-all-tracebility',  [ApiController::class, 'getAllTracebility']);
+Route::get('get-packing-list',  [ApiController::class, 'packinglist']);
 
 
 // end
@@ -81,6 +83,7 @@ Route::get('filter-date-gradeakhir',  [ApiController::class, 'filterbyDateGradin
 Route::get('filter-date-streaming',  [ApiController::class, 'filterbyDateStreaming']);
 Route::get('filter-date-packing',  [ApiController::class, 'filterbyDatePacking']);
 Route::get('filter-date-partai-mandor',  [ApiController::class, 'filterDatePartaimandor']);
+Route::get('filter-date-packinglist',  [ApiController::class, 'filterdatepackinglist']);
 
 // end
 // view data 
@@ -120,16 +123,17 @@ Route::post('filter-kp-molding',  [ApiController::class, 'filterKodepartaiMoldin
 Route::post('filter-kp-drykedua',  [ApiController::class, 'filterKodepartaiDryKedua']);
 Route::post('filter-kseri-gradeakhir',  [ApiController::class, 'filterKodeSeriGradeakhir']);
 Route::post('filter-kp-gradeakhir',  [ApiController::class, 'filterKodePartaiGradeakhir']);
+Route::post('filter-kp-packinglist',  [ApiController::class, 'filterkodepartaipackinglist']);
 
 
 // End
 // Penjumlahan grade akhir
-
 Route::post('kurangi-stock-ga',  [ApiController::class, 'kurangistock']);
 Route::post('restore-stock-ga',  [ApiController::class, 'restorestock']);
-
-
 // End
+
+Route::post('packing-list',  [ApiController::class, 'packinglist']);
+    
 
 // Middleware using token JWT
 Route::middleware('auth:api')->get('/user', function (Request $request) {
@@ -227,6 +231,8 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('create-packing', [packingController::class, 'store']);
     Route::post('update-packing/{packing}',  [packingController::class, 'update']);
     Route::post('delete-packing/{packing}',  [packingController::class, 'destroy']);
+    Route::post('post-packing',  [packingController::class, 'storeInsert']);
+   
     // end
 
     // service datapekerja start

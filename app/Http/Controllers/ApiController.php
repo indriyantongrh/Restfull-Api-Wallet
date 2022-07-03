@@ -1652,4 +1652,185 @@ class ApiController extends Controller
                 ],  200);
             }
         }
+
+    public function packinglist(packing $packing)
+    {
+        $data = DB::table('packing')
+                ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
+                ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
+                ->leftjoin('mandor','mandor.id' , '=',  'dry_kedua.mandor_id')
+                ->leftjoin('master_rumah_walet','master_rumah_walet.nama' , '=',  'transaksi_data_grading_akhir.kode_register')
+                ->select('packing.*', 
+                            'transaksi_data_grading_akhir.id as transaksi_data_grading_akhir_id',
+                            'transaksi_data_grading_akhir.kode_transaksi as kode_transaksi_grading_pertama',
+                            'transaksi_data_grading_akhir.kode_register as kode_register',
+                            'transaksi_data_grading_akhir.kode_partai as kode_partai',
+                            'transaksi_data_grading_akhir.jumlah_sbw_grading as jumlah_sbw_grading_akhir',
+                            'transaksi_data_grading_akhir.jumlah_pcs as jumlah_pcs_grading_akhir',
+                            'transaksi_data_grading_akhir.name_jenis_garding as name_jenis_grading_akhir',
+                            'dry_kedua.id as dry_kedua_id',
+                            'mandor.id as mandor_id',
+                            'mandor.tanggal_proses as mandor_tanggal_proses',
+                            'master_rumah_walet.no_register as no_register',
+                            DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading * transaksi_data_grading_akhir.jumlah_pcs) / 1000) as net_weight_kg')
+                           )
+                ->orderBy('id', 'DESC')
+                ->get();
+         $sumQuantity = DB::table('packing')
+                ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
+                ->orderBy('id', 'DESC')
+                ->sum('transaksi_data_grading_akhir.jumlah_pcs');
+        
+        $sumNetWeight = DB::table('packing')
+                ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
+                ->orderBy('id', 'DESC')
+                ->sum(DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading * transaksi_data_grading_akhir.jumlah_pcs) / 1000)'));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'data get successfully',
+            'sumQuantity' => $sumQuantity,
+            'sumNetWeight' => $sumNetWeight,
+            'data' => $data
+        ], Response::HTTP_OK);
+    }
+
+    public function filterkodepartaipackinglist( Request $request)
+    {
+        $filter = $request->get('data');
+        $data = DB::table('packing')
+                ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
+                ->where('transaksi_data_grading_akhir.kode_partai', 'like', "{$filter}")
+                ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
+                ->leftjoin('mandor','mandor.id' , '=',  'dry_kedua.mandor_id')
+                ->leftjoin('master_rumah_walet','master_rumah_walet.nama' , '=',  'transaksi_data_grading_akhir.kode_register')
+                ->select('packing.*', 
+                            'transaksi_data_grading_akhir.id as transaksi_data_grading_akhir_id',
+                            'transaksi_data_grading_akhir.kode_transaksi as kode_transaksi_grading_pertama',
+                            'transaksi_data_grading_akhir.kode_register as kode_register',
+                            'transaksi_data_grading_akhir.kode_partai as kode_partai',
+                            'transaksi_data_grading_akhir.jumlah_sbw_grading as jumlah_sbw_grading_akhir',
+                            'transaksi_data_grading_akhir.jumlah_pcs as jumlah_pcs_grading_akhir',
+                            'transaksi_data_grading_akhir.name_jenis_garding as name_jenis_grading_akhir',
+                            'dry_kedua.id as dry_kedua_id',
+                            'mandor.id as mandor_id',
+                            'mandor.tanggal_proses as mandor_tanggal_proses',
+                            'master_rumah_walet.no_register as no_register',
+                            DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading * transaksi_data_grading_akhir.jumlah_pcs) / 1000) as net_weight_kg')
+                           )
+                ->orderBy('id', 'DESC')
+                ->get();
+        $sumQuantity = DB::table('packing')
+                ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
+                ->where('transaksi_data_grading_akhir.kode_partai', 'like', "{$filter}")
+                ->orderBy('id', 'DESC')
+                ->sum('transaksi_data_grading_akhir.jumlah_pcs');
+        
+        $sumNetWeight = DB::table('packing')
+                ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
+                ->where('transaksi_data_grading_akhir.kode_partai', 'like', "{$filter}")
+                ->orderBy('id', 'DESC')
+                ->sum(DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading * transaksi_data_grading_akhir.jumlah_pcs) / 1000)'));
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'data get successfully',
+            'sumQuantity' => $sumQuantity,
+            'sumNetWeight' => $sumNetWeight,
+            'data' => $data
+        ], Response::HTTP_OK);
+    }
+
+    public function filtergradeakhirpackinglist( Request $request)
+    {
+        $filter = $request->get('data');
+        $data = DB::table('packing')
+                ->where('packing.kode_transaksi_grading', 'like', "{$filter}")
+                ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
+                ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
+                ->leftjoin('mandor','mandor.id' , '=',  'dry_kedua.mandor_id')
+                ->leftjoin('master_rumah_walet','master_rumah_walet.nama' , '=',  'transaksi_data_grading_akhir.kode_register')
+                ->select('packing.*', 
+                            'transaksi_data_grading_akhir.id as transaksi_data_grading_akhir_id',
+                            'transaksi_data_grading_akhir.kode_transaksi as kode_transaksi_grading_pertama',
+                            'transaksi_data_grading_akhir.kode_register as kode_register',
+                            'transaksi_data_grading_akhir.kode_partai as kode_partai',
+                            'transaksi_data_grading_akhir.jumlah_sbw_grading as jumlah_sbw_grading_akhir',
+                            'transaksi_data_grading_akhir.jumlah_pcs as jumlah_pcs_grading_akhir',
+                            'transaksi_data_grading_akhir.name_jenis_garding as name_jenis_grading_akhir',
+                            'dry_kedua.id as dry_kedua_id',
+                            'mandor.id as mandor_id',
+                            'mandor.tanggal_proses as mandor_tanggal_proses',
+                            'master_rumah_walet.no_register as no_register',
+                            DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading * transaksi_data_grading_akhir.jumlah_pcs) / 1000) as net_weight_kg')
+                           )
+                ->orderBy('id', 'DESC')
+                ->get();
+        $sumQuantity = DB::table('packing')
+                ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
+                ->where('packing.kode_transaksi_grading', 'like', "{$filter}")
+                ->orderBy('id', 'DESC')
+                ->sum('transaksi_data_grading_akhir.jumlah_pcs');
+        
+        $sumNetWeight = DB::table('packing')
+                ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
+                 ->where('packing.kode_transaksi_grading', 'like', "{$filter}")
+                ->orderBy('id', 'DESC')
+                ->sum(DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading * transaksi_data_grading_akhir.jumlah_pcs) / 1000)'));
+        return response()->json([
+            'success' => true,
+            'message' => 'data get successfully',
+            'sumQuantity' => $sumQuantity,
+            'sumNetWeight' => $sumNetWeight,
+            'data' => $data
+        ], Response::HTTP_OK);
+    }
+
+    public function filterdatepackinglist( Request $request)
+    {
+        $from = $request->from;
+        $to = $request->to;
+        $data = DB::table('packing')
+                ->whereBetween('tanggal_packing', [$from , $to])
+                ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
+                ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
+                ->leftjoin('mandor','mandor.id' , '=',  'dry_kedua.mandor_id')
+                ->leftjoin('master_rumah_walet','master_rumah_walet.nama' , '=',  'transaksi_data_grading_akhir.kode_register')
+                ->select('packing.*', 
+                            'transaksi_data_grading_akhir.id as transaksi_data_grading_akhir_id',
+                            'transaksi_data_grading_akhir.kode_transaksi as kode_transaksi_grading_pertama',
+                            'transaksi_data_grading_akhir.kode_register as kode_register',
+                            'transaksi_data_grading_akhir.kode_partai as kode_partai',
+                            'transaksi_data_grading_akhir.jumlah_sbw_grading as jumlah_sbw_grading_akhir',
+                            'transaksi_data_grading_akhir.jumlah_pcs as jumlah_pcs_grading_akhir',
+                            'transaksi_data_grading_akhir.name_jenis_garding as name_jenis_grading_akhir',
+                            'dry_kedua.id as dry_kedua_id',
+                            'mandor.id as mandor_id',
+                            'mandor.tanggal_proses as mandor_tanggal_proses',
+                            'master_rumah_walet.no_register as no_register',
+                            DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading * transaksi_data_grading_akhir.jumlah_pcs) / 1000) as net_weight_kg')
+                           )
+                ->orderBy('id', 'DESC')
+                ->get();
+        
+        $sumQuantity = DB::table('packing')
+                ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
+                ->whereBetween('tanggal_packing', [$from , $to])
+                ->orderBy('id', 'DESC')
+                ->sum('transaksi_data_grading_akhir.jumlah_pcs');
+        
+        $sumNetWeight = DB::table('packing')
+                ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
+                ->whereBetween('tanggal_packing', [$from , $to])
+                ->orderBy('id', 'DESC')
+                ->sum(DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading * transaksi_data_grading_akhir.jumlah_pcs) / 1000)'));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'data get successfully',
+            'sumQuantity' => $sumQuantity,
+            'sumNetWeight' => $sumNetWeight,
+            'data' => $data
+        ], Response::HTTP_OK);
+    }
 }
