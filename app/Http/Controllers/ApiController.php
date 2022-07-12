@@ -1672,7 +1672,7 @@ class ApiController extends Controller
                             'mandor.id as mandor_id',
                             'mandor.tanggal_proses as mandor_tanggal_proses',
                             'master_rumah_walet.no_register as no_register',
-                            DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading * transaksi_data_grading_akhir.jumlah_pcs) / 1000) as net_weight_kg')
+                            DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading * packing.box) / 1000) as net_weight_kg')
                            )
                 ->orderBy('id', 'DESC')
                 ->get();
