@@ -1679,7 +1679,7 @@ class ApiController extends Controller
          $sumQuantity = DB::table('packing')
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
                 ->orderBy('id', 'DESC')
-                ->sum('transaksi_data_grading_akhir.jumlah_pcs');
+                ->sum('packing.box');
         
         $sumNetWeight = DB::table('packing')
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
@@ -1724,7 +1724,7 @@ class ApiController extends Controller
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
                 ->where('transaksi_data_grading_akhir.kode_partai', 'like', "{$filter}")
                 ->orderBy('id', 'DESC')
-                ->sum('transaksi_data_grading_akhir.jumlah_pcs');
+                ->sum('packing.box');
         
         $sumNetWeight = DB::table('packing')
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
@@ -1770,7 +1770,7 @@ class ApiController extends Controller
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
                 ->where('packing.kode_transaksi_grading', 'like', "{$filter}")
                 ->orderBy('id', 'DESC')
-                ->sum('transaksi_data_grading_akhir.jumlah_pcs');
+                ->sum('packing.box');
         
         $sumNetWeight = DB::table('packing')
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
@@ -1817,7 +1817,7 @@ class ApiController extends Controller
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
                 ->whereBetween('tanggal_packing', [$from , $to])
                 ->orderBy('id', 'DESC')
-                ->sum('transaksi_data_grading_akhir.jumlah_pcs');
+                ->sum('packing.box');
         
         $sumNetWeight = DB::table('packing')
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
