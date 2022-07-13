@@ -1684,7 +1684,7 @@ class ApiController extends Controller
         $sumNetWeight = DB::table('packing')
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
                 ->orderBy('id', 'DESC')
-                ->sum(DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading * transaksi_data_grading_akhir.jumlah_pcs) / 1000)'));
+                ->sum(DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading *  packing.box) / 1000)'));
 
         return response()->json([
             'success' => true,
@@ -1716,7 +1716,7 @@ class ApiController extends Controller
                             'mandor.id as mandor_id',
                             'mandor.tanggal_proses as mandor_tanggal_proses',
                             'master_rumah_walet.no_register as no_register',
-                            DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading * transaksi_data_grading_akhir.jumlah_pcs) / 1000) as net_weight_kg')
+                            DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading *  packing.box) / 1000) as net_weight_kg')
                            )
                 ->orderBy('id', 'DESC')
                 ->get();
@@ -1730,7 +1730,7 @@ class ApiController extends Controller
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
                 ->where('transaksi_data_grading_akhir.kode_partai', 'like', "{$filter}")
                 ->orderBy('id', 'DESC')
-                ->sum(DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading * transaksi_data_grading_akhir.jumlah_pcs) / 1000)'));
+                ->sum(DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading *  packing.box) / 1000)'));
         
         return response()->json([
             'success' => true,
@@ -1762,7 +1762,7 @@ class ApiController extends Controller
                             'mandor.id as mandor_id',
                             'mandor.tanggal_proses as mandor_tanggal_proses',
                             'master_rumah_walet.no_register as no_register',
-                            DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading * transaksi_data_grading_akhir.jumlah_pcs) / 1000) as net_weight_kg')
+                            DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading *  packing.box) / 1000) as net_weight_kg')
                            )
                 ->orderBy('id', 'DESC')
                 ->get();
@@ -1776,7 +1776,7 @@ class ApiController extends Controller
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
                  ->where('packing.kode_transaksi_grading', 'like', "{$filter}")
                 ->orderBy('id', 'DESC')
-                ->sum(DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading * transaksi_data_grading_akhir.jumlah_pcs) / 1000)'));
+                ->sum(DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading *  packing.box) / 1000)'));
         return response()->json([
             'success' => true,
             'message' => 'data get successfully',
