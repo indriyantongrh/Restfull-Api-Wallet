@@ -1529,7 +1529,6 @@ class ApiController extends Controller
                             ->leftjoin('master_rumah_walet', 'master_rumah_walet.nama', '=', 'adding.no_register')
                             ->leftjoin('packing', 'packing.grade_akhir_id', '=', 'transaksi_data_grading_akhir.id')
                             // ->(('gradding.jumlah_sbw' - 'dry_kedua.jumlah_sbw')/'gradding.jumlah_sbw' )
-                            
                             ->select('transaksi_data_grading_akhir.*', 
                             'gradding.id as gradding_id', 
                             'gradding.jumlah_sbw as gradding_jumlah_sbw', 
@@ -1543,18 +1542,108 @@ class ApiController extends Controller
                             'adding.id as adding_id',
                             'adding.tanggal_panen as adding_tanggal_panen',
                             'adding.tanggal_penerima as adding_tanggal_penerima',
-                         
                             'adding.no_register as adding_nama_rumah_walet',
                             'adding.jumlah_sbw_kotor as adding_berat_sbw_kotor',
                             'master_rumah_walet.no_register as adding_no_register',
-                            'packing.tanggal_pengiriman as tanggal_pengiriman')
+                            'packing.tanggal_pengiriman as tanggal_pengiriman',
+                            DB::raw('(adding.jumlah_sbw_kotor - gradding.jumlah_sbw) as susut_sortir'),
+                            DB::raw('((gradding.jumlah_sbw - dry_kedua.jumlah_sbw) / (gradding.jumlah_sbw / 100)) as persentasi_susut')
+                            )
                             ->orderBy('id', 'DESC')
                             ->get();
+
+            $sumjumlahKepingAwal = DB::table('transaksi_data_grading_akhir')
+                            ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
+                            ->leftjoin('mandor', 'mandor.id', '=', 'dry_kedua.mandor_id')
+                            ->leftjoin('gradding', 'gradding.id', '=', 'mandor.gradding_id')
+                            ->orderBy('id', 'DESC')
+                            ->sum('gradding.jumlah_keping');
+
+            $sumjumlahKepingAkhir = DB::table('transaksi_data_grading_akhir')
+                            ->orderBy('id', 'DESC')
+                            ->sum('transaksi_data_grading_akhir.jumlah_pcs');
+
+            $sumberatpenjualan = DB::table('transaksi_data_grading_akhir')
+                            ->orderBy('id', 'DESC')
+                            ->sum('transaksi_data_grading_akhir.jumlah_sbw_grading');
 
           if ($gradeakhir){
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
+                'sumjumlahKepingAwal' => $sumjumlahKepingAwal,
+                'sumjumlahKepingAkhir' => $sumjumlahKepingAkhir,
+                'sumberatpenjualan' => $sumberatpenjualan,
+                'data' => $gradeakhir
+            ],  200);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
+    }
+
+    public function filterPartaiTracebility(Request $request){
+        $data = $request->get('data');
+            $gradeakhir = DB::table('transaksi_data_grading_akhir')
+                            ->where('transaksi_data_grading_akhir.kode_partai', 'like', "{$data}")
+
+                            ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
+                            ->leftjoin('mandor', 'mandor.id', '=', 'dry_kedua.mandor_id')
+                            ->leftjoin('gradding', 'gradding.id', '=', 'mandor.gradding_id')
+                            ->leftjoin('adding', 'adding.id', '=', 'mandor.adding_id')
+                            ->leftjoin('master_rumah_walet', 'master_rumah_walet.nama', '=', 'adding.no_register')
+                            ->leftjoin('packing', 'packing.grade_akhir_id', '=', 'transaksi_data_grading_akhir.id')
+                            // ->(('gradding.jumlah_sbw' - 'dry_kedua.jumlah_sbw')/'gradding.jumlah_sbw' )
+                            ->select('transaksi_data_grading_akhir.*', 
+                            'gradding.id as gradding_id', 
+                            'gradding.jumlah_sbw as gradding_jumlah_sbw', 
+                            'gradding.jumlah_keping as gradding_jumlah_keping', 
+                            'dry_kedua.tanggal_proses as tanggal_proses_dry_kedua', 
+                            'dry_kedua.id as dry_kedua_id' ,
+                            'dry_kedua.jumlah_sbw as dry_kedua_jumlah_sbw' ,
+                            'mandor.id as mandor_id',
+                            'mandor.tanggal_proses as mandor_tanggal_proses',
+                            'mandor.jumlah_sbw as mandor_berat_sbw',
+                            'adding.id as adding_id',
+                            'adding.tanggal_panen as adding_tanggal_panen',
+                            'adding.tanggal_penerima as adding_tanggal_penerima',
+                            'adding.no_register as adding_nama_rumah_walet',
+                            'adding.jumlah_sbw_kotor as adding_berat_sbw_kotor',
+                            'master_rumah_walet.no_register as adding_no_register',
+                            'packing.tanggal_pengiriman as tanggal_pengiriman',
+                            DB::raw('(adding.jumlah_sbw_kotor - gradding.jumlah_sbw) as susut_sortir'),
+                            DB::raw('((gradding.jumlah_sbw - dry_kedua.jumlah_sbw) / (gradding.jumlah_sbw / 100)) as persentasi_susut')
+                            )
+                            ->orderBy('id', 'DESC')
+                            ->get();
+
+            $sumjumlahKepingAwal = DB::table('transaksi_data_grading_akhir')
+                            ->where('transaksi_data_grading_akhir.kode_partai', 'like', "{$data}")
+                            ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
+                            ->leftjoin('mandor', 'mandor.id', '=', 'dry_kedua.mandor_id')
+                            ->leftjoin('gradding', 'gradding.id', '=', 'mandor.gradding_id')
+                            ->orderBy('id', 'DESC')
+                            ->sum('gradding.jumlah_keping');
+
+            $sumjumlahKepingAkhir = DB::table('transaksi_data_grading_akhir')
+                            ->where('transaksi_data_grading_akhir.kode_partai', 'like', "{$data}")
+                            ->orderBy('id', 'DESC')
+                            ->sum('transaksi_data_grading_akhir.jumlah_pcs');
+
+            $sumberatpenjualan = DB::table('transaksi_data_grading_akhir')
+                            ->where('transaksi_data_grading_akhir.kode_partai', 'like', "{$data}")
+                            ->orderBy('id', 'DESC')
+                            ->sum('transaksi_data_grading_akhir.jumlah_sbw_grading');
+
+          if ($gradeakhir){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'sumjumlahKepingAwal' => $sumjumlahKepingAwal,
+                'sumjumlahKepingAkhir' => $sumjumlahKepingAkhir,
+                'sumberatpenjualan' => $sumberatpenjualan,
                 'data' => $gradeakhir
             ],  200);
         }else{

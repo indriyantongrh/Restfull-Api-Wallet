@@ -124,7 +124,7 @@ Route::post('filter-kp-drykedua',  [ApiController::class, 'filterKodepartaiDryKe
 Route::post('filter-kseri-gradeakhir',  [ApiController::class, 'filterKodeSeriGradeakhir']);
 Route::post('filter-kp-gradeakhir',  [ApiController::class, 'filterKodePartaiGradeakhir']);
 Route::post('filter-kp-packinglist',  [ApiController::class, 'filterkodepartaipackinglist']);
-
+Route::post('filter-kp-tracebility',  [ApiController::class, 'filterPartaiTracebility']);
 
 // End
 // Penjumlahan grade akhir
