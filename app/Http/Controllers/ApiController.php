@@ -1564,7 +1564,7 @@ class ApiController extends Controller
                             'master_rumah_walet.no_register as adding_no_register',
                             'packing.tanggal_pengiriman as tanggal_pengiriman',
                             DB::raw('(adding.jumlah_sbw_kotor - gradding.jumlah_sbw) as susut_sortir'),
-                            DB::raw('((gradding.jumlah_sbw - dry_kedua.jumlah_sbw) / (gradding.jumlah_sbw / 100)) as persentasi_susut')
+                            DB::raw('((gradding.jumlah_sbw - dry_kedua.jumlah_sbw) / (gradding.jumlah_sbw / 100)) as persentasi_susut, 5')
                             )
                             ->orderBy('id', 'DESC')
                             ->get();
