@@ -1564,7 +1564,7 @@ class ApiController extends Controller
                             'master_rumah_walet.no_register as adding_no_register',
                             'packing.tanggal_pengiriman as tanggal_pengiriman',
                             DB::raw('(adding.jumlah_sbw_kotor - gradding.jumlah_sbw) as susut_sortir'),
-                            DB::raw('((gradding.jumlah_sbw - dry_kedua.jumlah_sbw) / (gradding.jumlah_sbw / 100)) as persentasi_susut, 5')
+                            DB::raw('((gradding.jumlah_sbw - dry_kedua.jumlah_sbw) / (gradding.jumlah_sbw / 100)) as persentasi_susut')
                             )
                             ->orderBy('id', 'DESC')
                             ->get();
@@ -1930,7 +1930,7 @@ class ApiController extends Controller
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
                 ->whereBetween('tanggal_packing', [$from , $to])
                 ->orderBy('id', 'DESC')
-                ->sum(DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading * transaksi_data_grading_akhir.jumlah_pcs) / 1000)'));
+                ->sum(DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading *  packing.box) / 1000)'));
 
         return response()->json([
             'success' => true,
