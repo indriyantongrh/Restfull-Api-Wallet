@@ -833,11 +833,29 @@ class ApiController extends Controller
                 'data' => $data
             ], Response::HTTP_OK);
     }
+     public function allKartuStock(Request $request)
+        {
+        $data = DB::table('transaksi_data_grading_akhir')
+                         ->join('streaming','streaming.kode_transaksi_grading' , '=',  'transaksi_data_grading_akhir.kode_transaksi_grading')
+                        //  ->where()
+                         ->select('transaksi_data_grading_akhir.*',
+                            // DB::raw(' IF (pemanas.kode_transaksi_grading = transaksi_data_grading_akhir.kode_transaksi_grading) as status="SOLD"'),
+                            // DB::raw('((gradding.jumlah_sbw - dry_kedua.jumlah_sbw) / (gradding.jumlah_sbw / 100)) as persentasi_susut')
+                            )
+                            ->orderBy('id', 'DESC')
+                            ->get();
+        // $sbwsum = gradingakhir::sum('jumlah_sbw_grading');
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                // 'sbwTotal' => $sbwsum,
+                'data' => $data
+            ], Response::HTTP_OK);
+    }
      public function allStreaming(Request $request)
         {
         $data = pemanas::orderBy('id', 'DESC')->get();
         // $sbwsum = pemanas::sum('jumlah_sbw_grading');
-       
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
@@ -850,7 +868,6 @@ class ApiController extends Controller
         {
         $data = packing::orderBy('id', 'DESC')->get();
         // $sbwsum = pemanas::sum('jumlah_sbw_grading');
-       
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
@@ -1897,7 +1914,8 @@ class ApiController extends Controller
                             'mandor.id as mandor_id',
                             'mandor.tanggal_proses as mandor_tanggal_proses',
                             'master_rumah_walet.no_register as no_register',
-                            DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading * transaksi_data_grading_akhir.jumlah_pcs) / 1000) as net_weight_kg')
+                            DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading *  packing.box) / 1000) as net_weight_kg')
+                            // DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading * transaksi_data_grading_akhir.jumlah_pcs) / 1000) as net_weight_kg')
                            )
                 ->orderBy('id', 'DESC')
                 ->get();

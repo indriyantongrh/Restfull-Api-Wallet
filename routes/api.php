@@ -68,6 +68,8 @@ Route::get('get-all-streaming',  [ApiController::class, 'allStreaming']);
 Route::get('get-all-packing',  [ApiController::class, 'allPacking']);
 Route::get('get-all-tracebility',  [ApiController::class, 'getAllTracebility']);
 Route::get('get-packing-list',  [ApiController::class, 'packinglist']);
+Route::get('get-all-kartustock',  [ApiController::class, 'allKartuStock']);
+
 
 
 // end
