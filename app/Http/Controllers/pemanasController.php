@@ -51,7 +51,7 @@ class pemanasController extends Controller
     {
 
         //Validate data
-        $data = $request->only('id', 'user_id', 'kode_transaksi_grading','temperatur_pre_heating', 'waktu_pre_heating','temperatur_tot', 'waktu_tot','jumlah_keping', 'jumlah_pending_keping', 'status', 'tanggal_proses', 'keterangan');
+        $data = $request->only('id', 'user_id', 'kode_transaksi_grading','temperatur_pre_heating', 'waktu_pre_heating','temperatur_tot', 'waktu_tot','jumlah_keping', 'jumlah_pending_keping', 'status', 'tanggal_proses', 'keterangan', 'status_jual');
         $kode_transaksiExist = pemanas::where('kode_transaksi_grading', '=', $request->input('kode_transaksi_grading'))->first();
         $validator = Validator::make($data, [
             // 'no_register' => 'required',
@@ -76,7 +76,8 @@ class pemanasController extends Controller
                 'jumlah_keping' => $request->jumlah_keping,
                 'jumlah_pending_keping' => $request->jumlah_pending_keping,
                 'status' => $request->status,
-                'keterangan' => $request->keterangan
+                'keterangan' => $request->keterangan,
+                'status_jual' => $request->status_jual
             ]);
 
             //Product created, return success response

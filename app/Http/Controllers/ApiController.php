@@ -835,21 +835,21 @@ class ApiController extends Controller
     }
      public function allKartuStock(Request $request)
         {
+
         $data = DB::table('transaksi_data_grading_akhir')
-                         ->leftjoin('streaming','streaming.kode_transaksi_grading' , '=',  'transaksi_data_grading_akhir.kode_transaksi_grading')
-                        //  ->where()
-                         ->select('transaksi_data_grading_akhir.*',
-                            'streaming.status_jual as status_jual'
-                            // DB::raw(' IF (pemanas.kode_transaksi_grading = transaksi_data_grading_akhir.kode_transaksi_grading) as status="SOLD"'),
-                            // DB::raw('((gradding.jumlah_sbw - dry_kedua.jumlah_sbw) / (gradding.jumlah_sbw / 100)) as persentasi_susut')
-                            )
-                            ->orderBy('id', 'DESC')
-                            ->get();
-        // $sbwsum = gradingakhir::sum('jumlah_sbw_grading');
+                        ->leftjoin('streaming','streaming.kode_transaksi_grading' , '=',  'transaksi_data_grading_akhir.kode_transaksi_grading')
+                        ->select('transaksi_data_grading_akhir.*',
+                            'streaming.status_jual as status_jual')
+                        ->orderBy('id', 'DESC')
+                        ->get();
+        $sbwsum = DB::table('transaksi_data_grading_akhir')
+                        ->leftjoin('streaming','streaming.kode_transaksi_grading' , '=',  'transaksi_data_grading_akhir.kode_transaksi_grading')
+                        ->orderBy('id', 'DESC')
+                        ->sum('transaksi_data_grading_akhir.jumlah_sbw_grading');
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
-                // 'sbwTotal' => $sbwsum,
+                'sbwTotal' => $sbwsum,
                 'data' => $data
             ], Response::HTTP_OK);
     }
@@ -1128,6 +1128,37 @@ class ApiController extends Controller
                 // 'sbwTotal' => $sbwsum,
                 // 'pcsTotal' => $pcssum,
                 // 'boxTotal' => $boxsum,
+                'data' => $filterDate
+            ],  200);
+            
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
+    }
+
+    public function filterbyDateKartuStock(Request $request){
+        $from = $request->from;
+        $to = $request->to;
+        $filterDate = DB::table('transaksi_data_grading_akhir')
+                        ->whereBetween('transaksi_data_grading_akhir.created_at', [$from , $to])
+                        ->leftjoin('streaming','streaming.kode_transaksi_grading' , '=',  'transaksi_data_grading_akhir.kode_transaksi_grading')
+                        ->select('transaksi_data_grading_akhir.*',
+                            'streaming.status_jual as status_jual')
+                        ->orderBy('id', 'DESC')
+                        ->get();
+        $sbwsum = DB::table('transaksi_data_grading_akhir')
+                        ->whereBetween('transaksi_data_grading_akhir.created_at', [$from , $to])
+                        ->leftjoin('streaming','streaming.kode_transaksi_grading' , '=',  'transaksi_data_grading_akhir.kode_transaksi_grading')
+                        ->orderBy('id', 'DESC')
+                        ->sum('transaksi_data_grading_akhir.jumlah_sbw_grading');
+        if ($filterDate){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
                 'data' => $filterDate
             ],  200);
             
@@ -1491,6 +1522,35 @@ class ApiController extends Controller
         }
     }
 
+    public function filterSeriGradeakhirKartuStock(Request $request){
+        $data = $request->get('data');
+        $filter = DB::table('transaksi_data_grading_akhir')
+                        ->where('transaksi_data_grading_akhir.kode_transaksi_grading', 'like', "{$data}")
+                        ->leftjoin('streaming','streaming.kode_transaksi_grading' , '=',  'transaksi_data_grading_akhir.kode_transaksi_grading')
+                        ->select('transaksi_data_grading_akhir.*',
+                            'streaming.status_jual as status_jual')
+                        ->orderBy('id', 'DESC')
+                        ->get();
+        $sbwsum = DB::table('transaksi_data_grading_akhir')
+                        ->where('transaksi_data_grading_akhir.kode_transaksi_grading', 'like', "{$data}")
+                        ->leftjoin('streaming','streaming.kode_transaksi_grading' , '=',  'transaksi_data_grading_akhir.kode_transaksi_grading')
+                        ->orderBy('id', 'DESC')
+                        ->sum('transaksi_data_grading_akhir.jumlah_sbw_grading');
+          if ($filter){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
+                'data' => $filter
+            ],  200);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
+    }
+
     public function filterSeriGradeAkhir(Request $request){
         $data = $request->get('data');
             $gradeakhir = DB::table('transaksi_data_grading_akhir')
@@ -1678,6 +1738,38 @@ class ApiController extends Controller
         $sbwsum = gradingakhir::where('name_jenis_garding', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_sbw_grading');
         // $pcssum = drykedua::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_keping');
         // $boxsum = drykedua::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_box');
+          if ($filter){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ditemukan',
+                'sbwTotal' => $sbwsum,
+                // 'pcsTotal' => $pcssum,
+                // 'boxTotal' => $boxsum,
+                'data' => $filter
+            ],  200);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kosong',
+            ],  200);
+        }
+    }
+
+    public function filterJenisGradeakhirKartuStock(Request $request){
+        $data = $request->get('data');
+
+        $filter = DB::table('transaksi_data_grading_akhir')
+                        ->where('transaksi_data_grading_akhir.name_jenis_garding', 'like', "{$data}")
+                        ->leftjoin('streaming','streaming.kode_transaksi_grading' , '=',  'transaksi_data_grading_akhir.kode_transaksi_grading')
+                        ->select('transaksi_data_grading_akhir.*',
+                            'streaming.status_jual as status_jual')
+                        ->orderBy('id', 'DESC')
+                        ->get();
+        $sbwsum = DB::table('transaksi_data_grading_akhir')
+                        ->where('transaksi_data_grading_akhir.name_jenis_garding', 'like', "{$data}")
+                        ->leftjoin('streaming','streaming.kode_transaksi_grading' , '=',  'transaksi_data_grading_akhir.kode_transaksi_grading')
+                        ->orderBy('id', 'DESC')
+                        ->sum('transaksi_data_grading_akhir.jumlah_sbw_grading');
           if ($filter){
             return response()->json([
                 'success' => true,

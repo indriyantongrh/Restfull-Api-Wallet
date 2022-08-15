@@ -48,6 +48,7 @@ Route::post('cari-gradingakhir',  [ApiController::class, 'searchGradingAkhir']);
 Route::post('cari-ga-streaming',  [ApiController::class, 'searchKodeGAStreaming']);
 Route::post('cari-ga-packing',  [ApiController::class, 'searchKodeGAPacking']);
 Route::post('filter-jenis-gradeakhir',  [ApiController::class, 'filterJenisGradeakhir']);
+Route::post('filter-jenis-gradeakhir-kartustock',  [ApiController::class, 'filterJenisGradeakhirKartuStock']);
 Route::get('filter-ga-traceability',  [ApiController::class, 'filterSeriGradeAkhir']);
 Route::post('filter-ga-packinglist',  [ApiController::class, 'filtergradeakhirpackinglist']);
 
@@ -86,6 +87,7 @@ Route::get('filter-date-streaming',  [ApiController::class, 'filterbyDateStreami
 Route::get('filter-date-packing',  [ApiController::class, 'filterbyDatePacking']);
 Route::get('filter-date-partai-mandor',  [ApiController::class, 'filterDatePartaimandor']);
 Route::get('filter-date-packinglist',  [ApiController::class, 'filterdatepackinglist']);
+Route::get('filter-date-kartustock',  [ApiController::class, 'filterbyDateKartuStock']);
 
 // end
 // view data 
@@ -127,6 +129,8 @@ Route::post('filter-kseri-gradeakhir',  [ApiController::class, 'filterKodeSeriGr
 Route::post('filter-kp-gradeakhir',  [ApiController::class, 'filterKodePartaiGradeakhir']);
 Route::post('filter-kp-packinglist',  [ApiController::class, 'filterkodepartaipackinglist']);
 Route::post('filter-kp-tracebility',  [ApiController::class, 'filterPartaiTracebility']);
+Route::post('filter-seri-ga-kartustock',  [ApiController::class, 'filterSeriGradeakhirKartuStock']);
+
 
 // End
 // Penjumlahan grade akhir

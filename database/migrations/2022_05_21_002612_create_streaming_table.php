@@ -26,6 +26,7 @@ class CreateStreamingTable extends Migration
             $table->string('tanggal_proses');
             $table->string('keterangan');
             $table->string('status');
+            $table->string('status_jual')->default("sold");
             $table->timestamps();
         });
     }

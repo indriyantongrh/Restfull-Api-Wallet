@@ -23,6 +23,6 @@ class pemanas extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id', 'user_id', 'kode_transaksi_grading','temperatur_pre_heating', 'waktu_pre_heating','temperatur_tot', 'waktu_tot', 'tanggal_proses', 'jumlah_keping', 'jumlah_pending_keping', 'status', 'keterangan', 'created_at', 'updated_at'];
+    protected $fillable = ['id', 'user_id', 'kode_transaksi_grading','temperatur_pre_heating', 'waktu_pre_heating','temperatur_tot', 'waktu_tot', 'tanggal_proses', 'jumlah_keping', 'jumlah_pending_keping', 'status', 'keterangan', 'status_jual', 'created_at', 'updated_at'];
 
 }
