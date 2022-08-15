@@ -836,9 +836,10 @@ class ApiController extends Controller
      public function allKartuStock(Request $request)
         {
         $data = DB::table('transaksi_data_grading_akhir')
-                         ->join('streaming','streaming.kode_transaksi_grading' , '=',  'transaksi_data_grading_akhir.kode_transaksi_grading')
+                         ->leftjoin('streaming','streaming.kode_transaksi_grading' , '=',  'transaksi_data_grading_akhir.kode_transaksi_grading')
                         //  ->where()
                          ->select('transaksi_data_grading_akhir.*',
+                            'streaming.status_jual as status_jual'
                             // DB::raw(' IF (pemanas.kode_transaksi_grading = transaksi_data_grading_akhir.kode_transaksi_grading) as status="SOLD"'),
                             // DB::raw('((gradding.jumlah_sbw - dry_kedua.jumlah_sbw) / (gradding.jumlah_sbw / 100)) as persentasi_susut')
                             )
