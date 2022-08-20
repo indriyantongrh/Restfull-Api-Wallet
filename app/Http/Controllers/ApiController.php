@@ -1715,6 +1715,19 @@ class ApiController extends Controller
                             ->orderBy('id', 'DESC')
                             ->sum('transaksi_data_grading_akhir.jumlah_sbw_grading');
 
+            $sumgrading = DB::table('gradding')
+                            ->where('gradding.kode_partai', 'like', "{$data}")
+                            ->orderBy('id', 'DESC')
+                            ->sum('gradding.jumlah_sbw');
+
+            $sumadding = DB::table('adding')
+                            ->where('adding.kode_partai', 'like', "{$data}")
+                            ->orderBy('id', 'DESC')
+                            ->sum('adding.jumlah_sbw_kotor');
+
+            $susutsortir = $sumadding - $sumgrading;
+
+
           if ($gradeakhir){
             return response()->json([
                 'success' => true,
@@ -1722,6 +1735,7 @@ class ApiController extends Controller
                 'sumjumlahKepingAwal' => $sumjumlahKepingAwal,
                 'sumjumlahKepingAkhir' => $sumjumlahKepingAkhir,
                 'sumberatpenjualan' => $sumberatpenjualan,
+                'susutsortir' => $susutsortir,
                 'data' => $gradeakhir
             ],  200);
         }else{
