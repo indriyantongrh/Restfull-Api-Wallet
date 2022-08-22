@@ -1606,6 +1606,7 @@ class ApiController extends Controller
                             ->leftjoin('adding', 'adding.id', '=', 'mandor.adding_id')
                             ->leftjoin('master_rumah_walet', 'master_rumah_walet.nama', '=', 'adding.no_register')
                             ->leftjoin('packing', 'packing.grade_akhir_id', '=', 'transaksi_data_grading_akhir.id')
+                            ->leftjoin('streaming', 'streaming.kode_transaksi_grading', '=', 'transaksi_data_grading_akhir.kode_transaksi_grading')
                             // ->(('gradding.jumlah_sbw' - 'dry_kedua.jumlah_sbw')/'gradding.jumlah_sbw' )
                             ->select('transaksi_data_grading_akhir.*', 
                             'gradding.id as gradding_id', 
@@ -1623,7 +1624,7 @@ class ApiController extends Controller
                             'adding.no_register as adding_nama_rumah_walet',
                             'adding.jumlah_sbw_kotor as adding_berat_sbw_kotor',
                             'master_rumah_walet.no_register as adding_no_register',
-                            'packing.tanggal_pengiriman as tanggal_pengiriman',
+                            'streaming.tanggal_proses as tanggal_pengiriman',
                             DB::raw('(adding.jumlah_sbw_kotor - gradding.jumlah_sbw) as susut_sortir'),
                             DB::raw('((gradding.jumlah_sbw - dry_kedua.jumlah_sbw) / (gradding.jumlah_sbw / 100)) as persentasi_susut')
                             )
@@ -1673,6 +1674,8 @@ class ApiController extends Controller
                             ->leftjoin('adding', 'adding.id', '=', 'mandor.adding_id')
                             ->leftjoin('master_rumah_walet', 'master_rumah_walet.nama', '=', 'adding.no_register')
                             ->leftjoin('packing', 'packing.grade_akhir_id', '=', 'transaksi_data_grading_akhir.id')
+                            ->leftjoin('streaming', 'streaming.kode_transaksi_grading', '=', 'transaksi_data_grading_akhir.kode_transaksi_grading')
+
                             // ->(('gradding.jumlah_sbw' - 'dry_kedua.jumlah_sbw')/'gradding.jumlah_sbw' )
                             ->select('transaksi_data_grading_akhir.*', 
                             'gradding.id as gradding_id', 
@@ -1690,7 +1693,7 @@ class ApiController extends Controller
                             'adding.no_register as adding_nama_rumah_walet',
                             'adding.jumlah_sbw_kotor as adding_berat_sbw_kotor',
                             'master_rumah_walet.no_register as adding_no_register',
-                            'packing.tanggal_pengiriman as tanggal_pengiriman',
+                            'streaming.tanggal_proses as tanggal_pengiriman',
                             DB::raw('(adding.jumlah_sbw_kotor - gradding.jumlah_sbw) as susut_sortir'),
                             DB::raw('((gradding.jumlah_sbw - dry_kedua.jumlah_sbw) / (gradding.jumlah_sbw / 100)) as persentasi_susut')
                             )
