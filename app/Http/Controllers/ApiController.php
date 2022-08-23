@@ -824,12 +824,13 @@ class ApiController extends Controller
         {
         $data = gradingakhir::orderBy('id', 'DESC')->get();
         $sbwsum = gradingakhir::sum('jumlah_sbw_grading');
+        $pcssum = gradingakhir::sum('jumlah_pcs');
        
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
                 'sbwTotal' => $sbwsum,
-             
+                'pcsTotal' => $pcssum,
                 'data' => $data
             ], Response::HTTP_OK);
     }
@@ -1069,14 +1070,14 @@ class ApiController extends Controller
         $to = $request->to;
         $filterDate = gradingakhir::whereBetween('created_at', [$from , $to])->orderBy('id', 'DESC')->get();
         $sbwsum = gradingakhir::whereBetween('created_at', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_sbw_grading');
-        // $pcssum = drykedua::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_keping');
+        $pcssum = gradingakhir::whereBetween('created_at', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_pcs');
         // $boxsum = drykedua::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_box');
         if ($filterDate){
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
                 'sbwTotal' => $sbwsum,
-                // 'pcsTotal' => $pcssum,
+                'pcsTotal' => $pcssum,
                 // 'boxTotal' => $boxsum,
                 'data' => $filterDate
             ],  200);
@@ -1481,14 +1482,14 @@ class ApiController extends Controller
         $data = $request->get('data');
         $filter = gradingakhir::where('kode_transaksi_grading', 'like', "{$data}")->orderBy('id', 'DESC')->get();
         $sbwsum = gradingakhir::where('kode_transaksi_grading', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_sbw_grading');
-        // $pcssum = drykedua::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_keping');
+        $pcssum = gradingakhir::where('kode_transaksi_grading', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_pcs');
         // $boxsum = drykedua::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_box');
           if ($filter){
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
                 'sbwTotal' => $sbwsum,
-                // 'pcsTotal' => $pcssum,
+                'pcsTotal' => $pcssum,
                 // 'boxTotal' => $boxsum,
                 'data' => $filter
             ],  200);
@@ -1503,14 +1504,14 @@ class ApiController extends Controller
         $data = $request->get('data');
         $filter = gradingakhir::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->get();
         $sbwsum = gradingakhir::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_sbw_grading');
-        // $pcssum = drykedua::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_keping');
+        $pcssum = gradingakhir::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_pcs');
         // $boxsum = drykedua::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_box');
           if ($filter){
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
                 'sbwTotal' => $sbwsum,
-                // 'pcsTotal' => $pcssum,
+                'pcsTotal' => $pcssum,
                 // 'boxTotal' => $boxsum,
                 'data' => $filter
             ],  200);
@@ -1700,11 +1701,18 @@ class ApiController extends Controller
                             ->orderBy('id', 'DESC')
                             ->get();
 
-            $sumjumlahKepingAwal = DB::table('transaksi_data_grading_akhir')
-                            ->where('transaksi_data_grading_akhir.kode_partai', 'like', "{$data}")
-                            ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
-                            ->leftjoin('mandor', 'mandor.id', '=', 'dry_kedua.mandor_id')
-                            ->leftjoin('gradding', 'gradding.id', '=', 'mandor.gradding_id')
+            // $sumjumlahKepingAwal = DB::table('transaksi_data_grading_akhir')
+            //                 ->where('transaksi_data_grading_akhir.kode_partai', 'like', "{$data}")
+            //                 ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
+            //                 ->leftjoin('mandor', 'mandor.id', '=', 'dry_kedua.mandor_id')
+            //                 ->leftjoin('gradding', 'gradding.id', '=', 'mandor.gradding_id')
+            //                 ->orderBy('id', 'DESC')
+            //                 ->sum('gradding.jumlah_keping');
+            $sumjumlahKepingAwal = DB::table('gradding')
+                            ->where('gradding.kode_partai', 'like', "{$data}")
+                            // ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
+                            // ->leftjoin('mandor', 'mandor.id', '=', 'dry_kedua.mandor_id')
+                            // ->leftjoin('gradding', 'gradding.id', '=', 'mandor.gradding_id')
                             ->orderBy('id', 'DESC')
                             ->sum('gradding.jumlah_keping');
 
