@@ -1821,17 +1821,29 @@ class ApiController extends Controller
             $id= $request->get('id');
             $jumlah_sbw_grading= $request->get('jumlah_sbw_grading');
             $filter = drykedua::where('id', 'like', "{$id}")->first();
+            $lebihbesar = $jumlah_sbw_grading >= $filter->jumlah_sbw_saldo;
             $filter->jumlah_sbw_saldo = ($filter->jumlah_sbw_saldo - $jumlah_sbw_grading);
             // $drykedua->jumlah_keping_saldo = ($drykedua->jmlh_keping_saldo - $request->jumlah_keping);
-            $filter->update();
 
             // $data= $request->get('data');
             // $response =  gradingakhir::insert(json_decode($data, true)); // Eloquent approach
-            return response()->json([
-                'code' => 1,
-                'success' => true,
-                'message' => 'Data berhasil diupdate!',
-            ], Response::HTTP_OK);
+            if ($lebihbesar){
+                return response()->json([
+                                'code' => 2,
+                                'success' => false,
+                                'message' => 'Jumlah yang anda inputkan melebihi stock',
+                            ], Response::HTTP_OK);
+
+            }else{
+                $filter->update();
+
+                return response()->json([
+                                'code' => 1,
+                                'success' => true,
+                                'message' => 'Data berhasil diupdate!',
+                            ], Response::HTTP_OK);
+            }
+            
         }
 
         public function restorestock(Request $request)
