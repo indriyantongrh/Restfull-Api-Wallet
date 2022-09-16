@@ -212,12 +212,12 @@ class MandorController extends Controller
      * @param  \App\gradding  $gradding
      * @return \Illuminate\Http\Response
      */
-    public function destroy(mandor $mandor,  Request $request)
+    public function destroy(mandor $id,  Request $request)
     {
-            $mandorGet = $this->user->mandor()->find($mandor)->first();
-            $jumlahsaldo = $mandorGet->jumlah_sbw;
-            $kepingsaldo = $mandorGet->jumlah_keping;
-            $idgrading = $mandorGet->gradding_id;
+            //  $datas = $this->user->mandor()->where('id',$id)->first();
+            $jumlahsaldo = $id->jumlah_sbw;
+            $kepingsaldo = $id->jumlah_keping;
+            $idgrading = $id->gradding_id;
 
             // $gradding = gradding::find($idgrading);
             $gradding = gradding::where('id', 'like', "{$idgrading}")->first();
@@ -225,13 +225,13 @@ class MandorController extends Controller
             $gradding->jmlh_keping_saldo = ($gradding->jmlh_keping_saldo + $kepingsaldo);
             $gradding->update();
 
-             $mandor->delete();
+            $id->delete();
             
 
         return response()->json([
             'success' => true,
             'message' => 'data  deleted successfully',
-            'mandorid' => $mandorGet,
+            'mandorid' => $id,
             'jmlhsaldo' => $jumlahsaldo,
             'kepingsalso' => $kepingsaldo,
             'idgrading' => $idgrading,

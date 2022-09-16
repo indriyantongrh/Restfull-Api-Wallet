@@ -171,7 +171,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('viewgmandor/{id}', [MandorController::class, 'show']);
     Route::post('createmandor', [MandorController::class, 'store']);
     Route::post('updatemandor/{mandor}',  [MandorController::class, 'update']);
-    Route::post('deletemandor/{mandor}',  [MandorController::class, 'destroy']);
+    Route::post('deletemandor/{id}',  [MandorController::class, 'destroy']);
     Route::post('deletemandorend',  [MandorController::class, 'destroyend']);
     // end
 
