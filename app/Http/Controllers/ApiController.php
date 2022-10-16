@@ -1708,6 +1708,23 @@ class ApiController extends Controller
             //                 ->leftjoin('gradding', 'gradding.id', '=', 'mandor.gradding_id')
             //                 ->orderBy('id', 'DESC')
             //                 ->sum('gradding.jumlah_keping');
+            $beratKotor = DB::table('transaksi_data_grading_akhir')
+                            ->where('transaksi_data_grading_akhir.kode_partai', 'like', "{$data}")
+
+                            ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
+                            ->leftjoin('mandor', 'mandor.id', '=', 'dry_kedua.mandor_id')
+                            ->leftjoin('gradding', 'gradding.id', '=', 'mandor.gradding_id')
+                            ->leftjoin('adding', 'adding.id', '=', 'mandor.adding_id')
+                            ->select('jumlah_sbw_kotor')
+                            ->first();
+            // $beratAkhirSortir = DB::table('transaksi_data_grading_akhir')
+            //                 ->where('transaksi_data_grading_akhir.kode_partai', 'like', "{$data}")
+
+            //                 ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
+            //                 ->leftjoin('mandor', 'mandor.id', '=', 'dry_kedua.mandor_id')
+            //                 ->leftjoin('gradding', 'gradding.id', '=', 'mandor.gradding_id')
+            //                 // ->select('jumlah_sbw ')
+            //                 ->first();
             $sumjumlahKepingAwal = DB::table('gradding')
                             ->where('gradding.kode_partai', 'like', "{$data}")
                             // ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
@@ -1743,6 +1760,8 @@ class ApiController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
+                'beratKotor' => $beratKotor,
+                // 'beratAkhirSortir' => $beratAkhirSortir,
                 'sumjumlahKepingAwal' => $sumjumlahKepingAwal,
                 'sumjumlahKepingAkhir' => $sumjumlahKepingAkhir,
                 'sumberatpenjualan' => $sumberatpenjualan,
