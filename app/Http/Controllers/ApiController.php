@@ -1630,7 +1630,8 @@ class ApiController extends Controller
                             DB::raw('((gradding.jumlah_sbw - dry_kedua.jumlah_sbw) / (gradding.jumlah_sbw / 100)) as persentasi_susut')
                             )
                             ->orderBy('id', 'DESC')
-                            ->get();
+                            ->paginate(1000); // for pagination
+                            // ->get();
 
             $sumjumlahKepingAwal = DB::table('transaksi_data_grading_akhir')
                             ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
