@@ -1633,28 +1633,28 @@ class ApiController extends Controller
                             ->paginate(20); // for pagination
                             // ->get();
 
-            $sumjumlahKepingAwal = DB::table('transaksi_data_grading_akhir')
-                            ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
-                            ->leftjoin('mandor', 'mandor.id', '=', 'dry_kedua.mandor_id')
-                            ->leftjoin('gradding', 'gradding.id', '=', 'mandor.gradding_id')
-                            ->orderBy('id', 'DESC')
-                            ->sum('gradding.jumlah_keping');
+            // $sumjumlahKepingAwal = DB::table('transaksi_data_grading_akhir')
+            //                 ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
+            //                 ->leftjoin('mandor', 'mandor.id', '=', 'dry_kedua.mandor_id')
+            //                 ->leftjoin('gradding', 'gradding.id', '=', 'mandor.gradding_id')
+            //                 ->orderBy('id', 'DESC')
+            //                 ->sum('gradding.jumlah_keping');
 
-            $sumjumlahKepingAkhir = DB::table('transaksi_data_grading_akhir')
-                            ->orderBy('id', 'DESC')
-                            ->sum('transaksi_data_grading_akhir.jumlah_pcs');
+            // $sumjumlahKepingAkhir = DB::table('transaksi_data_grading_akhir')
+            //                 ->orderBy('id', 'DESC')
+            //                 ->sum('transaksi_data_grading_akhir.jumlah_pcs');
 
-            $sumberatpenjualan = DB::table('transaksi_data_grading_akhir')
-                            ->orderBy('id', 'DESC')
-                            ->sum('transaksi_data_grading_akhir.jumlah_sbw_grading');
+            // $sumberatpenjualan = DB::table('transaksi_data_grading_akhir')
+            //                 ->orderBy('id', 'DESC')
+            //                 ->sum('transaksi_data_grading_akhir.jumlah_sbw_grading');
 
           if ($gradeakhir){
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
-                'sumjumlahKepingAwal' => $sumjumlahKepingAwal,
-                'sumjumlahKepingAkhir' => $sumjumlahKepingAkhir,
-                'sumberatpenjualan' => $sumberatpenjualan,
+                // 'sumjumlahKepingAwal' => $sumjumlahKepingAwal,
+                // 'sumjumlahKepingAkhir' => $sumjumlahKepingAkhir,
+                // 'sumberatpenjualan' => $sumberatpenjualan,
                 'data' => $gradeakhir
             ],  200);
         }else{
