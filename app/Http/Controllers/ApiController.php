@@ -1599,9 +1599,7 @@ class ApiController extends Controller
     }
 
      public function getAllTracebility(Request $request){
-        $data = $request->get('29');
             $gradeakhir = DB::table('transaksi_data_grading_akhir')
-                            ->where('transaksi_data_grading_akhir.user_id', 'like', "29")
                             ->leftjoin('packing', 'packing.grade_akhir_id', '=', 'transaksi_data_grading_akhir.id')
                             ->leftjoin('streaming', 'streaming.kode_transaksi_grading', '=', 'transaksi_data_grading_akhir.kode_transaksi_grading')
                             ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
