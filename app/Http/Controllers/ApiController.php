@@ -1626,7 +1626,7 @@ class ApiController extends Controller
                             'adding.no_register as adding_nama_rumah_walet',
                             'adding.jumlah_sbw_kotor as adding_berat_sbw_kotor',
                             'master_rumah_walet.no_register as adding_no_register',
-                            // 'streaming.tanggal_proses as tanggal_pengiriman',
+                            'streaming.tanggal_proses as tanggal_pengiriman',
                             // DB::raw('(adding.jumlah_sbw_kotor - gradding.jumlah_sbw) as susut_sortir'),
                             // DB::raw('((gradding.jumlah_sbw - dry_kedua.jumlah_sbw) / (gradding.jumlah_sbw / 100)) as persentasi_susut')
                             )
