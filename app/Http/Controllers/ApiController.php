@@ -1601,13 +1601,14 @@ class ApiController extends Controller
      public function getAllTracebility(Request $request){
         $data = $request->get('data');
             $gradeakhir = DB::table('transaksi_data_grading_akhir')
+                            ->leftjoin('packing', 'packing.grade_akhir_id', '=', 'transaksi_data_grading_akhir.id')
+                            ->leftjoin('streaming', 'streaming.kode_transaksi_grading', '=', 'transaksi_data_grading_akhir.kode_transaksi_grading')
                             ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
                             ->leftjoin('mandor', 'mandor.id', '=', 'dry_kedua.mandor_id')
                             ->leftjoin('gradding', 'gradding.id', '=', 'mandor.gradding_id')
                             ->leftjoin('adding', 'adding.id', '=', 'mandor.adding_id')
                             ->leftjoin('master_rumah_walet', 'master_rumah_walet.nama', '=', 'adding.no_register')
-                            // ->leftjoin('packing', 'packing.grade_akhir_id', '=', 'transaksi_data_grading_akhir.id')
-                            // ->leftjoin('streaming', 'streaming.kode_transaksi_grading', '=', 'transaksi_data_grading_akhir.kode_transaksi_grading')
+                            
                             // ->(('gradding.jumlah_sbw' - 'dry_kedua.jumlah_sbw')/'gradding.jumlah_sbw' )
                             ->select('transaksi_data_grading_akhir.*', 
                             'gradding.id as gradding_id', 
