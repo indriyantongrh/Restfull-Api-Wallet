@@ -1606,7 +1606,7 @@ class ApiController extends Controller
                             ->leftjoin('gradding', 'gradding.id', '=', 'mandor.gradding_id')
                             ->leftjoin('adding', 'adding.id', '=', 'mandor.adding_id')
                             ->leftjoin('master_rumah_walet', 'master_rumah_walet.nama', '=', 'adding.no_register')
-                            ->leftjoin('packing', 'packing.grade_akhir_id', '=', 'transaksi_data_grading_akhir.id')
+                            // ->leftjoin('packing', 'packing.grade_akhir_id', '=', 'transaksi_data_grading_akhir.id')
                             // ->leftjoin('streaming', 'streaming.kode_transaksi_grading', '=', 'transaksi_data_grading_akhir.kode_transaksi_grading')
                             // ->(('gradding.jumlah_sbw' - 'dry_kedua.jumlah_sbw')/'gradding.jumlah_sbw' )
                             ->select('transaksi_data_grading_akhir.*', 
