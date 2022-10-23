@@ -1631,7 +1631,7 @@ class ApiController extends Controller
                             // DB::raw('((gradding.jumlah_sbw - dry_kedua.jumlah_sbw) / (gradding.jumlah_sbw / 100)) as persentasi_susut')
                             )
                             ->orderBy('id', 'DESC')
-                            ->paginate(20); // for pagination
+                            ->paginate(10); // for pagination
                             // ->get();
 
             // $sumjumlahKepingAwal = DB::table('transaksi_data_grading_akhir')
