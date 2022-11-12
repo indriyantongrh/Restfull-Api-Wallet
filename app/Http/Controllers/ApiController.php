@@ -1720,11 +1720,8 @@ class ApiController extends Controller
                             ->leftjoin('adding', 'adding.id', '=', 'mandor.adding_id')
                             ->select('jumlah_sbw_kotor')
                             ->first();
-            $beratAkhirSortir = DB::table('transaksi_data_grading_akhir')
-                            ->where('transaksi_data_grading_akhir.kode_partai', 'like', "{$data}")
-                            ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
-                            ->leftjoin('mandor', 'mandor.id', '=', 'dry_kedua.mandor_id')
-                            ->leftjoin('gradding', 'gradding.id', '=', 'mandor.gradding_id')
+            $beratAkhirSortir = DB::table('gradding')
+                            ->where('gradding.kode_partai', 'like', "{$data}")
                              ->orderBy('id', 'DESC')
                             ->sum('gradding.jumlah_sbw');
             $sumjumlahKepingAwal = DB::table('gradding')
@@ -1740,9 +1737,8 @@ class ApiController extends Controller
                             ->orderBy('id', 'DESC')
                             ->sum('transaksi_data_grading_akhir.jumlah_pcs');
 
-            $sumberatpenjualan = DB::table('transaksi_data_grading_akhir')
-                            ->where('transaksi_data_grading_akhir.kode_partai', 'like', "{$data}")
-                            ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
+            $sumberatpenjualan = DB::table('dry_kedua')
+                            ->where('dry_kedua.kode_partai', 'like', "{$data}")
                             ->orderBy('id', 'DESC')
                             ->sum('dry_kedua.jumlah_sbw');
 
