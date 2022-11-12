@@ -1720,7 +1720,7 @@ class ApiController extends Controller
                             ->leftjoin('adding', 'adding.id', '=', 'mandor.adding_id')
                             ->select('jumlah_sbw_kotor')
                             ->first();
-            $beratAkhirSortir = DB::table('gradding')
+             $sumberatpenjualan = DB::table('gradding')
                             ->where('gradding.kode_partai', 'like', "{$data}")
                              ->orderBy('id', 'DESC')
                             ->sum('gradding.jumlah_sbw');
@@ -1737,7 +1737,7 @@ class ApiController extends Controller
                             ->orderBy('id', 'DESC')
                             ->sum('transaksi_data_grading_akhir.jumlah_pcs');
 
-            $sumberatpenjualan = DB::table('dry_kedua')
+            $beratAkhirSortir = DB::table('dry_kedua')
                             ->where('dry_kedua.kode_partai', 'like', "{$data}")
                             ->orderBy('id', 'DESC')
                             ->sum('dry_kedua.jumlah_sbw');
