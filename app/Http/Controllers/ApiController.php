@@ -1628,7 +1628,8 @@ class ApiController extends Controller
                             // 'streaming.tanggal_proses as tanggal_pengiriman',
                             DB::raw('(adding.jumlah_sbw_kotor - gradding.jumlah_sbw) as susut_sortir'),
                             DB::raw('null as tanggal_pengiriman'),
-                            DB::raw('((gradding.jumlah_sbw - dry_kedua.jumlah_sbw) / (gradding.jumlah_sbw / 100)) as persentasi_susut')
+                            DB::raw('SUBSTRING(((gradding.jumlah_sbw - dry_kedua.jumlah_sbw) / (gradding.jumlah_sbw / 100)), 1, 5) as persentasi_susut')
+                            // DB::raw('((gradding.jumlah_sbw - dry_kedua.jumlah_sbw) / (gradding.jumlah_sbw / 100)) as persentasi_susut' )
                             )
                             ->orderBy('id', 'DESC')
                             // ->paginate(10); // for pagination
@@ -1699,7 +1700,8 @@ class ApiController extends Controller
                             'master_rumah_walet.no_register as adding_no_register',
                             'streaming.tanggal_proses as tanggal_pengiriman',
                             DB::raw('(adding.jumlah_sbw_kotor - gradding.jumlah_sbw) as susut_sortir'),
-                            DB::raw('((gradding.jumlah_sbw - dry_kedua.jumlah_sbw) / (gradding.jumlah_sbw / 100)) as persentasi_susut')
+                            // DB::raw('((gradding.jumlah_sbw - dry_kedua.jumlah_sbw) / (gradding.jumlah_sbw / 100)) as persentasi_susut')
+                            DB::raw('SUBSTRING(((gradding.jumlah_sbw - dry_kedua.jumlah_sbw) / (gradding.jumlah_sbw / 100)), 1, 5) as persentasi_susut') // decimal 2 angka dibelakang koma
                             )
                             ->orderBy('id', 'DESC')
                             ->get();
