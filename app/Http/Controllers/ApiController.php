@@ -1720,10 +1720,15 @@ class ApiController extends Controller
                             ->leftjoin('adding', 'adding.id', '=', 'mandor.adding_id')
                             ->select('jumlah_sbw_kotor')
                             ->first();
-             $sumberatpenjualan = DB::table('gradding')
-                            ->where('gradding.kode_partai', 'like', "{$data}")
-                             ->orderBy('id', 'DESC')
-                            ->sum('gradding.jumlah_sbw');
+             $sumberatpenjualan =  DB::table('transaksi_data_grading_akhir')
+                            ->where('transaksi_data_grading_akhir.kode_partai', 'like', "{$data}")
+                            ->orderBy('id', 'DESC')
+                            ->sum('transaksi_data_grading_akhir.jumlah_sbw_grading');
+             $beratAkhir = DB::table('dry_kedua')
+                            ->where('dry_kedua.kode_partai', 'like', "{$data}")
+                            ->orderBy('id', 'DESC')
+                            ->sum('dry_kedua.jumlah_sbw');
+             
             $sumjumlahKepingAwal = DB::table('gradding')
                             ->where('gradding.kode_partai', 'like', "{$data}")
                             // ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
@@ -1737,10 +1742,10 @@ class ApiController extends Controller
                             ->orderBy('id', 'DESC')
                             ->sum('transaksi_data_grading_akhir.jumlah_pcs');
 
-            $beratAkhirSortir = DB::table('dry_kedua')
-                            ->where('dry_kedua.kode_partai', 'like', "{$data}")
-                            ->orderBy('id', 'DESC')
-                            ->sum('dry_kedua.jumlah_sbw');
+            $beratAkhirSortir = DB::table('gradding')
+                            ->where('gradding.kode_partai', 'like', "{$data}")
+                             ->orderBy('id', 'DESC')
+                            ->sum('gradding.jumlah_sbw');
 
             $sumgrading = DB::table('gradding')
                             ->where('gradding.kode_partai', 'like', "{$data}")
@@ -1765,6 +1770,7 @@ class ApiController extends Controller
                 'sumjumlahKepingAkhir' => $sumjumlahKepingAkhir,
                 'sumberatpenjualan' => $sumberatpenjualan,
                 'susutsortir' => $susutsortir,
+                'beratAkhir' => $beratAkhir,
                 'data' => $gradeakhir
             ],  200);
         }else{
