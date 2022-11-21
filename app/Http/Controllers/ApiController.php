@@ -1985,8 +1985,22 @@ class ApiController extends Controller
         $sumQuantity = DB::table('packing')
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
                 ->where('transaksi_data_grading_akhir.kode_partai', 'like', "{$filter}")
-                ->orderBy('id', 'DESC')
-                ->sum('packing.box');
+
+                ->select(
+                    'packing.kode_transaksi_grading',
+                    'packing.jenis_kemasan',
+                    'packing.koli',
+                    'packing.tanggal_packing',
+                    'packing.tanggal_pengiriman',
+                    'packing.jenis_kemasan',
+                    'packing.box',
+                    )
+                
+                ->distinct('packing.kode_transaksi_grading')
+                ->count();
+                // ->orderBy('id', 'DESC')
+                // ->distinct('packing.kode_transaksi_grading')
+                // ->sum('packing.box');
         
         $sumNetWeight = DB::table('packing')
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
@@ -2032,8 +2046,22 @@ class ApiController extends Controller
         $sumQuantity = DB::table('packing')
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
                 ->where('packing.kode_transaksi_grading', 'like', "{$filter}")
-                ->orderBy('id', 'DESC')
-                ->sum('packing.box');
+
+                ->select(
+                    'packing.kode_transaksi_grading',
+                    'packing.jenis_kemasan',
+                    'packing.koli',
+                    'packing.tanggal_packing',
+                    'packing.tanggal_pengiriman',
+                    'packing.jenis_kemasan',
+                    'packing.box',
+                    )
+                
+                ->distinct('packing.kode_transaksi_grading')
+                // ->sum(1);
+                ->count();
+                // ->get();
+                // ->sum('packing.koli');
         
         $sumNetWeight = DB::table('packing')
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
@@ -2080,8 +2108,22 @@ class ApiController extends Controller
         $sumQuantity = DB::table('packing')
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
                 ->whereBetween('tanggal_packing', [$from , $to])
-                ->orderBy('id', 'DESC')
-                ->sum('packing.box');
+
+                ->select(
+                    'packing.kode_transaksi_grading',
+                    'packing.jenis_kemasan',
+                    'packing.koli',
+                    'packing.tanggal_packing',
+                    'packing.tanggal_pengiriman',
+                    'packing.jenis_kemasan',
+                    'packing.box',
+                    )
+                
+                ->distinct('packing.kode_transaksi_grading')
+                // ->sum(1);
+                ->count();
+                // ->orderBy('id', 'DESC')
+                // ->sum('packing.box');
         
         $sumNetWeight = DB::table('packing')
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
