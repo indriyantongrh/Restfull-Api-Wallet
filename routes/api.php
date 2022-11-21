@@ -233,10 +233,10 @@ Route::group(['middleware' => ['jwt.verify']], function() {
 
     // service Packing start
     Route::get('load-packing', [packingController::class, 'index']);
-    Route::post('view-packing/{id}', [packingController::class, 'show']);
+    Route::post('view-packing/{kode_transaksi_grading}', [packingController::class, 'show']);
     Route::post('create-packing', [packingController::class, 'store']);
-    Route::post('update-packing/{packing}',  [packingController::class, 'update']);
-    Route::post('delete-packing/{packing}',  [packingController::class, 'destroy']);
+    Route::post('update-packing/{kode_transaksi_grading}',  [packingController::class, 'update']);
+    Route::post('delete-packing/{kode_transaksi_grading}',  [packingController::class, 'destroy']);
     Route::post('post-packing',  [packingController::class, 'storeInsert']);
    
     // end

@@ -193,7 +193,7 @@ class PengeringKeduaController extends Controller
                 'jumlah_sbw' => $request->jumlah_sbw,
                 'jumlah_box' => $request->jumlah_box,
                 'jumlah_keping' => $request->jumlah_keping,
-                'jumlah_sbw_saldo' => $request->jumlah_box,
+                'jumlah_sbw_saldo' => $request->jumlah_sbw,
                 'jumlah_box_saldo' => $request->jumlah_box,
                 'jumlah_keping_saldo' => $request->jumlah_keping,
                 'status' => $request->status

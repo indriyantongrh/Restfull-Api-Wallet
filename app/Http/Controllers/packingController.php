@@ -9,6 +9,8 @@ use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+
 
 class packingController extends Controller
 {
@@ -26,9 +28,55 @@ class packingController extends Controller
      */
     public function index()
     {
-        return $this->user
-            ->packing()
-            ->orderBy('id', 'DESC')->get();
+     
+        
+        return 
+        packing::select(
+            'kode_transaksi_grading',
+            'jenis_kemasan',
+            'koli',
+            'tanggal_packing',
+            'tanggal_pengiriman',
+            'updated_at',
+            'created_at',
+            'jenis_kemasan',
+            'box',
+            )
+            ->distinct('kode_transaksi_grading')->get();
+   
+        
+        // DB::table('packing')
+        //         ->select(
+        //             'user_id',
+        //             'grade_akhir_id',
+        //             'created_at',
+        //             'id',
+        //             'jenis_kemasan',
+        //             'koli',
+        //             'tanggal_packing',
+        //             'tanggal_pengiriman',
+        //             'updated_at',
+        //             'kode_transaksi_grading',
+        //             'jenis_kemasan',
+        //             'box')
+        //         ->groupBy(
+        //             'kode_transaksi_grading')
+        //         // ->havingRaw('COUNT(kode_transaksi_grading) > 1')
+        //         ->get();
+        // $this->user
+        //         ->packing()
+        //         ->groupBy('kode_transaksi_grading')->get();
+        
+        // packing::distinct()
+        // ->get([
+        //     'kode_transaksi_grading',
+        //     'id',
+        //     'jenis_kemasan',
+        //     'koli',
+        //     'box',
+        //     'tanggal_packing',
+        //     'tanggal_pengiriman'
+        // ]);
     }
 
     /**
@@ -112,9 +160,10 @@ class packingController extends Controller
      * @param  \App\adding  $adding
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($kode_transaksi_grading)
     {
-        $data = $this->user->packing()->find($id);
+        // $data = $this->user->packing()->find($kode_transaksi_grading);
+        $data = $this->user->packing()->where('kode_transaksi_grading', $kode_transaksi_grading)->first();
     
         if (!$data) {
             return response()->json([
@@ -149,7 +198,7 @@ class packingController extends Controller
      * @param  \App\gradding  $gradding
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, packing $packing)
+    public function update(Request $request, packing $packing, $kode_transaksi_grading)
     {
         //Validate data
         $data = $request->only('user_id', 'grade_akhir_id','kode_transaksi_grading','jenis_kemasan', 'box','koli', 'tanggal_packing', 'tanggal_pengiriman');
@@ -157,15 +206,13 @@ class packingController extends Controller
         $validator = Validator::make($data, [
         ]);
 
-        
-
         //Send failed response if request is not valid
         if ($validator->fails()) {
             return response()->json(['error' => $validator->messages()], 200);
         }
 
         //Request is valid, update product
-        $packing = $packing->update([
+        $packing = packing::where('kode_transaksi_grading', $kode_transaksi_grading ) ->update([
                 'user_id' => $request->user_id,
                 'grade_akhir_id' => $request->grade_akhir_id,
                 'kode_transaksi_grading' => $request->kode_transaksi_grading,
@@ -190,13 +237,15 @@ class packingController extends Controller
      * @param  \App\gradding  $gradding
      * @return \Illuminate\Http\Response
      */
-    public function destroy(packing $packing)
+    public function destroy($kode_transaksi_grading)
     {
-        $packing->delete();
+        $data = $this->user->packing()->where('kode_transaksi_grading', $kode_transaksi_grading)->delete();
+        // $data->delete();
         
         return response()->json([
             'success' => true,
-            'message' => 'data  deleted successfully'
+            'message' => 'data  deleted successfully',
+            'ddd' => $data
         ], Response::HTTP_OK);
     }
 
