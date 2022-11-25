@@ -1713,15 +1713,19 @@ class ApiController extends Controller
             //                 ->leftjoin('gradding', 'gradding.id', '=', 'mandor.gradding_id')
             //                 ->orderBy('id', 'DESC')
             //                 ->sum('gradding.jumlah_keping');
-            $beratKotor = DB::table('transaksi_data_grading_akhir')
-                            ->where('transaksi_data_grading_akhir.kode_partai', 'like', "{$data}")
+            // $beratKotor = DB::table('transaksi_data_grading_akhir')
+            //                 ->where('transaksi_data_grading_akhir.kode_partai', 'like', "{$data}")
 
-                            ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
-                            ->leftjoin('mandor', 'mandor.id', '=', 'dry_kedua.mandor_id')
-                            ->leftjoin('gradding', 'gradding.id', '=', 'mandor.gradding_id')
-                            ->leftjoin('adding', 'adding.id', '=', 'mandor.adding_id')
-                            ->select('jumlah_sbw_kotor')
-                            ->first();
+            //                 ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
+            //                 ->leftjoin('mandor', 'mandor.id', '=', 'dry_kedua.mandor_id')
+            //                 ->leftjoin('gradding', 'gradding.id', '=', 'mandor.gradding_id')
+            //                 ->leftjoin('adding', 'adding.id', '=', 'mandor.adding_id')
+            //                 ->select('jumlah_sbw_kotor')
+            //                 ->first();
+            $beratKotor = DB::table('adding')
+                            ->where('adding.kode_partai', 'like', "{$data}")
+                            ->orderBy('id', 'DESC')
+                            ->sum('adding.jumlah_sbw_kotor');
              $sumberatpenjualan =  DB::table('transaksi_data_grading_akhir')
                             ->where('transaksi_data_grading_akhir.kode_partai', 'like', "{$data}")
                             ->orderBy('id', 'DESC')
