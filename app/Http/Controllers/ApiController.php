@@ -2023,10 +2023,10 @@ class ApiController extends Controller
 
     public function filtergradeakhirpackinglist( Request $request)
     {
-        $filter = $request->get('data');
-        $data = DB::table('packing')
+        $data = $request->get('data');
+        $dataPacking = DB::table('packing')
                 // ->getQuery()->whereIn('kode_transaksi_grading', array_column( DB::select('select title from products group by title having count(*) > 1'), 'kode_transaksi_grading'))
-                ->where('packing.kode_transaksi_grading', 'like', "{$filter}")
+                ->where('packing.kode_transaksi_grading', 'like', "{$data}")
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
                 ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
                 ->leftjoin('mandor','mandor.id' , '=',  'dry_kedua.mandor_id')
@@ -2049,7 +2049,7 @@ class ApiController extends Controller
                 ->get();
         $sumQuantity = DB::table('packing')
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
-                ->where('packing.kode_transaksi_grading', 'like', "{$filter}")
+                ->where('packing.kode_transaksi_grading', 'like', "{$data}")
 
                 ->select(
                     'packing.kode_transaksi_grading',
@@ -2069,7 +2069,7 @@ class ApiController extends Controller
         
         $sumNetWeight = DB::table('packing')
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
-                 ->where('packing.kode_transaksi_grading', 'like', "{$filter}")
+                 ->where('packing.kode_transaksi_grading', 'like', "{$data}")
                 ->orderBy('id', 'DESC')
                 ->sum(DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading *  packing.box) / 1000)'));
         return response()->json([
@@ -2077,7 +2077,7 @@ class ApiController extends Controller
             'message' => 'data get successfully',
             'sumQuantity' => $sumQuantity,
             'sumNetWeight' => $sumNetWeight,
-            'data' => $data
+            'data' => $dataPacking
         ], Response::HTTP_OK);
     }
 
