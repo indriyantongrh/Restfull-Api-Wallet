@@ -1951,12 +1951,18 @@ class ApiController extends Controller
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
                 ->orderBy('id', 'DESC')
                 ->sum(DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading *  packing.box) / 1000)'));
+                            // DB::raw('SUBSTRING(((gradding.jumlah_sbw - dry_kedua.jumlah_sbw) / (gradding.jumlah_sbw / 100)), 1, 5) as persentasi_susut')
+
+        $pecahtitik = substr($sumNetWeight, strpos($sumNetWeight, ".") + 0, 4);
+        $pecaharray = explode(".", $sumNetWeight, 2);
+        $NilaisumNetWeight= $pecaharray[0].'.'.substr($pecaharray[1], 0, 3);
 
         return response()->json([
             'success' => true,
             'message' => 'data get successfully',
             'sumQuantity' => $sumQuantity,
-            'sumNetWeight' => $sumNetWeight,
+            'sumNetWeight' => $NilaisumNetWeight,
+          
             'data' => $data
         ], Response::HTTP_OK);
     }
