@@ -2017,12 +2017,16 @@ class ApiController extends Controller
                 ->where('transaksi_data_grading_akhir.kode_partai', 'like', "{$filter}")
                 ->orderBy('id', 'DESC')
                 ->sum(DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading *  packing.box) / 1000)'));
+
+        $pecahtitik = substr($sumNetWeight, strpos($sumNetWeight, ".") + 0, 4);
+        $pecaharray = explode(".", $sumNetWeight, 2);
+        $NilaisumNetWeight= $pecaharray[0].'.'.substr($pecaharray[1], 0, 3);
         
         return response()->json([
             'success' => true,
             'message' => 'data get successfully',
             'sumQuantity' => $sumQuantity,
-            'sumNetWeight' => $sumNetWeight,
+            'sumNetWeight' => $NilaisumNetWeight,
             'data' => $data
         ], Response::HTTP_OK);
     }
@@ -2031,7 +2035,6 @@ class ApiController extends Controller
     {
         $data = $request->get('data');
         $dataPacking = DB::table('packing')
-                // ->getQuery()->whereIn('kode_transaksi_grading', array_column( DB::select('select title from products group by title having count(*) > 1'), 'kode_transaksi_grading'))
                 ->where('packing.kode_transaksi_grading', 'like', "{$data}")
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
                 ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
@@ -2078,11 +2081,15 @@ class ApiController extends Controller
                  ->where('packing.kode_transaksi_grading', 'like', "{$data}")
                 ->orderBy('id', 'DESC')
                 ->sum(DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading *  packing.box) / 1000)'));
+
+        $pecahtitik = substr($sumNetWeight, strpos($sumNetWeight, ".") + 0, 4);
+        $pecaharray = explode(".", $sumNetWeight, 2);
+        $NilaisumNetWeight= $pecaharray[0].'.'.substr($pecaharray[1], 0, 3);
         return response()->json([
             'success' => true,
             'message' => 'data get successfully',
             'sumQuantity' => $sumQuantity,
-            'sumNetWeight' => $sumNetWeight,
+            'sumNetWeight' => $NilaisumNetWeight,
             'data' => $dataPacking
         ], Response::HTTP_OK);
     }
@@ -2141,11 +2148,14 @@ class ApiController extends Controller
                 ->orderBy('id', 'DESC')
                 ->sum(DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading *  packing.box) / 1000)'));
 
+        $pecahtitik = substr($sumNetWeight, strpos($sumNetWeight, ".") + 0, 4);
+        $pecaharray = explode(".", $sumNetWeight, 2);
+        $NilaisumNetWeight= $pecaharray[0].'.'.substr($pecaharray[1], 0, 3);
         return response()->json([
             'success' => true,
             'message' => 'data get successfully',
             'sumQuantity' => $sumQuantity,
-            'sumNetWeight' => $sumNetWeight,
+            'sumNetWeight' => $NilaisumNetWeight,
             'data' => $data
         ], Response::HTTP_OK);
     }
