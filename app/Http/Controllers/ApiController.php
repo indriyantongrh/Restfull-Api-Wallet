@@ -2035,11 +2035,11 @@ class ApiController extends Controller
     {
         $data = $request->get('data');
         $dataPacking = DB::table('packing')
-                ->where('packing.kode_transaksi_grading', 'like', "{$data}")
-                ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
-                ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
-                ->leftjoin('mandor','mandor.id' , '=',  'dry_kedua.mandor_id')
-                ->leftjoin('master_rumah_walet','master_rumah_walet.nama' , '=',  'transaksi_data_grading_akhir.kode_register')
+                ->where('packing.kode_transaksi_grading', '=', "{$data}")
+                ->leftjoin('transaksi_data_grading_akhir', 'packing.grade_akhir_id', '=', 'transaksi_data_grading_akhir.id' )
+                ->leftjoin('dry_kedua','transaksi_data_grading_akhir.id_dry_kedua' , '=', 'dry_kedua.id' )
+                ->leftjoin('mandor', 'dry_kedua.mandor_id' , '=', 'mandor.id' )
+                ->leftjoin('master_rumah_walet', 'transaksi_data_grading_akhir.kode_register', '=', 'master_rumah_walet.nama' )
                 ->select('packing.*', 
                             'transaksi_data_grading_akhir.id as transaksi_data_grading_akhir_id',
                             'transaksi_data_grading_akhir.kode_transaksi as kode_transaksi_grading_pertama',
@@ -2058,7 +2058,7 @@ class ApiController extends Controller
                 ->get();
         $sumQuantity = DB::table('packing')
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
-                ->where('packing.kode_transaksi_grading', 'like', "{$data}")
+                ->where('packing.kode_transaksi_grading', '=', "{$data}")
 
                 ->select(
                     'packing.kode_transaksi_grading',
@@ -2078,7 +2078,7 @@ class ApiController extends Controller
         
         $sumNetWeight = DB::table('packing')
                 ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
-                 ->where('packing.kode_transaksi_grading', 'like', "{$data}")
+                 ->where('packing.kode_transaksi_grading', '=', "{$data}")
                 ->orderBy('id', 'DESC')
                 ->sum(DB::raw('((transaksi_data_grading_akhir.jumlah_sbw_grading *  packing.box) / 1000)'));
 
