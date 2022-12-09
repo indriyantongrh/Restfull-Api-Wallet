@@ -31,18 +31,21 @@ class packingController extends Controller
      
         
         return 
-        packing::select(
-            'kode_transaksi_grading',
-            'jenis_kemasan',
-            'koli',
-            'tanggal_packing',
-            'tanggal_pengiriman',
-            'updated_at',
-            'created_at',
-            'jenis_kemasan',
-            'box',
+        DB::table('packing')
+        ->leftjoin('transaksi_data_grading_akhir','transaksi_data_grading_akhir.id' , '=',  'packing.grade_akhir_id')
+        ->select(
+            'transaksi_data_grading_akhir.name_jenis_garding',
+            'packing.kode_transaksi_grading',
+            'packing.jenis_kemasan',
+            'packing.koli',
+            'packing.tanggal_packing',
+            'packing.tanggal_pengiriman',
+            'packing.updated_at',
+            'packing.created_at',
+            'packing.jenis_kemasan',
+            'packing.box',
             )
-            ->distinct('kode_transaksi_grading')->orderBy('id', 'DESC')->get();
+            ->distinct('packing.kode_transaksi_grading')->orderBy('packing.created_at', 'DESC')->get();
    
         
         // DB::table('packing')
