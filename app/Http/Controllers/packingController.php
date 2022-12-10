@@ -45,7 +45,7 @@ class packingController extends Controller
             'packing.jenis_kemasan',
             'packing.box',
             )
-            ->distinct('packing.kode_transaksi_grading')->orderBy('packing.created_at', 'DESC')->get();
+            ->distinct('packing.kode_transaksi_grading')->orderBy('packing.created_at', 'ASC')->get();
    
         
         // DB::table('packing')
