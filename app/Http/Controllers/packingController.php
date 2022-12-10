@@ -36,6 +36,7 @@ class packingController extends Controller
         ->select(
             'transaksi_data_grading_akhir.name_jenis_garding',
             'packing.kode_transaksi_grading',
+            'packing.id',
             'packing.jenis_kemasan',
             'packing.koli',
             'packing.tanggal_packing',
@@ -45,7 +46,7 @@ class packingController extends Controller
             'packing.jenis_kemasan',
             'packing.box',
             )
-            ->distinct('packing.kode_transaksi_grading')->orderBy('packing.created_at', 'ASC')->get();
+            ->distinct('packing.kode_transaksi_grading')->orderBy('packing.id', 'desc')->get();
    
         
         // DB::table('packing')
