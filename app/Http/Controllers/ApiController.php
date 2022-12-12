@@ -1961,7 +1961,7 @@ class ApiController extends Controller
             'success' => true,
             'message' => 'data get successfully',
             'sumQuantity' => $sumQuantity,
-            'sumNetWeight' => $NilaisumNetWeight,
+            'sumNetWeight' => $sumNetWeight,
           
             'data' => $data
         ], Response::HTTP_OK);
