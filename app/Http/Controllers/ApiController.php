@@ -18,6 +18,7 @@ use App\molding;
 use App\gradingakhir;
 use App\pemanas;
 use App\packing;
+use App\streaming;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
@@ -1265,7 +1266,8 @@ class ApiController extends Controller
         $molding = molding::count();
         $drykedua = drykedua::count();
         $gradingakhir = gradingakhir::count();
-        // $kartustock = drykedua::count();
+        $steaming = pemanas::count();
+        $packing = packing::count();
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
@@ -1278,7 +1280,9 @@ class ApiController extends Controller
                     'molding' => $molding,
                     'drykedua' => $drykedua,
                     'gradingakhir' => $gradingakhir,
-                    'kartustock' => $gradingakhir
+                    'kartustock' => $gradingakhir,
+                    'steaming' => $steaming,
+                    'packing' => $packing
                 ]
             ], Response::HTTP_OK);
     }
