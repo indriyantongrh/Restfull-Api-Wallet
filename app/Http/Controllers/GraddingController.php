@@ -26,7 +26,7 @@ class GraddingController extends Controller
      */
     public function index()
     {
-        return $this->user->gradding()->orderBy('id', 'DESC')->get();
+        return $this->user->gradding()->where('isDelete', '0')->orderBy('id', 'DESC')->get();
     }
 
     /**
@@ -175,10 +175,10 @@ class GraddingController extends Controller
     {
         $data = $request->get('data');
         $id = $request->get('id');
-        $getDatas =  mandor::where('kode_transaksi', 'like', "{$data}")
+        $getDatas =  mandor::where([['kode_transaksi', '=', $data], ['isDelete', '=', '0']])
                         ->first();
         if ($getDatas == null ){
-            gradding::where('id', 'like', "{$id}")->delete();
+            gradding::where('id', 'like', "{$id}")->update(['isDelete' => '1']);
             return response()->json([
                         'success' => true,
                         'pesancari' => 'data tidak ditemukan',

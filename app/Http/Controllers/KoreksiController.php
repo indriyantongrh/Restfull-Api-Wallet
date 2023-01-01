@@ -32,7 +32,7 @@ class KoreksiController extends Controller
         //     ->koreksi()
         //     ->get();
         $data =  $request->get('data');
-        return $this->user->koreksi()->where('progres_koreksi', 'like', "{$data}")->orderBy('id', 'DESC')->get();
+        return $this->user->koreksi()->where([['progres_koreksi', '=', $data], ['isDelete', '=', '0']])->orderBy('id', 'DESC')->get();
     }
 
     /**
@@ -56,7 +56,7 @@ class KoreksiController extends Controller
 
         //Validate data
         $data = $request->only('user_id', 'adding_id', 'gradding_id','mandor_id', 'kode_transaksi', 'kode_partai', 'no_register', 'tanggal_proses', 'jumlah_sbw', 'jumlah_box', 'jumlah_keping', 'progres_koreksi', 'jumlah_pending','status');
-        $kode_transaksiExist = koreksi::where('kode_transaksi', '=', $request->input('kode_transaksi'))->first();
+        $kode_transaksiExist = koreksi::where([['kode_transaksi', '=', $request->input('kode_transaksi')], ['isDelete', '=', '0']])->first();
         $validator = Validator::make($data, [
             // 'no_register' => 'required',
             // 'kode_partai' => 'required'
@@ -209,12 +209,14 @@ class KoreksiController extends Controller
     {
         $data = $request->get('data');
         $id = $request->get('id');
-        $getDatas =  drypertama::where('kode_transaksi', 'like', "{$data}")
+        $getDatas =  drypertama::where([['kode_transaksi', 'like', "{$data}"], ['isDelete', '=', '0']])
                         ->first();
         if ($getDatas == null ){
-            koreksi::where('id', 'like', "{$id}")->delete();
+            // koreksi::where('id','like', "{$id}")->delete();
+            koreksi::where('id','like', "{$id}")->update(['isDelete' => '1']);
             return response()->json([
                         'success' => true,
+                        'data' => $data,
                         'pesancari' => 'data tidak ditemukan',
                         'message' => 'data berhasil di hapus'
                     ], Response::HTTP_OK);

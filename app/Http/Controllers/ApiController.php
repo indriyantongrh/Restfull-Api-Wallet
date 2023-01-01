@@ -272,7 +272,7 @@ class ApiController extends Controller
         {
             //$adding = $this->adding()->get();
             $data = $request->get('data');
-            $kodepartai = adding::where('kode_partai', 'like', "{$data}")
+            $kodepartai = adding::where([['kode_partai', '=', $data], ['isDelete', '=', '0']])
                         ->get();
 
 
@@ -323,7 +323,7 @@ class ApiController extends Controller
         {
             //$adding = $this->adding()->get();
             $data = $request->get('data');
-            $kodetransaksi = gradding::where('kode_transaksi', 'like', "{$data}")
+            $kodetransaksi = gradding::where([['kode_transaksi', 'like', "{$data}"], ['isDelete', '=', '0']])
                         ->get();
 
                 return response()->json([
@@ -337,7 +337,7 @@ class ApiController extends Controller
         {
             //$adding = $this->adding()->get();
             $data = $request->get('data');
-            $kodetransaksi = mandor::where('kode_transaksi', 'like', "{$data}")
+            $kodetransaksi = mandor::where([['kode_transaksi', 'like', "{$data}"], ['isDelete', '=', '0']])
                         ->first();
 
             if($kodetransaksi){
@@ -414,7 +414,7 @@ class ApiController extends Controller
         {
             //$adding = $this->adding()->get();
             $data = $request->get('data');
-            $kodetransaksi = koreksi::where('kode_transaksi', 'like', "{$data}")
+            $kodetransaksi = koreksi::where([['kode_transaksi', '=', $data], ['isDelete', '=', '0']])
                         ->first();
 
 

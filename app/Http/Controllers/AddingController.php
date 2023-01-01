@@ -30,7 +30,7 @@ class AddingController extends Controller
         //     ->adding()
         //     ->get();
 
-        $adding= $this->user->adding()->orderBy('id', 'DESC')->get();
+        $adding= $this->user->adding()->where('isDelete', '0')->orderBy('id', 'DESC')->get();
          return response()->json([
           
             'success' => true,
@@ -191,10 +191,10 @@ class AddingController extends Controller
     {
         $data = $request->get('data');
         $id = $request->get('id');
-        $gradding =  gradding::where('kode_partai', 'like', "{$data}")
+        $gradding =  gradding::where([['kode_partai', '=',$data], ['isDelete', '=', '0']])
                         ->first();
         if ($gradding == null ){
-            adding::where('id', 'like', "{$id}")->delete();
+            adding::where('id', 'like', "{$id}")->update(['isDelete' => '1']);
             return response()->json([
                         'success' => true,
                         'pesancari' => 'data tidak ditemukan',

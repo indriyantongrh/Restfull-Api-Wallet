@@ -26,7 +26,7 @@ class DataPekerjaController extends Controller
     public function index()
     {
         return $this->user
-            ->datapekerja()
+            ->datapekerja()->where('isDelete', '0')
             ->orderBy('id', 'DESC')->get();
     }
 
@@ -161,13 +161,14 @@ class DataPekerjaController extends Controller
      * @param  \App\gradding  $gradding
      * @return \Illuminate\Http\Response
      */
-    public function destroy(datapekerja $datapekerja)
+    public function destroy($datapekerja)
     {
-        $datapekerja->delete();
+        // $datapekerja->update(['isDelete' => '1']);
+        datapekerja::where('id', $datapekerja)->update(['isDelete' => '1']);
         
         return response()->json([
             'success' => true,
-            'message' => 'data  deleted successfully'
+            'message' => 'data  deleted successfully',
         ], Response::HTTP_OK);
     }
 }

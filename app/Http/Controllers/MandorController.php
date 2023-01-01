@@ -28,7 +28,11 @@ class MandorController extends Controller
     public function index(Request $request)
     {
         $data =  $request->get('data');
-          return $this->user->mandor()->where('progres_pekerja', 'like', "{$data}")->orderBy('id', 'DESC')->get();
+          return 
+          $this->user->mandor()
+          ->where([['progres_pekerja','=',$data], ['isDelete', '=', '0']])
+          ->orderBy('id', 'DESC')
+          ->paginate(10);
         //  return $this->user->mandor()->get();
     }
 
@@ -212,12 +216,12 @@ class MandorController extends Controller
      * @param  \App\gradding  $gradding
      * @return \Illuminate\Http\Response
      */
-    public function destroy(mandor $id,  Request $request)
+    public function destroy(mandor $mandor,Request $request)
     {
             //  $datas = $this->user->mandor()->where('id',$id)->first();
-            $jumlahsaldo = $id->jumlah_sbw;
-            $kepingsaldo = $id->jumlah_keping;
-            $idgrading = $id->gradding_id;
+            $jumlahsaldo = $mandor->jumlah_sbw;
+            $kepingsaldo = $mandor->jumlah_keping;
+            $idgrading = $mandor->gradding_id;
 
             // $gradding = gradding::find($idgrading);
             $gradding = gradding::where('id', 'like', "{$idgrading}")->first();
@@ -225,13 +229,14 @@ class MandorController extends Controller
             $gradding->jmlh_keping_saldo = ($gradding->jmlh_keping_saldo + $kepingsaldo);
             $gradding->update();
 
-            $id->delete();
+            $id = $mandor->where('id','=' ,$mandor->id)->update(['isDelete' => '1']);
             
 
         return response()->json([
             'success' => true,
             'message' => 'data  deleted successfully',
-            'mandorid' => $id,
+             'mandorid' => $mandor->id,
+            'mandor' => $mandor,
             'jmlhsaldo' => $jumlahsaldo,
             'kepingsalso' => $kepingsaldo,
             'idgrading' => $idgrading,
@@ -279,7 +284,7 @@ class MandorController extends Controller
 
         $data = $request->get('data');
         $id = $request->get('id');
-        $getDatas =  koreksi::where('kode_transaksi', 'like', "{$data}")
+        $getDatas =  koreksi::where([['kode_transaksi', 'like', "{$data}"], ['isDelete', '=', '0']])
                         ->first();
         if ($getDatas == null ){
             // $data = $request->only('user_id', 'adding_id', 'gradding_id','kode_partai', 'no_register','kode_transaksi', 'tanggal_proses', 'jumlah_sbw','jumlah_box','jumlah_keping', 'nama_pekerja',  'progres_pekerja',  'status'   );
@@ -296,7 +301,7 @@ class MandorController extends Controller
             $gradding->update();
 
 
-             $mandor->where('id',$id)->delete();
+             $mandor->where('id','=', $id)->update(['isDelete' => '1']);
             return response()->json([
                         'success' => true,
                         'pesancari' => 'data tidak ditemukan',
