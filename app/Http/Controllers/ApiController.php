@@ -712,7 +712,7 @@ class ApiController extends Controller
 
      public function allAdding(Request $request)
         {
-        $data = adding::first()->orderBy('id', 'DESC')->get();
+        $data = adding::where('isDelete', '0')->orderBy('id', 'DESC')->get();
         $sbwsum = adding::sum('jumlah_sbw_kotor');
         $pcssum = adding::sum('jumlah_pcs');
         $boxsum = adding::sum('jumlah_box');
@@ -892,7 +892,7 @@ class ApiController extends Controller
     public function filterbyDateAdding(Request $request){
         $from = $request->from;
         $to = $request->to;
-        $filterDate = adding::whereBetween('tanggal_penerima', [$from , $to])->get();
+        $filterDate = adding::whereBetween('tanggal_penerima', [$from , $to])->here('isDelete', '0')->get();
         $sbwsum = adding::whereBetween('tanggal_penerima', [$from , $to])->sum('jumlah_sbw_kotor');
         $pcssum = adding::whereBetween('tanggal_penerima', [$from , $to])->sum('jumlah_pcs');
         $boxsum = adding::whereBetween('tanggal_penerima', [$from , $to])->sum('jumlah_box');
