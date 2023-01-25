@@ -1289,7 +1289,7 @@ class ApiController extends Controller
 
      public function filterKodepartaiAdding(Request $request){
         $data = $request->get('data');
-        $filter = adding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->get();
+        $filter = adding::where('kode_partai', 'like', "{$data}")->where('isDelete', '0')->orderBy('id', 'DESC')->get();
         $sbwsum = adding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_sbw_kotor');
         $pcssum = adding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_pcs');
         $boxsum = adding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_box');
