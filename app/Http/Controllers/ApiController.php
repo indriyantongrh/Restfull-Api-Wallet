@@ -729,7 +729,7 @@ class ApiController extends Controller
 
     public function allGradding(Request $request)
         {
-        $data = gradding::orderBy('id', 'DESC')->get();
+        $data = gradding::where('isDelete', '0')->orderBy('id', 'DESC')->get();
         $sbwsum = gradding::sum('jumlah_sbw');
         $pcssum = gradding::sum('jumlah_keping');
         $boxsum = gradding::sum('jumlah_box');
@@ -745,7 +745,7 @@ class ApiController extends Controller
 
     public function allMandor(Request $request)
         {
-        $data = mandor::orderBy('id', 'DESC')->paginate(10);
+        $data = mandor::where('isDelete', '0')->orderBy('id', 'DESC')->paginate(10);
         $sbwsum = mandor::sum('jumlah_sbw');
         $pcssum = mandor::sum('jumlah_keping');
         $boxsum = mandor::sum('jumlah_box');
@@ -892,7 +892,7 @@ class ApiController extends Controller
     public function filterbyDateAdding(Request $request){
         $from = $request->from;
         $to = $request->to;
-        $filterDate = adding::whereBetween('tanggal_penerima', [$from , $to])->here('isDelete', '0')->get();
+        $filterDate = adding::whereBetween('tanggal_penerima', [$from , $to])->where('isDelete', '0')->get();
         $sbwsum = adding::whereBetween('tanggal_penerima', [$from , $to])->sum('jumlah_sbw_kotor');
         $pcssum = adding::whereBetween('tanggal_penerima', [$from , $to])->sum('jumlah_pcs');
         $boxsum = adding::whereBetween('tanggal_penerima', [$from , $to])->sum('jumlah_box');
@@ -918,7 +918,7 @@ class ApiController extends Controller
     public function filterbyDateGradding(Request $request){
         $from = $request->from;
         $to = $request->to;
-        $filterDate = gradding::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->get();;
+        $filterDate = gradding::whereBetween('tanggal_proses', [$from , $to])->where('isDelete', '0')->orderBy('id', 'DESC')->get();;
         $sbwsum = gradding::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_sbw');
         $pcssum = gradding::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_keping');
         $boxsum = gradding::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_box');
@@ -943,7 +943,7 @@ class ApiController extends Controller
     public function filterbyDateMandor(Request $request){
         $from = $request->from;
         $to = $request->to;
-        $filterDate = mandor::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->get();
+        $filterDate = mandor::whereBetween('tanggal_proses', [$from , $to])->where('isDelete', '0')->orderBy('id', 'DESC')->get();
         $sbwsum = mandor::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_sbw');
         $pcssum = mandor::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_keping');
         $boxsum = mandor::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_box');
@@ -1347,7 +1347,7 @@ class ApiController extends Controller
 
     public function filterKodepartaiGrading(Request $request){
         $data = $request->get('data');
-        $filter = gradding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->get();
+        $filter = gradding::where('kode_partai', 'like', "{$data}")->where('isDelete', '0')->orderBy('id', 'DESC')->get();
         $sbwsum = gradding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_sbw');
         $pcssum = gradding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_keping');
         $boxsum = gradding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_box');
@@ -1369,7 +1369,7 @@ class ApiController extends Controller
     }
     public function filterKodepartaiMandor(Request $request){
         $data = $request->get('data');
-        $filter = mandor::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->get();
+        $filter = mandor::where('kode_partai', 'like', "{$data}")->where('isDelete', '0')->orderBy('id', 'DESC')->get();
         $sbwsum = mandor::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_sbw');
         $pcssum = mandor::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_keping');
         $boxsum = mandor::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_box');
