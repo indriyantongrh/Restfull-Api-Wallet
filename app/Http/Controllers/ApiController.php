@@ -713,9 +713,9 @@ class ApiController extends Controller
      public function allAdding(Request $request)
         {
         $data = adding::where('isDelete', '0')->orderBy('id', 'DESC')->get();
-        $sbwsum = adding::sum('jumlah_sbw_kotor');
-        $pcssum = adding::sum('jumlah_pcs');
-        $boxsum = adding::sum('jumlah_box');
+        $sbwsum = adding::where('isDelete', '0')->sum('jumlah_sbw_kotor');
+        $pcssum = adding::where('isDelete', '0')->sum('jumlah_pcs');
+        $boxsum = adding::where('isDelete', '0')->sum('jumlah_box');
         $number = 0;
             return response()->json([
                 'success' => true,
@@ -730,9 +730,9 @@ class ApiController extends Controller
     public function allGradding(Request $request)
         {
         $data = gradding::where('isDelete', '0')->orderBy('id', 'DESC')->get();
-        $sbwsum = gradding::sum('jumlah_sbw');
-        $pcssum = gradding::sum('jumlah_keping');
-        $boxsum = gradding::sum('jumlah_box');
+        $sbwsum = gradding::where('isDelete', '0')->sum('jumlah_sbw');
+        $pcssum = gradding::where('isDelete', '0')->sum('jumlah_keping');
+        $boxsum = gradding::where('isDelete', '0')->sum('jumlah_box');
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
@@ -746,9 +746,9 @@ class ApiController extends Controller
     public function allMandor(Request $request)
         {
         $data = mandor::where('isDelete', '0')->orderBy('id', 'DESC')->paginate(10);
-        $sbwsum = mandor::sum('jumlah_sbw');
-        $pcssum = mandor::sum('jumlah_keping');
-        $boxsum = mandor::sum('jumlah_box');
+        $sbwsum = mandor::where('isDelete', '0')->sum('jumlah_sbw');
+        $pcssum = mandor::where('isDelete', '0')->sum('jumlah_keping');
+        $boxsum = mandor::where('isDelete', '0')->sum('jumlah_box');
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
@@ -893,9 +893,9 @@ class ApiController extends Controller
         $from = $request->from;
         $to = $request->to;
         $filterDate = adding::whereBetween('tanggal_penerima', [$from , $to])->where('isDelete', '0')->get();
-        $sbwsum = adding::whereBetween('tanggal_penerima', [$from , $to])->sum('jumlah_sbw_kotor');
-        $pcssum = adding::whereBetween('tanggal_penerima', [$from , $to])->sum('jumlah_pcs');
-        $boxsum = adding::whereBetween('tanggal_penerima', [$from , $to])->sum('jumlah_box');
+        $sbwsum = adding::whereBetween('tanggal_penerima', [$from , $to])->where('isDelete', '0')->sum('jumlah_sbw_kotor');
+        $pcssum = adding::whereBetween('tanggal_penerima', [$from , $to])->where('isDelete', '0')->sum('jumlah_pcs');
+        $boxsum = adding::whereBetween('tanggal_penerima', [$from , $to])->where('isDelete', '0')->sum('jumlah_box');
         if ($filterDate){
             return response()->json([
                 'success' => true,
@@ -919,9 +919,9 @@ class ApiController extends Controller
         $from = $request->from;
         $to = $request->to;
         $filterDate = gradding::whereBetween('tanggal_proses', [$from , $to])->where('isDelete', '0')->orderBy('id', 'DESC')->get();;
-        $sbwsum = gradding::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_sbw');
-        $pcssum = gradding::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_keping');
-        $boxsum = gradding::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_box');
+        $sbwsum = gradding::whereBetween('tanggal_proses', [$from , $to])->where('isDelete', '0')->orderBy('id', 'DESC')->sum('jumlah_sbw');
+        $pcssum = gradding::whereBetween('tanggal_proses', [$from , $to])->where('isDelete', '0')->orderBy('id', 'DESC')->sum('jumlah_keping');
+        $boxsum = gradding::whereBetween('tanggal_proses', [$from , $to])->where('isDelete', '0')->orderBy('id', 'DESC')->sum('jumlah_box');
         if ($filterDate){
             return response()->json([
                 'success' => true,
@@ -944,9 +944,9 @@ class ApiController extends Controller
         $from = $request->from;
         $to = $request->to;
         $filterDate = mandor::whereBetween('tanggal_proses', [$from , $to])->where('isDelete', '0')->orderBy('id', 'DESC')->get();
-        $sbwsum = mandor::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_sbw');
-        $pcssum = mandor::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_keping');
-        $boxsum = mandor::whereBetween('tanggal_proses', [$from , $to])->orderBy('id', 'DESC')->sum('jumlah_box');
+        $sbwsum = mandor::whereBetween('tanggal_proses', [$from , $to])->where('isDelete', '0')->orderBy('id', 'DESC')->sum('jumlah_sbw');
+        $pcssum = mandor::whereBetween('tanggal_proses', [$from , $to])->where('isDelete', '0')->orderBy('id', 'DESC')->sum('jumlah_keping');
+        $boxsum = mandor::whereBetween('tanggal_proses', [$from , $to])->where('isDelete', '0')->orderBy('id', 'DESC')->sum('jumlah_box');
           if ($filterDate){
             return response()->json([
                 'success' => true,
@@ -1290,9 +1290,9 @@ class ApiController extends Controller
      public function filterKodepartaiAdding(Request $request){
         $data = $request->get('data');
         $filter = adding::where('kode_partai', 'like', "{$data}")->where('isDelete', '0')->orderBy('id', 'DESC')->get();
-        $sbwsum = adding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_sbw_kotor');
-        $pcssum = adding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_pcs');
-        $boxsum = adding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_box');
+        $sbwsum = adding::where('kode_partai', 'like', "{$data}")->where('isDelete', '0')->orderBy('id', 'DESC')->sum('jumlah_sbw_kotor');
+        $pcssum = adding::where('kode_partai', 'like', "{$data}")->where('isDelete', '0')->orderBy('id', 'DESC')->sum('jumlah_pcs');
+        $boxsum = adding::where('kode_partai', 'like', "{$data}")->where('isDelete', '0')->orderBy('id', 'DESC')->sum('jumlah_box');
           if ($filter){
             return response()->json([
                 'success' => true,
@@ -1348,9 +1348,9 @@ class ApiController extends Controller
     public function filterKodepartaiGrading(Request $request){
         $data = $request->get('data');
         $filter = gradding::where('kode_partai', 'like', "{$data}")->where('isDelete', '0')->orderBy('id', 'DESC')->get();
-        $sbwsum = gradding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_sbw');
-        $pcssum = gradding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_keping');
-        $boxsum = gradding::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_box');
+        $sbwsum = gradding::where('kode_partai', 'like', "{$data}")->where('isDelete', '0')->orderBy('id', 'DESC')->sum('jumlah_sbw');
+        $pcssum = gradding::where('kode_partai', 'like', "{$data}")->where('isDelete', '0')->orderBy('id', 'DESC')->sum('jumlah_keping');
+        $boxsum = gradding::where('kode_partai', 'like', "{$data}")->where('isDelete', '0')->orderBy('id', 'DESC')->sum('jumlah_box');
         if ($filter){
             return response()->json([
                 'success' => true,
