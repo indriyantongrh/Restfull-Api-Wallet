@@ -1370,9 +1370,9 @@ class ApiController extends Controller
     public function filterKodepartaiMandor(Request $request){
         $data = $request->get('data');
         $filter = mandor::where('kode_partai', 'like', "{$data}")->where('isDelete', '0')->orderBy('id', 'DESC')->get();
-        $sbwsum = mandor::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_sbw');
-        $pcssum = mandor::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_keping');
-        $boxsum = mandor::where('kode_partai', 'like', "{$data}")->orderBy('id', 'DESC')->sum('jumlah_box');
+        $sbwsum = mandor::where('kode_partai', 'like', "{$data}")->where('isDelete', '0')->orderBy('id', 'DESC')->sum('jumlah_sbw');
+        $pcssum = mandor::where('kode_partai', 'like', "{$data}")->where('isDelete', '0')->orderBy('id', 'DESC')->sum('jumlah_keping');
+        $boxsum = mandor::where('kode_partai', 'like', "{$data}")->where('isDelete', '0')->orderBy('id', 'DESC')->sum('jumlah_box');
           if ($filter){
             return response()->json([
                 'success' => true,
