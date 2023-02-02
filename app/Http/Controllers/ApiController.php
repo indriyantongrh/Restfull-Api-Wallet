@@ -1608,8 +1608,11 @@ class ApiController extends Controller
                             // ->leftjoin('streaming', 'streaming.kode_transaksi_grading', '=', 'transaksi_data_grading_akhir.kode_transaksi_grading')
                             ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
                             ->leftjoin('mandor', 'mandor.id', '=', 'dry_kedua.mandor_id')
+                            ->where('mandor', 'mandor.isDelete', '=' , '0')
                             ->leftjoin('gradding', 'gradding.id', '=', 'mandor.gradding_id')
+                            ->where('gradding', 'gradding.isDelete', '=' , '0')
                             ->leftjoin('adding', 'adding.id', '=', 'gradding.adding_id')
+                            ->where('adding', 'adding.isDelete', '=' , '0')
                             ->leftjoin('master_rumah_walet', 'master_rumah_walet.nama', '=', 'adding.no_register')
                             
                             // ->(('gradding.jumlah_sbw' - 'dry_kedua.jumlah_sbw')/'gradding.jumlah_sbw' )
@@ -1642,7 +1645,9 @@ class ApiController extends Controller
             $sumjumlahKepingAwal = DB::table('transaksi_data_grading_akhir')
                             ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
                             ->leftjoin('mandor', 'mandor.id', '=', 'dry_kedua.mandor_id')
+                            ->where('mandor', 'mandor.isDelete', '=' , '0')
                             ->leftjoin('gradding', 'gradding.id', '=', 'mandor.gradding_id')
+                            ->where('gradding', 'gradding.isDelete', '=' , '0')
                             ->orderBy('id', 'DESC')
                             ->sum('gradding.jumlah_keping');
 
@@ -1678,8 +1683,11 @@ class ApiController extends Controller
 
                             ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
                             ->leftjoin('mandor', 'mandor.id', '=', 'dry_kedua.mandor_id')
+                            ->where('mandor', 'mandor.isDelete', '=' , '0')
                             ->leftjoin('gradding', 'gradding.id', '=', 'mandor.gradding_id')
+                            ->where('gradding', 'gradding.isDelete', '=' , '0')
                             ->leftjoin('adding', 'adding.id', '=', 'gradding.adding_id')
+                            ->where('adding', 'adding.isDelete', '=' , '0')
                             ->leftjoin('master_rumah_walet', 'master_rumah_walet.nama', '=', 'adding.no_register')
                             ->leftjoin('packing', 'packing.grade_akhir_id', '=', 'transaksi_data_grading_akhir.id')
                             ->leftjoin('streaming', 'streaming.kode_transaksi_grading', '=', 'transaksi_data_grading_akhir.kode_transaksi_grading')
@@ -1727,7 +1735,7 @@ class ApiController extends Controller
             //                 ->select('jumlah_sbw_kotor')
             //                 ->first();
             $beratKotor = DB::table('adding')
-                            ->where('adding.kode_partai', 'like', "{$data}")
+                            ->where([['adding.kode_partai', 'like', "{$data}"], ['adding.isDelete', '=' , '0']])
                             ->orderBy('id', 'DESC')
                             ->sum('adding.jumlah_sbw_kotor');
              $sumberatpenjualan =  DB::table('transaksi_data_grading_akhir')
@@ -1740,7 +1748,7 @@ class ApiController extends Controller
                             ->sum('dry_kedua.jumlah_sbw');
              
             $sumjumlahKepingAwal = DB::table('gradding')
-                            ->where('gradding.kode_partai', 'like', "{$data}")
+                            ->where([['gradding.kode_partai', 'like', "{$data}"], ['gradding.isDelete', '=' , '0']])
                             // ->leftjoin('dry_kedua','dry_kedua.id' , '=',  'transaksi_data_grading_akhir.id_dry_kedua')
                             // ->leftjoin('mandor', 'mandor.id', '=', 'dry_kedua.mandor_id')
                             // ->leftjoin('gradding', 'gradding.id', '=', 'mandor.gradding_id')
@@ -1753,17 +1761,17 @@ class ApiController extends Controller
                             ->sum('transaksi_data_grading_akhir.jumlah_pcs');
 
             $beratAkhirSortir = DB::table('gradding')
-                            ->where('gradding.kode_partai', 'like', "{$data}")
+                            ->where([['gradding.kode_partai', 'like', "{$data}"], ['gradding.isDelete', '=' , '0']])
                              ->orderBy('id', 'DESC')
                             ->sum('gradding.jumlah_sbw');
 
             $sumgrading = DB::table('gradding')
-                            ->where('gradding.kode_partai', 'like', "{$data}")
+                            ->where([['gradding.kode_partai', 'like', "{$data}"], ['gradding.isDelete', '=' , '0'] ])
                             ->orderBy('id', 'DESC')
                             ->sum('gradding.jumlah_sbw');
 
             $sumadding = DB::table('adding')
-                            ->where('adding.kode_partai', 'like', "{$data}")
+                            ->where([['adding.kode_partai', 'like', "{$data}"], ['adding.isDelete', '=' , '0']])
                             ->orderBy('id', 'DESC')
                             ->sum('adding.jumlah_sbw_kotor');
 
