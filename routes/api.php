@@ -18,6 +18,7 @@ use App\Http\Controllers\LookupController;
 use App\Http\Controllers\GradingAkhirController;
 use App\Http\Controllers\GradingAkhirNewController;
 use App\Http\Controllers\packingController;
+use App\Http\Controllers\AbsensiController;
 
 
 /*
@@ -131,6 +132,15 @@ Route::post('filter-kp-packinglist',  [ApiController::class, 'filterkodepartaipa
 Route::post('filter-kp-tracebility',  [ApiController::class, 'filterPartaiTracebility']);
 Route::post('filter-seri-ga-kartustock',  [ApiController::class, 'filterSeriGradeakhirKartuStock']);
 
+
+// service absensi start
+Route::get('loadAbsen', [AbsensiController::class, 'index']);
+Route::post('viewAbsen/{id}', [AbsensiController::class, 'show']);
+Route::post('createAbsen', [AbsensiController::class, 'store']);
+Route::post('deleteAbsen/{id}',  [AbsensiController::class, 'destroy']);
+Route::post('cari-karyawan',  [AbsensiController::class, 'search']);
+
+// end
 
 // End
 // Penjumlahan grade akhir
