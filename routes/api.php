@@ -52,6 +52,7 @@ Route::post('filter-jenis-gradeakhir',  [ApiController::class, 'filterJenisGrade
 Route::post('filter-jenis-gradeakhir-kartustock',  [ApiController::class, 'filterJenisGradeakhirKartuStock']);
 Route::get('filter-ga-traceability',  [ApiController::class, 'filterSeriGradeAkhir']);
 Route::post('filter-ga-packinglist',  [ApiController::class, 'filtergradeakhirpackinglist']);
+Route::get('filter-mandor',  [ApiController::class, 'searchmandor']);
 
 
 

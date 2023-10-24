@@ -319,7 +319,34 @@ class ApiController extends Controller
 
         }
 
-        public function searchtransaksi(Request $request)
+    public function searchmandor(Request $request)
+     {
+            //$adding = $this->adding()->get();
+            $data = $request->get('data');
+            $result = mandor::where('kode_transaksi', 'like', "{$data}")
+                        ->orWhere('kode_mandor', 'like', "{$data}")
+                        ->orWhere('kode_partai', 'like', "{$data}")
+                        ->orWhere('nip', 'like', "{$data}")
+                        ->orWhere('nama_pekerja', 'like', "{$data}")
+                        ->orWhere('no_register', 'like', "{$data}")
+                        ->get();
+
+            if($result){
+                 return response()->json([
+                    'success' => true,
+                    'message' => 'Data ditemukan',
+                    'data' => $result
+                ], 200);
+
+            }else{
+                 return response()->json([
+                    'success' => false,
+                    'message' => 'Data tidak ditemukan',
+                ], 404);
+            }
+
+        }
+    public function searchtransaksi(Request $request)
         {
             //$adding = $this->adding()->get();
             $data = $request->get('data');
