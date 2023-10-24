@@ -323,28 +323,15 @@ class ApiController extends Controller
      {
             //$adding = $this->adding()->get();
             $data = $request->get('data');
-            $result = mandor::where('kode_transaksi', 'like', "{$data}")
+            $result = mandor::where([['kode_transaksi','=',$data], ['isDelete', '=', '0']])
                         ->orWhere('kode_mandor', 'like', "{$data}")
                         ->orWhere('kode_partai', 'like', "{$data}")
-                        ->orWhere('nip', 'like', "{$data}")
+                        ->orWhere('nip_pekerja', 'like', "{$data}")
                         ->orWhere('nama_pekerja', 'like', "{$data}")
-                        ->orWhere('no_register', 'like', "{$data}")
-                        ->get();
-
-            if($result){
-                 return response()->json([
-                    'success' => true,
-                    'message' => 'Data ditemukan',
-                    'data' => $result
-                ], 200);
-
-            }else{
-                 return response()->json([
-                    'success' => false,
-                    'message' => 'Data tidak ditemukan',
-                ], 404);
-            }
-
+                        ->orderBy('id', 'DESC')
+                        ->paginate(10);
+                        
+            return  $result;
         }
     public function searchtransaksi(Request $request)
         {
