@@ -338,7 +338,6 @@ class ApiController extends Controller
             $data = $request->get('data');
             $kodetransaksi = gradding::where([['kode_transaksi', 'like', "{$data}"], ['isDelete', '=', '0']])
                         ->get();
-
                 return response()->json([
                     'success' => true,
                     'message' => 'Data ditemukan',
@@ -355,7 +354,6 @@ class ApiController extends Controller
 
             if($kodetransaksi){
                 $gradding = gradding::where('id', $kodetransaksi->gradding_id)->first();
-
                  return response()->json([
                     'success' => true,
                     'message' => 'Data ditemukan',
