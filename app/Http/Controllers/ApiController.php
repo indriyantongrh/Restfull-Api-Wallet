@@ -330,7 +330,6 @@ class ApiController extends Controller
                         ->orWhere('nama_pekerja', '=', "{$data}")
                         ->orderBy('id', 'DESC')
                         ->paginate(10);
-                        
             return  $result;
         }
     public function searchtransaksi(Request $request)
