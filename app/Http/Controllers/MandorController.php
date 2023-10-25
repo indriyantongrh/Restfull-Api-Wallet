@@ -28,11 +28,26 @@ class MandorController extends Controller
     public function index(Request $request)
     {
         $data =  $request->get('data');
-          return 
+        $search =  $request->get('search');
+
+        if(!$search){
+        return 
           $this->user->mandor()
           ->where([['progres_pekerja','=',$data], ['isDelete', '=', '0']])
           ->orderBy('id', 'DESC')
           ->paginate(10);
+        }else{
+        return 
+          $this->user->mandor()
+          ->where([['kode_partai','=',$search],['progres_pekerja','=',$data], ['isDelete', '=', '0']])
+          ->orWhere([['kode_mandor','=',$search],['progres_pekerja','=',$data], ['isDelete', '=', '0']])
+          ->orWhere([['kode_transaksi','=',$search],['progres_pekerja','=',$data], ['isDelete', '=', '0']])
+          ->orWhere([['nip_pekerja','=',$search],['progres_pekerja','=',$data], ['isDelete', '=', '0']])
+          ->orWhere([['nama_pekerja','=',$search],['progres_pekerja','=',$data], ['isDelete', '=', '0']])
+          ->orderBy('id', 'DESC')
+          ->paginate(10);
+        }
+          
         //  return $this->user->mandor()->get();
     }
 

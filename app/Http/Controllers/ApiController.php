@@ -324,10 +324,10 @@ class ApiController extends Controller
             //$adding = $this->adding()->get();
             $data = $request->get('data');
             $result = mandor::where([['kode_transaksi','=',$data], ['isDelete', '=', '0']])
-                        ->orWhere('kode_mandor', 'like', "{$data}")
-                        ->orWhere('kode_partai', 'like', "{$data}")
-                        ->orWhere('nip_pekerja', 'like', "{$data}")
-                        ->orWhere('nama_pekerja', 'like', "{$data}")
+                        ->orWhere('kode_mandor', '=', "{$data}")
+                        ->orWhere('kode_partai', '=', "{$data}")
+                        ->orWhere('nip_pekerja', '=', "{$data}")
+                        ->orWhere('nama_pekerja', '=', "{$data}")
                         ->orderBy('id', 'DESC')
                         ->paginate(10);
                         
